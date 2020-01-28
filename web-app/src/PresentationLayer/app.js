@@ -4,9 +4,11 @@ const session = require('express-session')
 const redis = require('redis')
 const RedisStore = require('connect-redis')(session)
 
-const authRouter = require('./routers/authRouter')
-const internshipRouter = require('./routers/internshipRouter')
-const accountRouter = require('./routers/accountRouter')
+const homeRouter = require('./routers/home-router')
+const authenticationRouter = require('./routers/authentication-router')
+const dashboardRouter = require('./routers/dashboard-router')
+const internshipsRouter = require('./routers/internships-router')
+
 
 const app = express()
 
@@ -37,8 +39,11 @@ app.get("/", function(request, response){
 	response.render("home.hbs")
 })
 
-app.use("/auth", authRouter)
-app.use(internshipRouter)
-app.use(accountRouter)
+// Routers
+app.use(homeRouter)
+app.use(authenticationRouter)
+app.use(dashboardRouter)
+app.use(internshipsRouter)
+
 
 app.listen(8080)
