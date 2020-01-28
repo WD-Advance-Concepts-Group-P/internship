@@ -35,15 +35,11 @@ app.use(session({
     }
 }))
 
-app.get("/", function(request, response){
-	response.render("home.hbs")
-})
-
 // Routers
 app.use(homeRouter)
 app.use(authenticationRouter)
-app.use(dashboardRouter)
-app.use(internshipsRouter)
+//app.use(dashboardRouter)
+//app.use(internshipsRouter)
 
 
 app.listen(8080)
