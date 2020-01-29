@@ -3,7 +3,7 @@ const router = express.Router()
 
 // Index
 router.get('/', function(request, response) {
-    response.send('test')
+    response.render('home.hbs')
 })
 
 module.exports = router

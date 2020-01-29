@@ -9,7 +9,6 @@ const authenticationRouter = require('./routers/authentication-router')
 const dashboardRouter = require('./routers/dashboard-router')
 const internshipsRouter = require('./routers/internships-router')
 
-
 const app = express()
 
 const redisClient = redis.createClient({
@@ -38,8 +37,7 @@ app.use(session({
 // Routers
 app.use(homeRouter)
 app.use(authenticationRouter)
-//app.use(dashboardRouter)
-//app.use(internshipsRouter)
-
+app.use('/profile', dashboardRouter)
+app.use(internshipsRouter)
 
 app.listen(8080)

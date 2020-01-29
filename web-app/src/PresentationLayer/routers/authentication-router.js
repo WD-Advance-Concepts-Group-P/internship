@@ -2,29 +2,40 @@ const express = require('express')
 const router = express.Router()
 
 router.route('/login')
-    .get(function(response, request, next) {
-        response.send('test')
+    .get(function(request, response, next) {
+        response.render('auth/login.hbs')
     })
-    .post(function(response, request, next) {
-        response.send('test')
+    .post(function(request, response, next) {
+        response.render('auth/login.hbs')
+    })
+
+router.get('/signup', function(request, response) {
+    response.redirect('/sign-up')
+})
+
+router.route('/sign-up')
+    .get(function(request, response, next) {
+        response.render('auth/signup.hbs')
+    })
+    .post(function(request, response, next) {
+        response.render('auth/signup.hbs')
     })
 
 
-router.get('/sign-up')
-    .get(function(response, request, next) {
-        response.send('test')
+router.route('/forgotten-password')
+    .get(function(request, response, next) {
+        response.render('auth/forgot-password.hbs')
     })
-    .post(function(response, request, next) {
-        response.send('test')
+    .post(function(request, response, next) {
+        response.render('auth/forgot-password.hbs')
     })
 
-
-router.get('/forgotten-password')
-    .get(function(response, request, next) {
-        response.send('test')
+router.route('/reset/password/:id')
+    .get(function(request, response, next) {
+        response.send('reset password form')
     })
-    .post(function(response, request, next) {
-        response.send('test')
+    .post(function(request, response, next) {
+        response.send('reset password form')
     })
 
 
