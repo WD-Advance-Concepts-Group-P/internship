@@ -4,12 +4,15 @@ const session = require('express-session')
 const redis = require('redis')
 const RedisStore = require('connect-redis')(session)
 
-const homeRouter = require('./routers/home-router')
-const authenticationRouter = require('./routers/authentication-router')
-const dashboardRouter = require('./routers/dashboard-router')
-const internshipsRouter = require('./routers/internships-router')
+const homeRouter = require('./presentation-layer/routers/home-router')
+const authenticationRouter = require('./presentation-layer/routers/authentication-router')
+const dashboardRouter = require('./presentation-layer/routers/dashboard-router')
+const internshipsRouter = require('./presentation-layer/routers/internships-router')
 
 const app = express()
+
+// DB Connection
+require("./data-access-layer/connection");
 
 const redisClient = redis.createClient({
 	host: 'db_redis',
@@ -18,7 +21,7 @@ const redisClient = redis.createClient({
 	db: 1,
   })
 
-app.set("views", "src/PresentationLayer/views")
+app.set("views", "src/presentation-layer/views")
 
 app.engine("hbs", expressHandlebars({
 	defaultLayout: "main.hbs"
