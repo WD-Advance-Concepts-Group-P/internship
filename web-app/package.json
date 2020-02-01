@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --inspect=0.0.0.0 src/app.js",
+    "start": "nodemon -r dotenv-safe/config --inspect=0.0.0.0 src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "connect-redis": "^4.0.3",
+    "dotenv-safe": "^8.2.0",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
     "express-session": "^1.17.0",
