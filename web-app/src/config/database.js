@@ -1,9 +1,11 @@
-{
+require('dotenv-safe').config();
+
+module.exports = {
   "development": {
-    "username": "root",
-    "password": "test123",
-    "database": "web-app",
-    "host": "db",
+    "username": process.env.DB_USERNAME,
+    "password": process.env.DB_PASSWORD,
+    "database": process.env.DB_DATABASE,
+    "host": process.env.DB_HOST,
     "dialect": "mysql",
     "operatorsAliases": false
   },
