@@ -1,6 +1,7 @@
 const express = require('express')
 const expressHandlebars = require('express-handlebars')
 const session = require('express-session')
+const bodyParser = require('body-parser')
 
 // DB Connection
 require("./data-access-layer/connection");
@@ -36,6 +37,10 @@ app.use(session({
     cookie: {
         secure: false,
     }
+}))
+
+app.use(bodyParser.urlencoded({
+    extended: false
 }))
 
 // Routers

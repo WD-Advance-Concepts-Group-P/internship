@@ -1,25 +1,27 @@
 const Sequelize = require("sequelize")
 
 module.exports = sequelize.define("User", {
-
-    id: {
-        type: Sequelize.INTEGER[11],
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true
-    },
     username: {
-        type: Sequelize.STRING(35),
-        allowNull: false,
-        unique: true
+        type: Sequelize.STRING(20),
+        unique: true,
+        allowNull: false
     },
     password: {
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING,
         allowNull: false
     },
     email: {
-        type: Sequelize.STRING(50),
+        type: Sequelize.STRING(100),
+        unique: true,
+        allowNull: false
+    },
+    user_type: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        unique: true
+        foreignKey: true,
+        references: {
+          model: "user-types",
+          key: "id"
+        }
     }
 });

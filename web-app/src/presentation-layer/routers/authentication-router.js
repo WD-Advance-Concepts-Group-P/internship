@@ -1,26 +1,33 @@
 const express = require('express')
 const router = express.Router()
+const csurf = require('csurf')
 
+const csrfProtection = csurf()
 const authManager = require('../../business-logic-layer/auth-manager')
 
 router.route('/login')
-    .get(function(request, response, next) {
-        response.render('auth/login.hbs')
+    .get(csrfProtection, function(request, response, next) {
+        response.render('auth/login.hbs', {csrfToken: request.csrfToken()})
     })
-    .post(function(request, response, next) {
+    .post(csrfProtection, function(request, response, next) {
+        const username = request.body.username
+        const password = request.body.password
 
-        authManager.login('test', 'test123', function(status, errorOrUser) {
+        authManager.login(username, password, function(status, errorOrUser) {
             if (status) {
                 request.session.authenticated = true
                 request.session.user = errorOrUser
 
                 response.send('logged in')
             } else {
-                response.send(errorOrUser)
+                const model = {
+                    validationErrors: errorOrUser,
+                    username,
+                    csrfToken: request.csrfToken(),
+                }
+                response.render('auth/login.hbs', model)
             }
         })
-
-        //response.render('auth/login.hbs')
     })
 
 router.get('/signup', function(request, response) {
@@ -28,11 +35,28 @@ router.get('/signup', function(request, response) {
 })
 
 router.route('/sign-up')
-    .get(function(request, response, next) {
-        response.render('auth/signup.hbs')
+    .get(csrfProtection, function(request, response, next) {
+        response.render('auth/signup.hbs', {csrfToken: request.csrfToken()})
     })
-    .post(function(request, response, next) {
-        response.render('auth/signup.hbs')
+    .post(csrfProtection, function(request, response, next) {
+
+        const username = request.body.username
+        const email = request.body.email
+        const password = request.body.password
+
+        authManager.register(username, email, password, function(status, errorOrUser) {
+            if (status) {
+                response.send('created' + errorOrUser)
+            } else {
+                const model = {
+                    validationErrors: errorOrUser,
+                    username,
+                    email,
+                    csrfToken: request.csrfToken(),
+                }
+                response.render('auth/signup.hbs', model)
+            }
+        })
     })
 
 

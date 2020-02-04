@@ -1,5 +1,5 @@
-const accountRepository = require('../data-access-layer/models/UserRepository')
 const bcrypt = require('bcrypt');
+const accountRepository = require('../data-access-layer/models/UserRepository')
 
 exports.login = function(username, password, callback){
 
@@ -8,7 +8,7 @@ exports.login = function(username, password, callback){
     } else if (password === '') {
         callback(false, 'Password must be supplied')
     } else {
-        if (password.length() < 6) {
+        if (password.length < 6) {
             callback(false, 'Password must be longer then 6 character')
         } else {
             accountRepository.findOne({ where: {username: username} })
@@ -22,7 +22,8 @@ exports.login = function(username, password, callback){
                 });
             })
             .catch((error) => {
-                callback(false, error)
+                console.log('error' + error)
+                callback(false, 'Wrong username/password')
             })
         }
     }
@@ -38,12 +39,12 @@ exports.register = function(username, email, password, callback){
     } else if (password === '') {
         callback(false, 'Password must be supplied')
     } else {
-        if (password.length() < 6) {
+        if (password.length < 6) {
             callback(false, 'Password must be longer then 6 character')
         } else if (!checkValidEmail(email)) {
             callback(false, 'Email is not valid')
         } else {
-            bcrypt.hash(password, saltRounds).then(function(hash) {
+            bcrypt.hash(password, 12).then(function(hash) {
                 accountRepository.create({username: username, email: email, password: hash})
                 .then((user) => {
                     callback(true, user)
