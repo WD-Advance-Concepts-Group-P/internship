@@ -1,6 +1,10 @@
 const express = require('express')
 const expressHandlebars = require('express-handlebars')
 const session = require('express-session')
+
+// DB Connection
+require("./data-access-layer/connection");
+
 const redis = require('redis')
 const RedisStore = require('connect-redis')(session)
 
@@ -10,9 +14,6 @@ const dashboardRouter = require('./presentation-layer/routers/dashboard-router')
 const internshipsRouter = require('./presentation-layer/routers/internships-router')
 
 const app = express()
-
-// DB Connection
-require("./data-access-layer/connection");
 
 const redisClient = redis.createClient({
 	host: 'db_redis',
