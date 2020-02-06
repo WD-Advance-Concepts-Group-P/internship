@@ -53,7 +53,7 @@ CREATE TABLE Addresses (
 	hash TEXT NOT NULL
 );
 
-CREATE TABLE RecruiterAdvert (
+CREATE TABLE RecruiterAdverts (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	title TEXT NOT NULL,
 	body TEXT NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE RecruiterAdvert (
 	updated_at DATE
 );
 
-CREATE TABLE StudentAdvert (
+CREATE TABLE StudentAdverts (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	title TEXT NOT NULL,
 	body TEXT NOT NULL,
@@ -94,11 +94,11 @@ ALTER TABLE Chat
 ADD FOREIGN KEY (sender_id) REFERENCES Accounts(id),
 ADD FOREIGN KEY (reciver_id) REFERENCES Accounts(id);
 
-ALTER TABLE RecruiterAdvert
+ALTER TABLE RecruiterAdverts
 ADD FOREIGN KEY (address) REFERENCES Addresses(id),
 ADD FOREIGN KEY (posted_by) REFERENCES Accounts(id);
 
-ALTER TABLE StudentAdvert
+ALTER TABLE StudentAdverts
 ADD FOREIGN KEY (posted_by) REFERENCES Accounts(id);
 
 INSERT INTO UserTypes (name, description) VALUES ("Student", "Student user access type");
