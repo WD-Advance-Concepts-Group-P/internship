@@ -14,13 +14,13 @@ exports.login = function(username, password, callback){
         } else {
 
             accountRepository.getByUsername(username).then(account => {
-                return bcrypt.compare(password, account.password)
-            }).then(result => {
-                if (result) {
-                    callback(true, user)
-                } else {
-                    callback(false, 'Wrong username/password')
-                }
+                return bcrypt.compare(password, account.password).then(result => {
+                    if (result) {
+                        callback(true, account)
+                    } else {
+                        callback(false, 'Wrong username/password')
+                    }
+                })
             }).catch(error => {
                 console.log(error)
                 // check error to display correct message

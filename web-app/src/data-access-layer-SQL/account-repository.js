@@ -26,7 +26,7 @@ class AccountRepository {
             account.username, 
             account.password, 
             account.email, 
-			account.user_type,
+			account.userType,
 			account.id
         ]
 
