@@ -4,7 +4,7 @@ const session = require('express-session')
 const bodyParser = require('body-parser')
 
 // DB Connection
-require("./data-access-layer/connection");
+require("./data-access-layer-SQL/connection");
 
 const redis = require('redis')
 const RedisStore = require('connect-redis')(session)
@@ -48,5 +48,17 @@ app.use(homeRouter)
 app.use(authenticationRouter)
 app.use('/profile', dashboardRouter)
 app.use(internshipsRouter)
+
+
+
+
+var StudentAdvertRepository = require("./data-access-layer-SQL/student_advert-repository")
+const studentAdvert = new StudentAdvertRepository(global.dbhandler)
+
+studentAdvert.create("Hello", "Hello", "Hello", "hello", "20202", "20202", "1").catch(error => {
+    console.log(error)
+})
+
+console.log("Hej")
 
 app.listen(8080)
