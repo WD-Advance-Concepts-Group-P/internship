@@ -44,7 +44,7 @@ router.route('/sign-up')
         const email = request.body.email
         const password = request.body.password
 
-        authManager.register(username, email, password, function(status, errorOrUser) {
+        authManager.register(username, email, password, 1, function(status, errorOrUser) {
             if (status) {
                 response.send('created' + errorOrUser)
             } else {

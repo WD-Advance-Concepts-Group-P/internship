@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const accountRepository = require('../data-access-layer/models/UserRepository')
+const accountRepository = require('../data-access-layer-SQL/account-repository')
 
 exports.login = function(username, password, callback){
 
@@ -11,26 +11,31 @@ exports.login = function(username, password, callback){
         if (password.length < 6) {
             callback(false, 'Password must be longer then 6 character')
         } else {
-            accountRepository.findOne({ where: {username: username} })
-            .then(user => {
-                bcrypt.compare(password, user.password).then(function(res) {
-                    if (res) {
-                        callback(true, null)
+            accountRepository.getAccountByUsername(username, function(error, user) {
+                if (error === null) {
+                    if (user != null) {
+                        bcrypt.compare(password, user.password).then(function(res) {
+                            if (res) {
+                                callback(true, user)
+                            } else {
+                                callback(false, 'Wrong username/password')
+                            }
+                        });
                     } else {
                         callback(false, 'Wrong username/password')
                     }
-                });
-            })
-            .catch((error) => {
-                console.log('error' + error)
-                callback(false, 'Wrong username/password')
+                } else {
+                    console.log(error)
+                    // check error to display correct message
+                    callback(false, 'DB error')
+                }
             })
         }
     }
 
 }
 
-exports.register = function(username, email, password, callback){
+exports.register = function(username, email, password, level, callback){
 
     if (username === '') {
         callback(false, 'Username must be supplied')
@@ -45,12 +50,16 @@ exports.register = function(username, email, password, callback){
             callback(false, 'Email is not valid')
         } else {
             bcrypt.hash(password, 12).then(function(hash) {
-                accountRepository.create({username: username, email: email, password: hash})
-                .then((user) => {
-                    callback(true, user)
-                })
-                .catch((error) => {
-                    callback(false, error)
+
+                const account = { email, username, hash, level }
+
+                accountRepository.createAccount(account, function(error, rowId) {
+                    if (error === null) {
+                        callback(true, rowId)
+                    } else {
+                        // check error
+                        callback(false, 'DB error')
+                    }
                 })
             });
         }
