@@ -15,7 +15,6 @@ exports.getAccountByUsername = function(username, callback) {
 			callback(null, accounts[0])
 		}
 	})
-	
 }
 
 exports.createAccount = function(account, callback) {
@@ -33,5 +32,4 @@ exports.createAccount = function(account, callback) {
 			callback(null, results.insertId)
 		}
 	})
-	
 }

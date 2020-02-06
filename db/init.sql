@@ -102,3 +102,4 @@ ALTER TABLE StudentAdvert
 ADD FOREIGN KEY (posted_by) REFERENCES Accounts(id);
 
 INSERT INTO UserTypes (name, description) VALUES ("Student", "Student user access type");
+INSERT INTO UserTypes (name, description) VALUES ("Recruiter", "Recruiter user access type");

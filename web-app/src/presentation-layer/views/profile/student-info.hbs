@@ -1,0 +1,13 @@
+<div class="column">
+    <div class="column col-11">
+        {{#if validationErrors.length}}
+            <p>{{validationErrors}}</p>
+        {{/if}}
+        <form action="" method="POST">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <div class="form-group">
+                <input class="form-submit" type="submit" placeholder="Reset">
+            </div>
+        </form>
+    </div>
+</div>
