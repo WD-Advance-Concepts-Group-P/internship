@@ -51,14 +51,14 @@ app.use(internshipsRouter)
 
 
 
-
+/*
 var StudentAdvertRepository = require("./data-access-layer-SQL/student_advert-repository")
 const studentAdvert = new StudentAdvertRepository(global.dbhandler)
 
-studentAdvert.create("Hello", "Hello", "Hello", "hello", "20202", "20202", "1").catch(error => {
+studentAdvert.create("Hello", "Hello", "Hello", "hello", "2017-01-01", "2017-01-01", "1").catch(error => {
     console.log(error)
 })
 
-console.log("Hej")
+console.log("Hej")*/
 
 app.listen(8080)

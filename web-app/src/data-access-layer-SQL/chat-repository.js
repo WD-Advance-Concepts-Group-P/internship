@@ -1,4 +1,4 @@
-const db = require('./db')
+const db = require('./connection')
 
 exports.getMessagesById = function(id, callback) {
 	
@@ -25,7 +25,7 @@ exports.deleteMessageById = function(id, callback) {
 	db.query(query, values, function(error, info){
 		if (error) {
             console.log(error)
-            // check error to send back a application error
+            // check error to send back wa application error
 			callback('databaseError', null)
 		} else {
             console.log(info)
