@@ -14,6 +14,11 @@ exports.login = function(username, password, callback){
         } else {
 
             accountRepository.getByUsername(username).then(account => {
+                
+                if (account == null) {
+                    return callback(false, "That user did not exist.")
+                }
+
                 return bcrypt.compare(password, account.password).then(result => {
                     if (result) {
                         callback(true, account)
