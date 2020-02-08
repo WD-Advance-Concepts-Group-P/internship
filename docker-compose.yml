@@ -10,10 +10,11 @@ services:
     depends_on: 
       - "db"
       - "db_redis"
+      - "db_postgres"
   db:
     build: db
     ports: 
-      - "3306:3306"
+     - "3306:3306"
     environment: 
       - "MYSQL_ROOT_PASSWORD=test123"
       - "MYSQL_DATABASE=web-app"
@@ -22,3 +23,11 @@ services:
     command: redis-server --requirepass test123
     ports: 
       - "6379:6379"
+  db_postgres:
+    build: db_postgres
+    ports: 
+     - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: test123
+      POSTGRES_USER: root
+      POSTGRES_DB: web-app
