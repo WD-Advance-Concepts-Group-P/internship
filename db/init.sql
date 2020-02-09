@@ -39,7 +39,7 @@ CREATE TABLE Recruiter (
 CREATE TABLE Chat (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	sender_id INT NOT NULL,
-	reciver_id INT NOT NULL,
+	receiver_id INT NOT NULL,
 	content TEXT NOT NULL,
 	created_at DATE NOT NULL
 );
@@ -92,7 +92,7 @@ ADD FOREIGN KEY (account_id) REFERENCES Accounts(id);
 
 ALTER TABLE Chat
 ADD FOREIGN KEY (sender_id) REFERENCES Accounts(id),
-ADD FOREIGN KEY (reciver_id) REFERENCES Accounts(id);
+ADD FOREIGN KEY (receiver_id) REFERENCES Accounts(id);
 
 ALTER TABLE RecruiterAdverts
 ADD FOREIGN KEY (address) REFERENCES Addresses(id),

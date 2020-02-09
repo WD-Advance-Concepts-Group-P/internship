@@ -50,15 +50,25 @@ app.use('/profile', dashboardRouter)
 app.use(internshipsRouter)
 
 
+app.listen(8080)
 
 /*
-var StudentAdvertRepository = require("./data-access-layer-SQL/student_advert-repository")
-const studentAdvert = new StudentAdvertRepository(global.dbhandler)
+function showDialog (options) {
+    var defaults = {
+        showAlertIcon: false,
+        showDarkBackdrop: true
+    };
+    options = setDefaults(options, defaults);
+    if (options.showAlertIcon) {
+        alertIcon.show();
+    }
+    if (options.showDarkBackdrop) {
+        backdrop.show();
+    }
+    dialog.show();
+}
 
-studentAdvert.create("Hello", "Hello", "Hello", "hello", "2017-01-01", "2017-01-01", "1").catch(error => {
-    console.log(error)
-})
 
-console.log("Hej")*/
-
-app.listen(8080)
+showDialog({
+    
+})*/
