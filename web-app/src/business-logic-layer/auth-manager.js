@@ -68,6 +68,8 @@ exports.register = function(username, email, password, level, callback){
         callback(false, 'Email must be supplied')
     } else if (password === '') {
         callback(false, 'Password must be supplied')
+    } else if (level === 'Choose an option') {
+        callback(false, 'You must choose an account type')
     } else {
         if (password.length < 6) {
             callback(false, 'Password must be longer then 6 character')
@@ -76,11 +78,19 @@ exports.register = function(username, email, password, level, callback){
         } else {
             bcrypt.hash(password, 12).then(function(hash) {
 
-                const account = { email, username, hash, level }
+                var userType
+                if (level === 'Student') {
+                    userType = 1
+                } else if (level === 'Recruiter') {
+                    userType = 2
+                }
 
-                accountRepository.create(username, hash, email, level).then(result => {
+                const account = { username, hash, email, userType}
+
+                accountRepository.create(account).then(result => {
                     callback(true, result.id)
                 }).catch(error => {
+                    console.log(error + 'yes')
                     callback(false, 'DB error')
                 })
 /*

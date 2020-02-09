@@ -23,7 +23,7 @@ class AccountRepository {
 
         const values = [
             account.username, 
-            account.password, 
+            account.hash, 
             account.email, 
             account.userType
         ]
@@ -55,7 +55,74 @@ class AccountRepository {
         ]
 
         return this.dbh.run(sql, values)
-	}
+    }
+    
+
+    createUserInfo(userType, info) {
+        if (userType === 1) {
+            const sqlStudent = `INSERT INTO Students (
+                account_id,
+                first_name,
+                last_name,
+                birth_date,
+                biography_text,
+                school,
+                program,
+                graduation_year,
+                resume_url,
+                profile_pic_url)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+                
+    
+            const valuesStudent = [
+                info.id,
+                info.first_name, 
+                info.last_name, 
+                info.birth_date, 
+                info.biography_text, 
+                info.school, 
+                info.program, 
+                info.graduation_year, 
+                info.resume_url, 
+                info.profile_pic_url
+            ]
+
+            return this.dbh.run(sqlStudent, valuesStudent)
+        } else if (userType === 2) {
+            const sqlRecruiter = `INSERT INTO Recruiter (
+                account_id,
+                first_name,
+                last_name,
+                phone_number,
+                company_name,
+                company_logo_url)
+                VALUES (?, ?, ?, ?, ?, ?)`
+
+            const valuesRecruiter = [
+                info.id,
+                info.first_name, 
+                info.last_name, 
+                info.phone_number,
+                info.company_name,
+                info.company_logo_url
+            ]
+
+            return this.dbh.run(sqlRecruiter, val)
+        }
+
+    }
+
+    updateSeenBefore(id) {
+        const sql = `UPDATE Accounts 
+            SET seen = ? WHERE id = ?`
+
+        const values = [
+            1,
+            id
+        ]
+
+        return this.dbh.run(sql, values)
+    }
 
     /**
      * Delete a specific account in the repository
