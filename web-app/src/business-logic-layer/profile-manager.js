@@ -1,4 +1,4 @@
-const accountRepository = require('../data-access-layer-SQL/user-info-repository')
+const accountRepository = require('../data-access-layer-SQL/user-type-repository')
 
 exports.createStudentInfo = function(uid, first_name, last_name, birth_date, biography_text, school, program, graduation_year, resume_url, profile_pic_url, callback){
 
