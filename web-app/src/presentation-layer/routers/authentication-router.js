@@ -4,8 +4,10 @@ const csurf = require('csurf')
 
 const csrfProtection = csurf()
 const authManager = require('../../business-logic-layer/auth-manager')
+const authHelper = require('../../util/auth-helper')
 
 router.route('/login')
+    .all(authHelper.alreadyAuthenticated)
     .get(csrfProtection, function(request, response, next) {
         response.render('auth/login.hbs', {csrfToken: request.csrfToken()})
     })
@@ -18,7 +20,11 @@ router.route('/login')
                 request.session.authenticated = true
                 request.session.user = errorOrUser
 
-                response.send('logged in')
+                if (request.session.user.seen === 1) {
+                    response.redirect('/profile')
+                } else {
+                    response.redirect('/profile/setup')
+                }
             } else {
                 const model = {
                     validationErrors: errorOrUser,
@@ -35,6 +41,7 @@ router.get('/signup', function(request, response) {
 })
 
 router.route('/sign-up')
+    .all(authHelper.alreadyAuthenticated)
     .get(csrfProtection, function(request, response, next) {
         response.render('auth/signup.hbs', {csrfToken: request.csrfToken()})
     })
@@ -43,10 +50,11 @@ router.route('/sign-up')
         const username = request.body.username
         const email = request.body.email
         const password = request.body.password
+        const accountType = request.body.accountType
 
-        authManager.register(username, email, password, 1, function(status, errorOrUser) {
+        authManager.register(username, email, password, accountType, function(status, errorOrUser) {
             if (status) {
-                response.send('created' + errorOrUser)
+                response.redirect('/login')
             } else {
                 const model = {
                     validationErrors: errorOrUser,
@@ -55,6 +63,21 @@ router.route('/sign-up')
                     csrfToken: request.csrfToken(),
                 }
                 response.render('auth/signup.hbs', model)
+            }
+        })
+    })
+
+router.route('/logout')
+    .all(authHelper.isAuthenticated)
+    .get(csrfProtection, function(request, response, next) {
+        response.render('auth/logout.hbs', {csrfToken: request.csrfToken()})
+    })
+    .post(csrfProtection, function(request, response, next) {
+        request.session.destroy(function(error) {
+            if (error) {
+                response.send('error')
+            } else {
+                response.redirect('/')
             }
         })
     })

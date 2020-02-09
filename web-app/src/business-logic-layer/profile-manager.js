@@ -1,4 +1,5 @@
-const accountRepository = require('../data-access-layer-SQL/user-type-repository')
+const AccountRepository = require('../data-access-layer-SQL/account-repository')
+const accountRepository = new AccountRepository(global.dbhandler)
 
 exports.createStudentInfo = function(uid, first_name, last_name, birth_date, biography_text, school, program, graduation_year, resume_url, profile_pic_url, callback){
 
@@ -22,12 +23,20 @@ exports.createStudentInfo = function(uid, first_name, last_name, birth_date, bio
             profile_pic_url
         } 
 
-        accountRepository.createStudentInfo(info, function(error, status) {
-            if (error === null) {
-                callback(true, null)
-            } else {
-                callback(false, 'db error')
-            }
+        accountRepository.createUserInfo(1, info).then(result => {
+            accountRepository.updateSeenBefore(uid).then(resultSeen => {
+                console.log(result)
+                console.log(resultSeen)
+                callback(true, result.id)
+            })
+            .catch(error => {
+                console.log(error + 'yes')
+                callback(false, 'DB error')
+            })
+        })
+        .catch(error => {
+            console.log(error + 'yes')
+            callback(false, 'DB error')
         })
     }
 }
@@ -52,12 +61,20 @@ exports.createRecruiterInfo = function(uid, first_name, last_name, company_name,
             company_logo_url,
         } 
 
-        accountRepository.createRecruiterInfo(info, function(error, status) {
-            if (error === null) {
-                callback(true, null)
-            } else {
-                callback(false, 'db error')
-            }
+        accountRepository.createUserInfo(2, info).then(result => {
+            accountRepository.updateSeenBefore(uid).then(resultSeen => {
+                console.log(result)
+                console.log(resultSeen)
+                callback(true, result.id)
+            })
+            .catch(error => {
+                console.log(error + 'yes')
+                callback(false, 'DB error')
+            })
+        })
+        .catch(error => {
+            console.log(error + 'yes')
+            callback(false, 'DB error')
         })
     }
 }

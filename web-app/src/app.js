@@ -44,6 +44,21 @@ app.use(bodyParser.urlencoded({
 }))
 
 // Routers
+/*
+app.use(function (request, response, next) {
+    
+    if (request.session.authenticated && request.session.user != null && request.session.user.seen === 0) {
+        if (request.path === '/profile/' || request.path !== '/create-advert') {
+            return response.redirect('/profile/setup')
+        } else {
+            return next();
+        }
+    } else {
+        return next();
+    }
+})
+*/
+
 app.use(homeRouter)
 app.use(authenticationRouter)
 app.use('/profile', dashboardRouter)
