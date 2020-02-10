@@ -1,0 +1,31 @@
+<div class="column">
+      <div class="column col-11 col-sm-12">
+        {{#if message}}
+            <h3>{{message}}</h3>
+        {{/if}}
+        {{#if Posts.length}}
+            {{#each Posts}}
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title h5"><a>{{this.title}}</a></div>
+                        <div class="card-subtitle text-gray">
+                            <ul>
+                                <li>{{this.field}}</li>
+                                <li>{{this.contact}}</li>
+                                <li>{{this.website}}</li>
+                                <li>{{this.deadline_date}}</li>
+                                <li>{{this.posted_by}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body" id="card-content">
+                        {{{this.body}}}
+                    </div>
+                    <br>
+                </div>
+            {{/each}}
+        {{else}}
+        <h1>No adverts yet</h1>
+        {{/if}}
+    </div>
+</div>

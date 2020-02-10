@@ -38,7 +38,7 @@ class RecruiterAdvertRepository {
      * @returns {Promise} Promise that represent the 'results'
      */
     create(advert) {
-        const sql = `INSERT INTO StudentAdverts (
+        const sql = `INSERT INTO RecruiterAdverts (
             title,
             body,
             field,
@@ -82,7 +82,7 @@ class RecruiterAdvertRepository {
      * @returns {Promise} Promise that represent the 'results'
      */
     update(advert) {
-        const sql = `UPDATE StudentAdverts 
+        const sql = `UPDATE RecruiterAdverts 
             SET title = ?, body = ?, field = ?, contact = ?, start_date = ?, end_date = ?, updated_at = NOW()
             WHERE id = ?`
 
@@ -108,7 +108,7 @@ class RecruiterAdvertRepository {
      * @returns {Promise} Promise that represent the 'results'
      */
     delete(id) {
-        const sql = `DELETE FROM StudentAdverts
+        const sql = `DELETE FROM RecruiterAdverts
             WHERE id = ?`
 
         return this.dbh.run(sql, [id])
@@ -120,7 +120,7 @@ class RecruiterAdvertRepository {
      * @returns {Promise} Promise that represent the 'results'
      */
     getById(id) {
-        const sql = `SELECT * FROM StudentAdverts WHERE id = ?`
+        const sql = `SELECT * FROM RecruiterAdverts WHERE id = ?`
 
         return this.dbh.get(sql, [id])
     }
@@ -130,7 +130,7 @@ class RecruiterAdvertRepository {
      * @returns {Promise} Promise that represent the 'results'
      */
     getAll() {
-        const sql = `SELECT * FROM StudentAdverts`
+        const sql = `SELECT * FROM RecruiterAdverts`
 
         return this.dbh.all(sql)
     }
@@ -140,7 +140,7 @@ class RecruiterAdvertRepository {
      * @returns {Promise} Promise that represent the 'results'
      */
     count() {
-        const sql = 'SELECT COUNT(*) FROM StudentAdverts'
+        const sql = 'SELECT COUNT(*) FROM RecruiterAdverts'
 
         return this.dbh.all(sql)
     }
