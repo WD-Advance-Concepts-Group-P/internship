@@ -44,11 +44,13 @@ app.use(bodyParser.urlencoded({
 }))
 
 // Routers
-/*
+
 app.use(function (request, response, next) {
     
     if (request.session.authenticated && request.session.user != null && request.session.user.seen === 0) {
-        if (request.path === '/profile/' || request.path !== '/create-advert') {
+        if (request.path === '/logout') {
+            return next();
+        } else if (request.path !== '/profile/setup') {
             return response.redirect('/profile/setup')
         } else {
             return next();
@@ -57,7 +59,6 @@ app.use(function (request, response, next) {
         return next();
     }
 })
-*/
 
 app.use(homeRouter)
 app.use(authenticationRouter)
