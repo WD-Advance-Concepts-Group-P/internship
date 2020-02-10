@@ -1,5 +1,5 @@
 <div class="column">
-      <div class="column col-11 col-sm-12">
+    <div class="column col-11 col-sm-12">
         {{#if message}}
             <h3>{{message}}</h3>
         {{/if}}
@@ -9,6 +9,7 @@
                     <div class="card-header">
                         <div class="card-title h5"><a>{{this.title}}</a></div>
                         <div class="card-subtitle text-gray">
+                            <a href="/chat/{{this.posted_by}}">Send message</a>
                             <ul>
                                 <li>{{this.field}}</li>
                                 <li>{{this.contact}}</li>

@@ -24,11 +24,8 @@ class ChatRepository {
      */
 	create(chat) {
         const sql = `INSERT INTO Chat (
-			sender_id,
-			receiver_id,
-			content
-			created_at) 
-			VALUES (?, ?, ?, NOW())`
+            sender_id, receiver_id, content, created_at) 
+            VALUES (?, ?, ?, NOW())`
 
         const values = [
 			chat.senderId, 
@@ -90,10 +87,10 @@ class ChatRepository {
      * @param {Number} id The primary key id
      * @returns {Promise} Promise that represent the 'results'
      */
-	getAllBySenderId(receiverId) {
+	getAllBySenderId(senderId) {
 		const sql = "SELECT * FROM Chat WHERE sender_id = ?"
 
-		return this.dbh.all(sql)
+		return this.dbh.all(sql, [senderId])
 	}
 
 	/**
@@ -104,7 +101,7 @@ class ChatRepository {
 	getAllByReceiverId(receiverId) {
 		const sql = "SELECT * FROM Chat WHERE receiver_id = ?"
 
-		return this.dbh.all(sql)
+		return this.dbh.all(sql, [receiverId])
 	}	
 
 	/**
