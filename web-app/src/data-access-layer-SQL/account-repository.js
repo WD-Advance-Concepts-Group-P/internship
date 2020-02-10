@@ -107,7 +107,7 @@ class AccountRepository {
                 info.company_logo_url
             ]
 
-            return this.dbh.run(sqlRecruiter, val)
+            return this.dbh.run(sqlRecruiter, valuesRecruiter)
         }
 
     }

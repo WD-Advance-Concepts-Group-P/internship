@@ -35,6 +35,7 @@ router.route('/setup')
         if (request.session.user.user_type === 1) {
             profileManager.createStudentInfo(request.session.user.id, 'test', 'tester', new Date(), 'test', null, null, null, null, null, function(status, error) {
                 if (status) {
+                    response.session.user.seen = 1
                     response.send('yes')
                 } else {
                     response.send('no')
@@ -43,6 +44,7 @@ router.route('/setup')
         } else if (request.session.user.user_type === 2) {
             profileManager.createRecruiterInfo(request.session.user.id, 'bla', 'sjsjs', 'Test AB', null, null, function(status, error) {
                 if (status) {
+                    response.session.user.seen = 1
                     response.send('yes')
                 } else {
                     response.send('no')
