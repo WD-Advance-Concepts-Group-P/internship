@@ -13,6 +13,7 @@ const homeRouter = require('./presentation-layer/routers/home-router')
 const authenticationRouter = require('./presentation-layer/routers/authentication-router')
 const dashboardRouter = require('./presentation-layer/routers/dashboard-router')
 const internshipsRouter = require('./presentation-layer/routers/internships-router')
+const chatRouter = require('./presentation-layer/routers/chat-router')
 
 const app = express()
 
@@ -64,6 +65,7 @@ app.use(homeRouter)
 app.use(authenticationRouter)
 app.use('/profile', dashboardRouter)
 app.use(internshipsRouter)
+app.use(chatRouter)
 
 
 app.listen(8080)
