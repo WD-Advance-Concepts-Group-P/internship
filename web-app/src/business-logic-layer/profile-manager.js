@@ -25,16 +25,12 @@ exports.createStudentInfo = function(uid, first_name, last_name, birth_date, bio
 
         accountRepository.createUserInfo(1, info).then(result => {
             accountRepository.updateSeenBefore(uid).then(resultSeen => {
-                console.log(result)
-                console.log(resultSeen)
                 callback(true, result.id)
-            })
-            .catch(error => {
-                console.log(error + 'yes')
+            }).catch(error => {
+                console.log(error + ' test')
                 callback(false, 'DB error')
             })
-        })
-        .catch(error => {
+        }).catch(error => {
             console.log(error + 'yes')
             callback(false, 'DB error')
         })
@@ -63,16 +59,12 @@ exports.createRecruiterInfo = function(uid, first_name, last_name, company_name,
 
         accountRepository.createUserInfo(2, info).then(result => {
             accountRepository.updateSeenBefore(uid).then(resultSeen => {
-                console.log(result)
-                console.log(resultSeen)
                 callback(true, result.id)
-            })
-            .catch(error => {
+            }).catch(error => {
                 console.log(error + 'yes')
                 callback(false, 'DB error')
             })
-        })
-        .catch(error => {
+        }).catch(error => {
             console.log(error + 'yes')
             callback(false, 'DB error')
         })

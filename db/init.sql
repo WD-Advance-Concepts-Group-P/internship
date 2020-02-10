@@ -104,3 +104,4 @@ ADD FOREIGN KEY (posted_by) REFERENCES Accounts(id);
 
 INSERT INTO UserTypes (name, description) VALUES ("Student", "Student user access type");
 INSERT INTO UserTypes (name, description) VALUES ("Recruiter", "Recruiter user access type");
+INSERT INTO Addresses (city, state, street_address, zip, hash) VALUES ("Jkpg", "Jönköping", "test 1", "55320", "1");

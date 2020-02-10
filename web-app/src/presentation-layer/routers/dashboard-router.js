@@ -33,19 +33,23 @@ router.route('/setup')
     })
     .post(csrfProtection, function(request, response, next) {
         if (request.session.user.user_type === 1) {
+            console.log(request.body)
+
             profileManager.createStudentInfo(request.session.user.id, 'test', 'tester', new Date(), 'test', null, null, null, null, null, function(status, error) {
                 if (status) {
-                    response.session.user.seen = 1
-                    response.send('yes')
+                    request.session.user.seen = 1
+                    response.redirect('/profile')
                 } else {
                     response.send('no')
                 }
             })
         } else if (request.session.user.user_type === 2) {
+            console.log(request.body)
+
             profileManager.createRecruiterInfo(request.session.user.id, 'bla', 'sjsjs', 'Test AB', null, null, function(status, error) {
                 if (status) {
-                    response.session.user.seen = 1
-                    response.send('yes')
+                    request.session.user.seen = 1
+                    response.redirect('/profile')
                 } else {
                     response.send('no')
                 }
