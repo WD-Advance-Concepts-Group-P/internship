@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const csurf = require('csurf')
-
 const csrfProtection = csurf()
-const internshipManager = require('../../business-logic-layer/internship-manager')
+
+const container = require('../../main')
+const internshipManager = container.resolve('internshipManager')
 const authHelper = require('../../util/auth-helper')
 
 router.route('/create-advert')

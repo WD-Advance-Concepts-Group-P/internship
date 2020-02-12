@@ -3,8 +3,11 @@ const router = express.Router()
 const csurf = require('csurf')
 
 const csrfProtection = csurf()
-const authManager = require('../../business-logic-layer/auth-manager')
+//const authManager = require('../../business-logic-layer/auth-manager')
 const authHelper = require('../../util/auth-helper')
+
+const container = require('../../main')
+const authManager = container.resolve('authManager')
 
 router.route('/login')
     .all(authHelper.alreadyAuthenticated)
