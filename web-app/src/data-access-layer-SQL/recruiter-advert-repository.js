@@ -83,7 +83,7 @@ class RecruiterAdvertRepository {
      */
     update(advert) {
         const sql = `UPDATE RecruiterAdverts 
-            SET title = ?, body = ?, field = ?, contact = ?, start_date = ?, end_date = ?, updated_at = NOW()
+            SET title = ?, body = ?, field = ?, address = ?, website = ?, contact = ?, positions = ?, deadline_date = ?, updated_at = NOW()
             WHERE id = ?`
 
         const values = [
@@ -95,7 +95,6 @@ class RecruiterAdvertRepository {
             advert.contact, 
             advert.positions, 
             advert.deadlineDate, 
-            advert.postedBy,
             advert.id
         ]
 
@@ -123,6 +122,12 @@ class RecruiterAdvertRepository {
         const sql = `SELECT * FROM RecruiterAdverts WHERE id = ?`
 
         return this.dbh.get(sql, [id])
+    }
+
+    getAllByUser(id) {
+        const sql = `SELECT * FROM RecruiterAdverts WHERE posted_by = ?`
+
+        return this.dbh.all(sql, [id])
     }
      
     /**
