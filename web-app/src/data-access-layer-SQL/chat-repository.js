@@ -1,6 +1,6 @@
 class ChatRepository {
 	constructor(dbh) {
-		this.dbh = dbh
+		this.dbh = global.dbhandler
 	}
 
 	createTable() {

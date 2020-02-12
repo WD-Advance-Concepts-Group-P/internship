@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const csurf = require('csurf')
-
 const csrfProtection = csurf()
-const chatManager = require('../../business-logic-layer/chat-manager')
 const authHelper = require('../../util/auth-helper')
+
+const container = require('../../main')
+const chatManager = container.resolve('chatManager')
 
 router.get('/chats', authHelper.isAuthenticated, function(request, response) {
     chatManager.getMyReceivedMessages(request.session.user.id, function(status, messagesOrError) {

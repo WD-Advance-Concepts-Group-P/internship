@@ -1,6 +1,6 @@
 class AccountRepository {
 	constructor(dbh) {
-		this.dbh = dbh
+        this.dbh = global.dbhandler
 	}
 
     /**

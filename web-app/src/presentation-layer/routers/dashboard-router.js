@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const csurf = require('csurf')
-
 const csrfProtection = csurf()
-const profileManager = require('../../business-logic-layer/profile-manager')
 const authHelper = require('../../util/auth-helper')
+
+const container = require('../../main')
+const profileManager = container.resolve('profileManager')
 
 router.get('/', authHelper.isAuthenticated, function(request, response) {
     console.log(request.session.user)

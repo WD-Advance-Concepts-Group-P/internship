@@ -1,6 +1,6 @@
 class StudentAdvertRepository {
     constructor(dbh) {
-        this.dbh = dbh
+        this.dbh = global.dbhandler
     }
 
     createTable() {
