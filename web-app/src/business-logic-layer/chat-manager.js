@@ -21,6 +21,35 @@ module.exports = function(container) {
                 })
             }
         },
+        getAllMyChats: function(userId, callback) {
+            if (userId === '') {
+                callback(false, 'must supplie userId')
+            } else {
+                container.chatRepository.getAllMyChats(userId).then(chats => {
+                    //console.log(chats)
+                    callback(true, chats)
+                }).catch(error => {
+                    console.log(error)
+                    callback(false, 'db error')
+                })
+            }
+        },
+        getALlMessagesBychat: function(userId, senderId, callback) {
+            if (userId === '') {
+                callback(false, 'must supplie userId')
+            } else if (senderId === '') {
+                callback(false, 'must supplie senderId')
+            } else {
+                container.chatRepository.getAllMyMessagesByChat(userId, senderId).then(messages => {
+                    console.log('test jajaj')
+                    callback(true, messages)
+                }).catch(error => {
+                    console.log('johan error')
+                    console.log(error)
+                    callback(false, 'error db')
+                })
+            }
+        },
         getMyReceivedMessages: function(userId, callback) {
 
             if (userId === '') {

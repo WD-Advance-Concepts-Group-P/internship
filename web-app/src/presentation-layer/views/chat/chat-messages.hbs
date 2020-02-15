@@ -4,6 +4,8 @@
             <h3>{{message}}</h3>
         {{/if}}
         {{#if Chats.length}}
+            <a href="/chats"><- Back</a>
+            <br>
             {{#each Chats}}
                 <div class="card">
                     <div class="card-header">
@@ -21,6 +23,16 @@
                     <br>
                 </div>
             {{/each}}
+            <form action="" method="POST">
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                <div class="form-group">
+                    <label class="form-label" for="messageInput">Message</label>
+                    <input class="form-input" id="messageInput" type="text" name="message" placeholder="Message" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-submit" type="submit" placeholder="Send" value="Send">
+                </div>
+            </form>
         {{else}}
         <h1>No chat messages yet</h1>
         {{/if}}

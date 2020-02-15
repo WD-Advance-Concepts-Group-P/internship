@@ -78,6 +78,7 @@ class StudentAdvertRepository {
             advert.title, 
             advert.body, 
             advert.field, 
+            advert.contact,
             advert.start_date, 
             advert.end_date, 
             advert.id
@@ -107,6 +108,12 @@ class StudentAdvertRepository {
         const sql = `SELECT * FROM StudentAdverts WHERE id = ?`
 
         return this.dbh.get(sql, [id])
+    }
+
+    getAllByUser(id) {
+        const sql = `SELECT * FROM StudentAdverts WHERE posted_by = ?`
+
+        return this.dbh.all(sql, [id])
     }
      
     /**

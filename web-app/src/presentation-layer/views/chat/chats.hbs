@@ -1,0 +1,17 @@
+<div class="column">
+      <div class="column col-11 col-sm-12">
+        {{#if message}}
+            <h3>{{message}}</h3>
+        {{/if}}
+        {{#if Chats.length}}
+            {{#each Chats}}
+                <div class="card">
+                    <a href="/chat/{{this.sender_id}}">{{this.username}}</a>
+                    <br>
+                </div>
+            {{/each}}
+        {{else}}
+        <h1>No chat messages yet</h1>
+        {{/if}}
+    </div>
+</div>

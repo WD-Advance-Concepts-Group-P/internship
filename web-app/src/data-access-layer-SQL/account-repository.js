@@ -112,6 +112,64 @@ class AccountRepository {
 
     }
 
+    updateUserInfo(userType, info) {
+
+        if (userType === 1) {
+            const sqlStudent = `UPDATE Students 
+            SET first_name = ?, last_name = ?, birth_date = ?, biography_text = ?, school = ?,
+            program = ?, graduation_year = ?, resume_url = ?, profile_pic_url = ? 
+            WHERE account_id = ?`
+
+            const valuesStudent = [
+                info.first_name, 
+                info.last_name, 
+                info.birth_date, 
+                info.biography_text, 
+                info.school, 
+                info.program, 
+                info.graduation_year, 
+                info.resume_url, 
+                info.profile_pic_url,
+                info.id
+            ]
+
+            return this.dbh.run(sqlStudent, valuesStudent)
+
+        } else if (userType === 2) {
+            const sqlRecruiter = `UPDATE Recruiter 
+            SET first_name = ?, last_name = ?, phone_number = ?,
+            company_name = ?, company_logo_url = ?
+            WHERE account_id = ?`
+
+            const valuesRecruiter = [
+                info.first_name, 
+                info.last_name, 
+                info.phone_number,
+                info.company_name,
+                info.company_logo_url,
+                info.id
+            ]
+
+            return this.dbh.run(sqlRecruiter, valuesRecruiter)
+        }
+    }
+
+    getUserInfo(uid, userType) {
+        if (userType === 1) {
+            const sqlStudent = `SELECT * FROM Students WHERE account_id = ?`
+            const valuesStudent = [
+                uid
+            ]
+            return this.dbh.get(sqlStudent, valuesStudent)
+        } else if (userType === 2) {
+            const sqlRecruiter = `SELECT * FROM Recruiter WHERE account_id = ?`
+            const valuesRecruiter = [
+                uid
+            ]
+            return this.dbh.get(sqlRecruiter, valuesRecruiter)
+        }
+    }
+
     updateSeenBefore(id) {
         const sql = `UPDATE Accounts 
             SET seen = ? WHERE id = ?`

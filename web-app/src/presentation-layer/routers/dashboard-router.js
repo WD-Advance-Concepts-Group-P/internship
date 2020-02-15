@@ -36,7 +36,7 @@ router.route('/setup')
         if (request.session.user.user_type === 1) {
             console.log(request.body)
 
-            profileManager.createStudentInfo(request.session.user.id, 'test', 'tester', new Date(), 'test', null, null, null, null, null, function(status, error) {
+            profileManager.createStudentInfo(request.session.user.id, request.body.firstname, request.body.lastname, request.body.birthdate, request.body.bio, request.body.school, request.body.program, request.body.graduationdate, request.body.resume, request.body.profile_picture, function(status, error) {
                 if (status) {
                     request.session.user.seen = 1
                     response.redirect('/profile')
@@ -47,7 +47,7 @@ router.route('/setup')
         } else if (request.session.user.user_type === 2) {
             console.log(request.body)
 
-            profileManager.createRecruiterInfo(request.session.user.id, 'bla', 'sjsjs', 'Test AB', null, null, function(status, error) {
+            profileManager.createRecruiterInfo(request.session.user.id, request.body.firstname, request.body.lastname, request.body.companyname, request.body.phonenumber, request.body.companylogo, function(status, error) {
                 if (status) {
                     request.session.user.seen = 1
                     response.redirect('/profile')
@@ -60,34 +60,67 @@ router.route('/setup')
         } 
     })
 
-router.route('/update/studentInfo')
-    .get(csrfProtection, function(request, response, next) {
-        response.render('profile/student-info.hbs', {csrfToken: request.csrfToken()})
+router.route('/update')
+    .all(authHelper.isAuthenticated, function(request, response, next) {
+        next();
     })
-    .post(csrfProtection, function(request, response, next) {
-        
-        profileManager.createStudentInfo(1, 'test', 'tester', new Date(), 'test', null, null, null, null, null, function(status, error) {
+    .get(csrfProtection, function(request, response, next) {
+        profileManager.getUserInfo(request.session.user, function(status, errorOrInfo) {
             if (status) {
-                response.send('yes')
+                if (request.session.user.user_type === 1) {
+                    const model = {
+                        csrfToken: request.csrfToken(),
+                        firstname: errorOrInfo.first_name,
+                        lastname: errorOrInfo.last_name,
+                        birthdate: errorOrInfo.birth_date,
+                        bio: errorOrInfo.biography_text,
+                        school: errorOrInfo.school,
+                        program: errorOrInfo.program,
+                        graduationdate: errorOrInfo.graduation_year,
+                        resume: errorOrInfo.resume_url,
+                        profile_picture: errorOrInfo.profile_pic_url
+                    }
+                    response.render('profile/student-info.hbs', model)
+                } else if (request.session.user.user_type === 2) {
+                    const model = {
+                        csrfToken: request.csrfToken(),
+                        firstname: errorOrInfo.first_name,
+                        lastname: errorOrInfo.last_name,
+                        companyname: errorOrInfo.company_name,
+                        phonenumber: errorOrInfo.phone_number,
+                        companylogo: errorOrInfo.company_logo_url
+                    }
+                    response.render('profile/recruiter-info.hbs', model)
+                } else {
+                    response.send('server error')
+                }  
             } else {
-                response.send('no')
+                response.send('noooo')
             }
         })
     })
-
-router.route('/update/recruiterInfo')
-    .get(csrfProtection, function(request, response, next) {
-        response.render('profile/recruiter-info.hbs', {csrfToken: request.csrfToken()})
-    })
     .post(csrfProtection, function(request, response, next) {
-        
-        profileManager.createRecruiterInfo(1, 'bla', 'sjsjs', 'Test AB', null, null, function(status, error) {
-            if (status) {
-                response.send('yes')
-            } else {
-                response.send('no')
-            }
-        })
+        if (request.session.user.user_type === 1) {
+            profileManager.updateInfoStudent(request.session.user.id, request.body.firstname, request.body.lastname, request.body.birthdate, request.body.bio, request.body.school, request.body.program, request.body.graduationdate, request.body.resume, request.body.profile_picture, function(status, error) {
+                if (status) {
+                    request.session.user.seen = 1
+                    response.redirect('/profile')
+                } else {
+                    response.send('no')
+                }
+            })
+        } else if (request.session.user.user_type === 2) {
+            profileManager.updateInfoRecruiter(request.session.user.id, request.body.firstname, request.body.lastname, request.body.companyname, request.body.phonenumber, request.body.companylogo, function(status, error) {
+                if (status) {
+                    request.session.user.seen = 1
+                    response.redirect('/profile')
+                } else {
+                    response.send('no')
+                }
+            })
+        } else {
+            response.send('server error')
+        }
     })
 
 module.exports = router
