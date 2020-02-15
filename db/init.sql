@@ -45,6 +45,7 @@ CREATE TABLE Chat (
 	created_at DATE NOT NULL
 );
 
+/*
 CREATE TABLE Addresses (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	city TEXT NOT NULL,
@@ -52,14 +53,14 @@ CREATE TABLE Addresses (
 	street_address TEXT NOT NULL,
 	zip VARCHAR(50) NOT NULL,
 	hash TEXT NOT NULL
-);
+);*/
 
 CREATE TABLE RecruiterAdverts (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	title TEXT NOT NULL,
 	body TEXT NOT NULL,
 	field VARCHAR(120) NOT NULL,
-	address INT NOT NULL,
+	city TEXT NOT NULL,
 	website TEXT NOT NULL,
 	contact VARCHAR(120) NOT NULL,
 	positions INT NOT NULL,
@@ -96,12 +97,13 @@ ADD FOREIGN KEY (sender_id) REFERENCES Accounts(id),
 ADD FOREIGN KEY (receiver_id) REFERENCES Accounts(id);
 
 ALTER TABLE RecruiterAdverts
-ADD FOREIGN KEY (address) REFERENCES Addresses(id),
 ADD FOREIGN KEY (posted_by) REFERENCES Accounts(id);
+
+/*ADD FOREIGN KEY (address) REFERENCES Addresses(id),*/
 
 ALTER TABLE StudentAdverts
 ADD FOREIGN KEY (posted_by) REFERENCES Accounts(id);
 
 INSERT INTO UserTypes (name, description) VALUES ("Student", "Student user access type");
 INSERT INTO UserTypes (name, description) VALUES ("Recruiter", "Recruiter user access type");
-INSERT INTO Addresses (city, state, street_address, zip, hash) VALUES ("Jkpg", "Jönköping", "test 1", "55320", "1");
+/*INSERT INTO Addresses (city, state, street_address, zip, hash) VALUES ("Jkpg", "Jönköping", "test 1", "55320", "1");*/

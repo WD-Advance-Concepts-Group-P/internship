@@ -29,7 +29,7 @@ module.exports = function(container) {
                 callback(false, "You don't have acces to this feature")
             }
         },
-        createRecruiterAdvert: function(user, title, body, field, website, contact, positions, deadlineDate, callback) {
+        createRecruiterAdvert: function(user, title, body, field, city, website, contact, positions, deadlineDate, callback) {
 
             if (user.user_type === 2) {
                 if (title === '') {
@@ -38,6 +38,8 @@ module.exports = function(container) {
                     callback(false, 'body must be supplied')
                 } else if (field === '') {
                     callback(false, 'field must be supplied')
+                } else if (city === '') {
+                    callback(false, 'city must be supplied')
                 } else if (contact === '') {
                     callback(false, 'contact info must be supplied')
                 } else if (website === '') {
@@ -47,7 +49,7 @@ module.exports = function(container) {
                 } else if (deadlineDate === '') {
                     callback(false, 'date must be supplied')
                 } else {
-                    const info = { title, body, field, website, contact, positions, deadlineDate, postedBy: user.id, address: 1}
+                    const info = { title, body, field, website, contact, positions, deadlineDate, postedBy: user.id, city}
         
                     container.recruiterAdvertRepository.create(info).then(result => {
                         callback(true, result.id)

@@ -114,6 +114,18 @@ class ChatRepository {
         return this.dbh.all(sql)
     }
 
+    getAllMyChats(id) {
+        const sql = `SELECT sender_id, username FROM Chat INNER JOIN Accounts ON Chat.sender_id = Accounts.id WHERE receiver_id = ? GROUP BY username`
+
+        return this.dbh.all(sql, [id])
+    }
+
+    getAllMyMessagesByChat(receiverId, senderId) {
+        const sql = `SELECT * FROM Chat WHERE sender_id = ? AND receiver_id = ? ORDER BY id DESC`
+
+        return this.dbh.all(sql, [senderId, receiverId])
+    }
+
 	/**
      * Count all of the chats in the repository
      * @returns {Promise} Promise that represent the 'results'

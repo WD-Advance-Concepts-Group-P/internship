@@ -29,7 +29,7 @@ router.route('/create-advert')
             })
 
         } else if (request.session.user.user_type === 2) {
-            internshipManager.createRecruiterAdvert(request.session.user, request.body.title, request.body.body, request.body.field, request.body.website, request.body.contact, request.body.positions, request.body.deadline_date, function(status, errorOrId) {
+            internshipManager.createRecruiterAdvert(request.session.user, request.body.title, request.body.body, request.body.field, request.body.city, request.body.website, request.body.contact, request.body.positions, request.body.deadline_date, function(status, errorOrId) {
                 if (status) {
                     response.send('test' + errorOrId)
                 } else {
