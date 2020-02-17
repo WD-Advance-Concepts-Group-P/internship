@@ -5,6 +5,8 @@ const bodyParser = require('body-parser')
 
 // DB Connection
 require("./data-access-layer-SQL/connection");
+require('./data-access-layer/connection')
+require('./data-access-layer/setup')
 
 const redis = require('redis')
 const RedisStore = require('connect-redis')(session)

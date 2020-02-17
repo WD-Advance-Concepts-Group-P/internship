@@ -30,7 +30,7 @@ module.exports = function(container) {
                         callback(false, 'DB error')
                     })
                 }).catch(error => {
-                    console.log(error + 'yes')
+                    console.log(error + ' yes')
                     callback(false, 'DB error')
                 })
             }
@@ -89,7 +89,7 @@ module.exports = function(container) {
                     resume_url, 
                     profile_pic_url
                 } 
-        
+
                 container.accountRepository.updateUserInfo(1, info).then(result => {
                     callback(true, result.id)
                 }).catch(error => {

@@ -11,16 +11,32 @@
                     <div class="card-header">
                         <div class="card-subtitle text-gray">
                             <ul>
+                                <li>{{this.dataValues.sender_id}}</li>
+                                <li>{{this.dataValues.receiver_id}}</li>
+                                <li>{{this.dataValues.created_at}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body" id="card-content">
+                        {{{this.dataValues.content}}}
+                    </div>
+                    <br>
+                    <!--
+                        mysql
+
+                        <div class="card-header">
+                        <div class="card-subtitle text-gray">
+                            <ul>
                                 <li>{{this.sender_id}}</li>
                                 <li>{{this.receiver_id}}</li>
                                 <li>{{this.created_at}}</li>
                             </ul>
                         </div>
-                    </div>
-                    <div class="card-body" id="card-content">
-                        {{{this.content}}}
-                    </div>
-                    <br>
+                        </div>
+                        <div class="card-body" id="card-content">
+                            {{{this.content}}}
+                        </div>
+                    -->
                 </div>
             {{/each}}
             <form action="" method="POST">

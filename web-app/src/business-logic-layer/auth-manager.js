@@ -16,9 +16,9 @@ module.exports = function(container) {
                     container.accountRepository.getByUsername(username).then(account => {
                         
                         if (account == null) {
-                            return callback(false, "That user did not exist.")
-                        }
-        
+                            return callback(false, "Wrong username/password")
+                        }    
+
                         return bcrypt.compare(password, account.password).then(result => {
                             if (result) {
                                 callback(true, account)
@@ -27,9 +27,7 @@ module.exports = function(container) {
                             }
                         })
                     }).catch(error => {
-                        console.log(error)
-                        // check error to display correct message
-                        callback(false, 'DB error')
+                        callback(false, error)
                     })
                 }
             }
@@ -64,8 +62,7 @@ module.exports = function(container) {
                         container.accountRepository.create(account).then(result => {
                             callback(true, result.id)
                         }).catch(error => {
-                            console.log(error + 'yes')
-                            callback(false, 'DB error')
+                            callback(false, error)
                         })
                     })
                 }

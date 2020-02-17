@@ -64,7 +64,6 @@ module.exports = function(container) {
         },
         getALlStudentAdverts: function(callback) {
             container.studentAdvertRepository.getAll().then(adverts => {
-                console.log(adverts)
                 callback(true, adverts)
             }).catch(error => {
                 console.log(error)
@@ -73,7 +72,6 @@ module.exports = function(container) {
         },
         getALlRecruiterAdverts: function(callback) {
             container.recruiterAdvertRepository.getAll().then(adverts => {
-                console.log(adverts)
                 callback(true, adverts)
             }).catch(error => {
                 console.log(error)
@@ -129,10 +127,14 @@ module.exports = function(container) {
                         container.studentAdvertRepository.delete(advertId).then(result => {
                             callback(true, 'success')
                         }).catch(error => {
-                            callback(false, 'You don\'t own that advert')
+                            console.log(error)
+                            callback(false, 'error')
                         })
+                    } else {
+                        callback(false, 'You don\'t own that advert')
                     }
                 }).catch(error => {
+                    console.log(error)
                     callback(false, 'error')
                 })
             } else if (user.user_type === 2) {
@@ -143,6 +145,8 @@ module.exports = function(container) {
                         }).catch(error => {
                             callback(false, 'You don\'t own that advert')
                         })
+                    } else {
+                        callback(false, 'You don\'t own that advert')
                     }
                 }).catch(error => {
                     callback(false, 'error')
@@ -151,11 +155,13 @@ module.exports = function(container) {
                 callback(false, 'You don\'t have access to this feature')
             }
         },
-        updateStudentAdvert: function(user, title, body, field, contact, startDate, endDate, callback) {
+        updateStudentAdvert: function(user, id, title, body, field, contact, startDate, endDate, callback) {
 
             if (user.user_type === 1) {
                 if (title === '') {
                     callback(false, 'title must be supplied')
+                } else if (id === '') {
+                    callback(false, 'id must be supplied')
                 } else if (body === '') {
                     callback(false, 'body must be supplied')
                 } else if (field === '') {
@@ -167,7 +173,7 @@ module.exports = function(container) {
                 } else if (endDate === '') {
                     callback(false, 'end date must be supplied')
                 } else {
-                    const info = { title, body, field, contact, startDate, endDate, postedBy: user.id}
+                    const info = { title, body, field, contact, startDate, endDate, postedBy: user.id, id}
 
                     container.studentAdvertRepository.update(info).then(result => {
                         callback(true, result.id)
@@ -180,15 +186,19 @@ module.exports = function(container) {
                 callback(false, "You don't have acces to this feature")
             }
         },
-        updateRecruiterAdvert: function(user, title, body, field, website, contact, positions, deadlineDate, callback) {
+        updateRecruiterAdvert: function(user, id, title, body, field, city, website, contact, positions, deadlineDate, callback) {
 
             if (user.user_type === 2) {
                 if (title === '') {
                     callback(false, 'title must be supplied')
                 } else if (body === '') {
                     callback(false, 'body must be supplied')
+                } else if (id === '') {
+                    callback(false, 'id must be supplied')
                 } else if (field === '') {
                     callback(false, 'field must be supplied')
+                } else if (city === '') {
+                    callback(false, 'city must be supplied')
                 } else if (contact === '') {
                     callback(false, 'contact info must be supplied')
                 } else if (website === '') {
@@ -198,7 +208,7 @@ module.exports = function(container) {
                 } else if (deadlineDate === '') {
                     callback(false, 'date must be supplied')
                 } else {
-                    const info = { title, body, field, website, contact, positions, deadlineDate, id: user.id, address: 1}
+                    const info = { title, body, field, website, contact, positions, deadlineDate, postedBy: user.id, id, city}
         
                     container.recruiterAdvertRepository.update(info).then(result => {
                         callback(true, result.id)
