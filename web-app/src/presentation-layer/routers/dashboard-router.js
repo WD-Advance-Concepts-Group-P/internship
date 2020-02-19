@@ -34,9 +34,7 @@ router.route('/setup')
     })
     .post(csrfProtection, function(request, response, next) {
         if (request.session.user.user_type === 1) {
-            console.log(request.body)
-
-            profileManager.createStudentInfo(request.session.user.id, request.body.firstname, request.body.lastname, request.body.birthdate, request.body.bio, request.body.school, request.body.program, request.body.graduationdate, request.body.resume, request.body.profile_picture, function(status, error) {
+            profileManager.createStudentInfo(request.session.user.id, request.body.firstname, request.body.lastname, request.body.birthdate, request.body.bio, request.body.school, request.body.program, request.body.graduationdate, request.body.resume, request.body.profilepic, function(status, error) {
                 if (status) {
                     request.session.user.seen = 1
                     response.redirect('/profile')
@@ -45,8 +43,6 @@ router.route('/setup')
                 }
             })
         } else if (request.session.user.user_type === 2) {
-            console.log(request.body)
-
             profileManager.createRecruiterInfo(request.session.user.id, request.body.firstname, request.body.lastname, request.body.companyname, request.body.phonenumber, request.body.companylogo, function(status, error) {
                 if (status) {
                     request.session.user.seen = 1
@@ -101,7 +97,7 @@ router.route('/update')
     })
     .post(csrfProtection, function(request, response, next) {
         if (request.session.user.user_type === 1) {
-            profileManager.updateInfoStudent(request.session.user.id, request.body.firstname, request.body.lastname, request.body.birthdate, request.body.bio, request.body.school, request.body.program, request.body.graduationdate, request.body.resume, request.body.profile_picture, function(status, error) {
+            profileManager.updateInfoStudent(request.session.user.id, request.body.firstname, request.body.lastname, request.body.birthdate, request.body.bio, request.body.school, request.body.program, request.body.graduationdate, request.body.resume, request.body.profilepic, function(status, error) {
                 if (status) {
                     request.session.user.seen = 1
                     response.redirect('/profile')
