@@ -23,7 +23,7 @@ class AccountRepository {
             }).then(user => {
                 resolve({ id: user.id })
             }).catch(error => {
-                console.log(error.errors[0])
+                console.log(error.errors[0].message)
                 reject(error.errors[0].message)
             })
         })

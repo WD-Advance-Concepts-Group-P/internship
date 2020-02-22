@@ -17,6 +17,8 @@ const dashboardRouter = require('./presentation-layer/routers/dashboard-router')
 const internshipsRouter = require('./presentation-layer/routers/internships-router')
 const chatRouter = require('./presentation-layer/routers/chat-router')
 
+const api = require('./presentation-layer-REST-API/app')
+
 const app = express()
 
 const redisClient = redis.createClient({
@@ -68,6 +70,7 @@ app.use(authenticationRouter)
 app.use('/profile', dashboardRouter)
 app.use(internshipsRouter)
 app.use(chatRouter)
+app.use(api)
 
 
 app.listen(8080)
