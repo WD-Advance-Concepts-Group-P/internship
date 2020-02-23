@@ -5,8 +5,6 @@ const jwt = require('jsonwebtoken');
 const container = require('../../main')
 const authManager = container.resolve('authManager')
 
-const authHelper = require('../../util/auth-helper')
-
 router.route('/login-sessions')
     .all(function(request, response, next) {
         next();
@@ -20,7 +18,7 @@ router.route('/login-sessions')
 
         authManager.login(request.body.username, request.body.password, function(status, errorOrUser) {
             if (status) {
-                jwt.sign({ uid: errorOrUser.id }, '&/yde465hw3dk.fwjbq84fv34763t6', function(error, token) {
+                jwt.sign({ uid: errorOrUser.id, userType: errorOrUser.user_type }, '&/yde465hw3dk.fwjbq84fv34763t6', function(error, token) {
                     if (error) {
                         response.json({
                             'error': 'true',
@@ -60,13 +58,9 @@ router.route('/login-sessions')
 
     })
 
-router.route('/users')
+router.route('/user')
     .all(function(request, response, next) {
         next();
-    })
-    .get(authHelper.apiIsAuthenticated, function(request, response, next) {
-        //get user info
-        response.json({'auth': 'test'})
     })
     .post(function(request, response, next) {
         //create new user

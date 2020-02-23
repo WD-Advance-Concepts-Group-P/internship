@@ -16,8 +16,8 @@ exports.alreadyAuthenticated = function(request, response, next) {
 }
 
 exports.apiIsAuthenticated = function (request, response, next) {
-    if (request.body.token) {
-        jwt.verify(request.body.token, '&/yde465hw3dk.fwjbq84fv34763t6', function(error, decoded) {
+    if (request.header('x-token')) {
+        jwt.verify(request.header('x-token'), '&/yde465hw3dk.fwjbq84fv34763t6', function(error, decoded) {
             if (error) {
                 console.log(error)
                 return response.json({
@@ -26,6 +26,9 @@ exports.apiIsAuthenticated = function (request, response, next) {
                     'code': 'AUTH_1'
                 })
             } else {
+                console.log(decoded)
+                response.locals.uid = decoded.uid
+                response.locals.userType = decoded.userType
                 return next();
             }
         })
