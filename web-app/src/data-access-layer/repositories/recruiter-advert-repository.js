@@ -119,7 +119,7 @@ class RecruiterAdvertRepository {
      */
     getById(id) {
         return new Promise((resolve, reject) => {
-            RecruiterAdvert.find({
+            RecruiterAdvert.findOne({
                 where: { id: id }
             }).then(adverts => {
                 resolve(adverts)

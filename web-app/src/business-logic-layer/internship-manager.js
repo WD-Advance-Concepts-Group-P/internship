@@ -117,7 +117,7 @@ module.exports = function(container) {
                     callback(false, 'error')
                 })
             } else {
-                callback(false, 'Does not exsist')
+                callback(false, 'You must send a advert type (student or recruiter)')
             }
         },
         deleteAdvert: function(advertId, user, callback) {
