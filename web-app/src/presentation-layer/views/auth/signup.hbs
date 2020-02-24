@@ -1,7 +1,11 @@
-<div class="column">
-    <div class="column col-11">
+<div class="columns col-xl">
+    <div class="column col-4"></div>
+    <div class="column col-4 col-md-12">
+        <h1>Register</h1>
         {{#if validationErrors.length}}
-            <p>{{validationErrors}}</p>
+        <div class="toast toast-error">
+            {{validationErrors}}
+        </div>
         {{/if}}
         <form action="" method="POST">
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
@@ -40,8 +44,13 @@
                 </select>
             </div>
             <div class="form-group">
-                <input class="form-submit" type="submit" placeholder="Signup">
+                <input class="form-submit column col-12 btn" type="submit" placeholder="Signup" value="Register">
             </div>
         </form>
+        <br>
+        <div class="divider text-center" data-content="OR"></div>
+        <br>
+        <a href="/login" class="btn column col-12">Login</a>
     </div>
+    <div class="column col-4"></div>
 </div>

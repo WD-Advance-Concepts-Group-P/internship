@@ -1,5 +1,58 @@
+const Fuse = require('fuse.js')
+
 module.exports = function(container) {
     return {
+        searchAdverts: function(type, search, callback) {
+            if (type === 'student') {
+                container.studentAdvertRepository.getAll().then(result => {
+                    var options = {
+                        shouldSort: true,
+                        threshold: 0.5,
+                        location: 0,
+                        distance: 100,
+                        maxPatternLength: 32,
+                        minMatchCharLength: 2,
+                        keys: [
+                          "title",
+                          "body", 
+                          "field",
+                          "contact"
+                        ]
+                      };
+                      const fuse = new Fuse(result, options)
+                      const resultStudent = fuse.search(search)
+                      callback(true, resultStudent)
+                }).catch(error => {
+                    callback(false, error)
+                })
+            } else if (type === 'recruiter') {
+                container.recruiterAdvertRepository.getAll().then(result => {
+                    var options = {
+                        shouldSort: true,
+                        threshold: 0.5,
+                        location: 0,
+                        distance: 100,
+                        maxPatternLength: 32,
+                        minMatchCharLength: 2,
+                        keys: [
+                          "title",
+                          "body", 
+                          "field",
+                          "contact",
+                          "city",
+                          "website"
+                        ]
+                      };
+                      const fuse = new Fuse(result, options)
+                      const resultRecruiter = fuse.search(search)
+                      callback(true, resultRecruiter)
+                }).catch(error => {
+                    callback(false, error)
+                })
+            } else {
+                callback(false, 'Invalid type')
+            }
+        },
         createStudentAdvert: function(user, title, body, field, contact, startDate, endDate, callback) {
 
             if (user.user_type === 1) {
@@ -7,8 +60,8 @@ module.exports = function(container) {
                     callback(false, 'title must be supplied')
                 } else if (body === '') {
                     callback(false, 'body must be supplied')
-                } else if (field === '') {
-                    callback(false, 'field must be supplied')
+                } else if (field === 'Choose an option') {
+                    callback(false, 'You must choose an field')
                 } else if (contact === '') {
                     callback(false, 'contact info must be supplied')
                 } else if (startDate === '') {
@@ -36,8 +89,8 @@ module.exports = function(container) {
                     callback(false, 'title must be supplied')
                 } else if (body === '') {
                     callback(false, 'body must be supplied')
-                } else if (field === '') {
-                    callback(false, 'field must be supplied')
+                } else if (field === 'Choose an option') {
+                    callback(false, 'You must choose an field')
                 } else if (city === '') {
                     callback(false, 'city must be supplied')
                 } else if (contact === '') {
@@ -102,19 +155,17 @@ module.exports = function(container) {
         getAdvertById: function(id, advert_type, callback) {
             if (advert_type === 'student') {
                 container.studentAdvertRepository.getById(id).then(advert => {
-                    console.log(advert)
                     callback(true, advert)
                 }).catch(error => {
                     console.log(error)
-                    callback(false, 'error')
+                    callback(false, error)
                 })
             } else if (advert_type === 'recruiter') {
                 container.recruiterAdvertRepository.getById(id).then(advert => {
-                    console.log(advert)
                     callback(true, advert)
                 }).catch(error => {
                     console.log(error)
-                    callback(false, 'error')
+                    callback(false, error)
                 })
             } else {
                 callback(false, 'Does not exsist')
@@ -127,15 +178,13 @@ module.exports = function(container) {
                         container.studentAdvertRepository.delete(advertId).then(result => {
                             callback(true, 'success')
                         }).catch(error => {
-                            console.log(error)
-                            callback(false, 'error')
+                            callback(false, error)
                         })
                     } else {
                         callback(false, 'You don\'t own that advert')
                     }
                 }).catch(error => {
-                    console.log(error)
-                    callback(false, 'error')
+                    callback(false, error)
                 })
             } else if (user.user_type === 2) {
                 container.recruiterAdvertRepository.getById(advertId).then(advert => {
@@ -143,13 +192,13 @@ module.exports = function(container) {
                         container.recruiterAdvertRepository.delete(advertId).then(result => {
                             callback(true, 'success')
                         }).catch(error => {
-                            callback(false, 'You don\'t own that advert')
+                            callback(false, error)
                         })
                     } else {
                         callback(false, 'You don\'t own that advert')
                     }
                 }).catch(error => {
-                    callback(false, 'error')
+                    callback(false, error)
                 })
             } else {
                 callback(false, 'You don\'t have access to this feature')
@@ -164,8 +213,8 @@ module.exports = function(container) {
                     callback(false, 'id must be supplied')
                 } else if (body === '') {
                     callback(false, 'body must be supplied')
-                } else if (field === '') {
-                    callback(false, 'field must be supplied')
+                } else if (field === 'Choose an option') {
+                    callback(false, 'You must choose an field')
                 } else if (contact === '') {
                     callback(false, 'contact info must be supplied')
                 } else if (startDate === '') {
@@ -179,7 +228,7 @@ module.exports = function(container) {
                         callback(true, result.id)
                     }).catch(error => {
                         console.log(error)
-                        callback(false, 'db error')
+                        callback(false, error)
                     })
                 }
             } else {
@@ -195,8 +244,8 @@ module.exports = function(container) {
                     callback(false, 'body must be supplied')
                 } else if (id === '') {
                     callback(false, 'id must be supplied')
-                } else if (field === '') {
-                    callback(false, 'field must be supplied')
+                } else if (field === 'Choose an option') {
+                    callback(false, 'You must choose an field')
                 } else if (city === '') {
                     callback(false, 'city must be supplied')
                 } else if (contact === '') {

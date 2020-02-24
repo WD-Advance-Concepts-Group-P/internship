@@ -13,94 +13,137 @@ router.route('/create-advert')
         if (request.session.user.user_type === 1) {
             response.render('internship/create-advert-student.hbs', {csrfToken: request.csrfToken()})
         } else if (request.session.user.user_type === 2) {
-            response.render('internship/create-advert-recruiter.hbs', {csrfToken: request.csrfToken()})
+            response.render('internship/create-advert-recruiter.hbs', {csrfToken: request.csrfToken(), website: 'https://'})
         } else {
-            response.send('server error')
+            response.render('errors/500.hbs')
         }
     })
     .post(function(request, response, next) {
         if (request.session.user.user_type === 1) {  
             internshipManager.createStudentAdvert(request.session.user, request.body.title, request.body.body, request.body.field, request.body.contact, request.body.startdate, request.body.enddate, function(status, errorOrId) {
                 if (status) {
-                    response.send('test ' + errorOrId)
+                    response.redirect('/my/adverts')
                 } else {
-                    response.send('no')
+                    var model = {
+                        validationErrors: errorOrId,
+                        title: request.body.title,
+                        body: request.body.body,
+                        field: request.body.field,
+                        contact: request.body.contact,
+                        startdate: request.body.startdate,
+                        enddate: request.body.enddate,
+                        csrfToken: request.csrfToken()
+                    }
+                    response.render('internship/create-advert-student.hbs', model)
                 }
             })
 
         } else if (request.session.user.user_type === 2) {
             internshipManager.createRecruiterAdvert(request.session.user, request.body.title, request.body.body, request.body.field, request.body.city, request.body.website, request.body.contact, request.body.positions, request.body.deadline_date, function(status, errorOrId) {
                 if (status) {
-                    response.send('test' + errorOrId)
+                    response.redirect('/my/adverts')
                 } else {
-                    response.send('no')
+                    var model = {
+                        validationErrors: errorOrId,
+                        title: request.body.title,
+                        body: request.body.body,
+                        field: request.body.field,
+                        contact: request.body.contact,
+                        city: request.body.city,
+                        website: request.body.website,
+                        positions: request.body.positions,
+                        deadline_date: request.body.deadline_date,
+                        csrfToken: request.csrfToken()
+                    }
+                    response.render('internship/create-advert-recruiter.hbs', model)
                 }
             })
 
         } else {
-            response.send('server error')
+            response.render('errors/500.hbs')
         } 
     })
 
 router.get('/student-adverts', function(request, response) {
-    internshipManager.getALlStudentAdverts(function(status, errorOrAdverts) {
+    internshipManager.getALlStudentAdverts(function(status, advert) {
         if (status) {
             var model = {
-                Posts: errorOrAdverts,
+                Posts: advert,
             }
     
             response.render("internship/student-adverts.hbs", model)
         } else {
-            response.send('error')
+            response.render('errors/500.hbs')
         }
     })
 })
 
 router.get('/positions', function(request, response) {
-    internshipManager.getALlRecruiterAdverts(function(status, errorOrAdverts) {
+    internshipManager.getALlRecruiterAdverts(function(status, adverts) {
         if (status) {
             var model = {
-                Posts: errorOrAdverts,
+                Posts: adverts,
             }
     
             response.render("internship/recruiter-adverts.hbs", model)
         } else {
-            response.send('error')
+            response.render('errors/500.hbs')
         }
     })
 })
 
-/*
-router.get('/advert/:advert-type/:id', function(request, response) {
-    internshipManager.getAdvertById(request.params.id, request.params.advert-type, function(status, errorOrAdvert) {
-        if (status) {
-            response.send(errorOrAdvert)
-        } else {
-            response.send('error')
-        }
-    })
-})*/
-
 router.get('/my/adverts', authHelper.isAuthenticated, csrfProtection, function(request, response) {
-    internshipManager.getAllAdvertsByUser(request.session.user.id, request.session.user.user_type, function(status, errorOrAdverts) {
+    internshipManager.getAllAdvertsByUser(request.session.user.id, request.session.user.user_type, function(status, adverts) {
         if (status) {
             var model = {
                 csrfToken: request.csrfToken(),
                 deleteOrUpdate: true,
-                Posts: errorOrAdverts,
+                Posts: adverts,
             }
             if (request.session.user.user_type === 1) {
                 response.render("internship/student-adverts.hbs", model)
             } else if (request.session.user.user_type === 2) {
                 response.render("internship/recruiter-adverts.hbs", model)
             } else {
-                response.send('error')
+                response.render('errors/500.hbs')
             }
         } else {
-            response.send('error')
+            response.render('errors/500.hbs')
         }
     })
 })
+
+router.route('/advert/:id')
+    .all(csrfProtection, function(request, response, next) {
+        next()
+    })
+    .get(function(request, response, next) {
+        if (request.query.type == 'student' || request.query.type == 'recruiter') {
+            internshipManager.getAdvertById(request.params.id, request.query.type, function(status, advertsOrError) {
+                if (status) {
+                    if (advertsOrError == null) {
+                        response.render('errors/404.hbs', {validationErrors: 'Could not find any advert'})
+                    } else {
+                        var model = {
+                            csrfToken: request.csrfToken(),
+                            Post: advertsOrError,
+                        }
+                        if (request.query.type == 'student') {
+                            response.render("internship/student-advert.hbs", model)
+                        } else if (request.query.type == 'recruiter') {
+                            response.render("internship/recruiter-advert.hbs", model)
+                        } else {
+                            response.render('errors/500.hbs')
+                        }
+                    }
+                } else {
+                    response.render('errors/500.hbs', {validationErrors: advertsOrError})
+                }
+            })
+        } else {
+            response.render('errors/500.hbs', {validationErrors: 'Wrong type submitted'})
+        }
+    })
 
 router.route('/delete/advert')
     .all(authHelper.isAuthenticated, csrfProtection)
@@ -109,8 +152,7 @@ router.route('/delete/advert')
             if (status) {
                 response.redirect('/my/adverts')
             } else {
-                console.log(error)
-                response.send('error')
+                response.render('errors/500.hbs', {validationErrors: error})
             }
         })
     })
@@ -118,7 +160,6 @@ router.route('/delete/advert')
 router.route('/update/advert')
     .all(authHelper.isAuthenticated, csrfProtection)
     .get(function(request, response, next) {
-
         internshipManager.getAdvertById(request.query.id, request.query.type, function(status, errorOrAdvert) {
             if (status) {
                 if (request.session.user.user_type === 1 && request.query.type === 'student') {
@@ -128,9 +169,10 @@ router.route('/update/advert')
                         body: errorOrAdvert.body,
                         field: errorOrAdvert.field,
                         contact: errorOrAdvert.contact,
-                        startdate: errorOrAdvert.startdate,
-                        enddate: errorOrAdvert.enddate,
+                        startdate: errorOrAdvert.start_date,
+                        enddate: errorOrAdvert.end_date
                     }
+                    console.log(model)
                     response.render('internship/create-advert-student.hbs', model)
                 } else if (request.session.user.user_type === 2 && request.query.type === 'recruiter') {
                     const model = {
@@ -146,38 +188,55 @@ router.route('/update/advert')
                     }
                     response.render('internship/create-advert-recruiter.hbs', model)
                 } else {
-                    response.send('server error')
+                    response.render('errors/500.hbs', {validationErrors: 'You don\'t have access to this feature'})
                 }
             } else {
-                response.send('You don\'t have access to this feature')
+                response.render('errors/500.hbs')
             }
         })
     })
     .post(function(request, response, next) {
         if (request.session.user.user_type === 1 && request.query.type === 'student') {
-
             internshipManager.updateStudentAdvert(request.session.user, request.query.id, request.body.title, request.body.body, request.body.field, request.body.contact, request.body.startdate, request.body.enddate, function(status, errorOrId) {
                 if (status) {
                     response.redirect('/my/adverts')
                 } else {
-                    response.send('server error')
+                    var model = {
+                        validationErrors: errorOrId,
+                        title: request.body.title,
+                        body: request.body.body,
+                        field: request.body.field,
+                        contact: request.body.contact,
+                        startdate: request.body.startdate,
+                        enddate: request.body.enddate,
+                        csrfToken: request.csrfToken()
+                    }
+                    response.render('internship/create-advert-student.hbs', model)
                 }
             })
-
         } else if (request.session.user.user_type === 2 && request.query.type === 'recruiter') {
-            
             internshipManager.updateRecruiterAdvert(request.session.user, request.query.id, request.body.title, request.body.body, request.body.field, request.body.city, request.body.website, request.body.contact, request.body.positions, request.body.deadline_date, function(status, errorOrId) {
                 if (status) {
                     response.redirect('/my/adverts')
                 } else {
-                    response.send('server error')
+                    var model = {
+                        validationErrors: errorOrId,
+                        title: request.body.title,
+                        body: request.body.body,
+                        field: request.body.field,
+                        contact: request.body.contact,
+                        city: request.body.city,
+                        website: request.body.website,
+                        positions: request.body.positions,
+                        deadline_date: request.body.deadline_date,
+                        csrfToken: request.csrfToken()
+                    }
+                    response.render('internship/create-advert-recruiter.hbs', model)
                 }
             })
-
         } else {
-            response.send('server error')
+            response.render('errors/500.hbs')
         }
     })
-
-    
+ 
 module.exports = router

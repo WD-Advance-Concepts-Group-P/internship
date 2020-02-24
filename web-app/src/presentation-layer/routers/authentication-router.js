@@ -78,7 +78,7 @@ router.route('/logout')
     .post(csrfProtection, function(request, response, next) {
         request.session.destroy(function(error) {
             if (error) {
-                response.send('error')
+                response.render('errors/500.hbs')
             } else {
                 response.redirect('/')
             }
@@ -101,6 +101,5 @@ router.route('/reset/password/:id')
     .post(function(request, response, next) {
         response.send('reset password form')
     })
-
 
 module.exports = router
