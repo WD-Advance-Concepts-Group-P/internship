@@ -20,6 +20,7 @@
     "express-handlebars": "^3.1.0",
     "express-session": "^1.17.0",
     "fuse.js": "^3.4.6",
+    "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.0",
     "mysql2": "^2.1.0",
     "nodemon": "^2.0.2",
