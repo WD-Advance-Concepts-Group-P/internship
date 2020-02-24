@@ -12,7 +12,7 @@ router.get('/', authHelper.isAuthenticated, function(request, response) {
     const model = {
         user: request.session.user.username
     }
-    response.render('dashboard.hbs', model)
+    response.render('profile/dashboard.hbs', model)
 })
 
 router.route('/setup')
@@ -65,6 +65,7 @@ router.route('/update')
             if (status) {
                 if (request.session.user.user_type === 1) {
                     const model = {
+                        title: 'Update info',
                         csrfToken: request.csrfToken(),
                         firstname: errorOrInfo.first_name,
                         lastname: errorOrInfo.last_name,
@@ -79,6 +80,7 @@ router.route('/update')
                     response.render('profile/student-info.hbs', model)
                 } else if (request.session.user.user_type === 2) {
                     const model = {
+                        title: 'Update info',
                         csrfToken: request.csrfToken(),
                         firstname: errorOrInfo.first_name,
                         lastname: errorOrInfo.last_name,

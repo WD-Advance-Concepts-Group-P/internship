@@ -48,8 +48,6 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 
-// Routers
-
 app.use(function (request, response, next) {
     
     if (request.session.authenticated && request.session.user != null && request.session.user.seen === 0) {
@@ -63,6 +61,11 @@ app.use(function (request, response, next) {
     } else {
         return next();
     }
+})
+
+app.use(function(request, response, next){
+    response.locals.signedIn = request.session.authenticated
+	next()
 })
 
 app.use(homeRouter)

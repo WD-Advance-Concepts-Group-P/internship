@@ -1,0 +1,53 @@
+<div class="columns col-xl">
+    <div class="column col-3"></div>
+    <div class="column col-6 col-md-12">
+        <h3>View student advert</h3>
+        {{#if validationErrors.length}}
+        <div class="toast toast-error">
+            {{validationErrors}}
+        </div>
+        {{/if}}
+        {{#if Post}}
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title h5"><a>{{Post.dataValues.title}}</a></div>
+                        <div class="card-subtitle text-gray">
+                            <ul>
+                                <li>{{Post.dataValues.field}}</li>
+                                <li>{{Post.dataValues.contact}}</li>
+                                <li>{{Post.dataValues.start_date}}</li>
+                                <li>{{Post.dataValues.end_date}}</li>
+                                <li>{{Post.dataValues.posted_by}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body" id="card-content">
+                        {{{Post.dataValues.body}}}
+                    </div>
+                    <!--
+                        use this when mysql is the db
+
+                        <div class="card-header">
+                        <div class="card-title h5"><a>{{this.title}}</a></div>
+                        <div class="card-subtitle text-gray">
+                            <ul>
+                                <li>{{this.field}}</li>
+                                <li>{{this.contact}}</li>
+                                <li>{{this.start_date}}</li>
+                                <li>{{this.end_date}}</li>
+                                <li>{{this.posted_by}}</li>
+                            </ul>
+                        </div>
+                        </div>
+                        <div class="card-body" id="card-content">
+                            {{{this.body}}}
+                        </div>
+                    -->
+                <br>
+            </div>
+        {{else}}
+        <h1>No advert</h1>
+        {{/if}}
+    </div>
+    <div class="column col-3"></div>
+</div>

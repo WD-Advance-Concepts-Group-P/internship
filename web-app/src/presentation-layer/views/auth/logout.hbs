@@ -1,11 +1,16 @@
-<div class="column">
-    <div class="column col-11">
-        <h3>If you press the button below you will be signed out</h3>
+<div class="columns col-xl">
+    <div class="column col-4"></div>
+    <div class="column col-4 col-md-12">
+        <h1>Logout</h1>
+        <p>If you press the button below you will be signed out</p>
         <form action="" method="POST">
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
             <div class="form-group">
-                <input class="btn" type="submit" value="Logout">
+                <div class="column col-2"></div>
+                <input class="btn column col-8" type="submit" value="Logout">
+                <div class="column col-2"></div>
             </div>
         </form>
     </div>
+    <div class="column col-4"></div>
 </div>

@@ -1,0 +1,55 @@
+<div class="columns col-xl">
+    <div class="column col-3"></div>
+    <div class="column col-6 col-md-12">
+        <h3>View recruiter advert</h3>
+        {{#if validationErrors.length}}
+        <div class="toast toast-error">
+            {{validationErrors}}
+        </div>
+        {{/if}}
+        {{#if Post}}
+            <div class="card">
+                    <div class="card-header">
+                        <div class="card-title h5"><a>{{Post.dataValues.title}}</a></div>
+                        <div class="card-subtitle text-gray">
+                            <a href="/chat/{{Post.dataValues.posted_by}}">Send message</a>
+                            <ul>
+                                <li>{{Post.dataValues.field}}</li>
+                                <li>{{Post.dataValues.contact}}</li>
+                                <li>{{Post.dataValues.website}}</li>
+                                <li>{{Post.dataValues.deadline_date}}</li>
+                                <li>{{Post.dataValues.posted_by}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body" id="card-content">
+                        {{{Posts.dataValues.body}}}
+                    </div>
+                    <!--
+                        use this when mysql is the db
+
+                        <div class="card-header">
+                        <div class="card-title h5"><a>{{this.title}}</a></div>
+                        <div class="card-subtitle text-gray">
+                            <a href="/chat/{{this.posted_by}}">Send message</a>
+                            <ul>
+                                <li>{{this.field}}</li>
+                                <li>{{this.contact}}</li>
+                                <li>{{this.website}}</li>
+                                <li>{{this.deadline_date}}</li>
+                                <li>{{this.posted_by}}</li>
+                            </ul>
+                        </div>
+                        </div>
+                        <div class="card-body" id="card-content">
+                            {{{this.body}}}
+                        </div>
+                    -->
+                    <br>
+                </div>
+        {{else}}
+        <h1>No advert</h1>
+        {{/if}}
+    </div>
+    <div class="column col-3"></div>
+</div>
