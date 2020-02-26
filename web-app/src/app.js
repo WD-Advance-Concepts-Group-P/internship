@@ -75,6 +75,10 @@ app.use(internshipsRouter)
 app.use(chatRouter)
 app.use(api)
 
+app.use(function(request, response, next) {
+    response.render('errors/404.hbs', {validationErrors: 'This route does not exists'})
+})
+
 
 app.listen(8080)
 

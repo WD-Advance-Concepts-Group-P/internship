@@ -6,7 +6,6 @@ const RecruiterAdvert = require('./models/RecruiterAdverts')
 const StudentAdvert = require('./models/StudentAdverts')
 const UserTypes = require('./models/UserTypes')
 
-
 UserTypes.sync().then(() => {
     UserTypes.create({
         name: 'Student',
@@ -17,11 +16,21 @@ UserTypes.sync().then(() => {
             description: "Recruiter user access type"
         }).then(() => {
             Accounts.sync().then(() => {
-                Chat.sync()
-                Recruiter.sync()
-                Students.sync()
-                RecruiterAdvert.sync()
-                StudentAdvert.sync()
+                Chat.sync().catch(error => {
+                    console.log(error)
+                })
+                Recruiter.sync().catch(error => {
+                    console.log(error)
+                })
+                Students.sync().catch(error => {
+                    console.log(error)
+                })
+                RecruiterAdvert.sync().catch(error => {
+                    console.log(error)
+                })
+                StudentAdvert.sync().catch(error => {
+                    console.log(error)
+                })
             }).catch(error => {
                 console.log(error)
             })
