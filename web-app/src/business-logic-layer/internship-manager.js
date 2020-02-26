@@ -11,7 +11,7 @@ module.exports = function(container) {
                         location: 0,
                         distance: 100,
                         maxPatternLength: 32,
-                        minMatchCharLength: 2,
+                        minMatchCharLength: 3,
                         keys: [
                           "title",
                           "body", 
@@ -21,6 +21,7 @@ module.exports = function(container) {
                       };
                       const fuse = new Fuse(result, options)
                       const resultStudent = fuse.search(search)
+                      console.log(resultStudent)
                       callback(true, resultStudent)
                 }).catch(error => {
                     callback(false, error)
@@ -33,7 +34,7 @@ module.exports = function(container) {
                         location: 0,
                         distance: 100,
                         maxPatternLength: 32,
-                        minMatchCharLength: 2,
+                        minMatchCharLength: 3,
                         keys: [
                           "title",
                           "body", 
@@ -45,6 +46,7 @@ module.exports = function(container) {
                       };
                       const fuse = new Fuse(result, options)
                       const resultRecruiter = fuse.search(search)
+                      console.log(resultRecruiter)
                       callback(true, resultRecruiter)
                 }).catch(error => {
                     callback(false, error)

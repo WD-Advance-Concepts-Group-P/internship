@@ -19,10 +19,19 @@ router.get('/search', function(request, response) {
 
     internshipManager.searchAdverts(type, request.query.q, function(status, advertsOrError) {
         if (status) {
-            response.render('search.hbs')
-            //response.send(advertsOrError)
+            var model = {
+                Posts: advertsOrError,
+                search: request.query.q
+            }
+            if (type == 'recruiter') {
+                response.render("internship/recruiter-adverts.hbs", model)
+            } else if (type == 'student') {
+                response.render("internship/student-adverts.hbs", model)
+            } else {
+                response.render('errors/500.hbs', {validationErrors: 'Wrong type submitted'})
+            }
         } else {
-            response.send(advertsOrError)
+            response.render('errors/500.hbs', {validationErrors: advertsOrError})
         }
     })
 })
