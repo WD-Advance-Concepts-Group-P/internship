@@ -16,25 +16,24 @@ exports.alreadyAuthenticated = function(request, response, next) {
 }
 
 exports.apiIsAuthenticated = function (request, response, next) {
-    if (request.header('x-token')) {
-        jwt.verify(request.header('x-token'), '&/yde465hw3dk.fwjbq84fv34763t6', function(error, decoded) {
+    if (request.header('Authorization')) {
+        const authHeader = request.header('Authorization')
+	    const token = authHeader.substr("Bearer ".length)
+        jwt.verify(token, '&/yde465hw3dk.fwjbq84fv34763t6', function(error, decoded) {
             if (error) {
                 console.log(error)
-                return response.json({
-                    'status': '401',
+                return response.status(401).json({
                     'error': 'your not logged in',
                     'code': 'AUTH_1'
                 })
             } else {
-                console.log(decoded)
                 response.locals.uid = decoded.uid
                 response.locals.userType = decoded.userType
                 return next();
             }
         })
     } else {
-        return response.json({
-            'status': '401',
+        return response.status(401).json({
             'error': 'your not logged in',
             'code': 'AUTH_1'
         })

@@ -4,9 +4,9 @@ module.exports = function(container) {
     return {
         login: function(username, password, callback){
 
-            if (username === '') {
+            if (username === '' || username == null) {
                 callback(false, 'Username must be supplied')
-            } else if (password === '') {
+            } else if (password === '' || password == null) {
                 callback(false, 'Password must be supplied')
             } else {
                 if (password.length < 6) {
@@ -34,13 +34,13 @@ module.exports = function(container) {
         },
         register: function(username, email, password, level, callback){
 
-            if (username === '') {
+            if (username === '' || username == null) {
                 callback(false, 'Username must be supplied')
-            } else if (email === '') {
+            } else if (email === '' || email == null) {
                 callback(false, 'Email must be supplied')
-            } else if (password === '') {
+            } else if (password === '' || password == null) {
                 callback(false, 'Password must be supplied')
-            } else if (level === 'Choose an option') {
+            } else if (level === 'Choose an option' || level == null) {
                 callback(false, 'You must choose an account type')
             } else {
                 if (password.length < 6) {

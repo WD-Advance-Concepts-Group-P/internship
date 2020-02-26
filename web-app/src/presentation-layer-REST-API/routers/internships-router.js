@@ -43,12 +43,12 @@ router.route('/adverts')
             })
         } else {
             // get all adverts for the logged in user
-            if (request.header('x-token')) {
-                jwt.verify(request.header('x-token'), '&/yde465hw3dk.fwjbq84fv34763t6', function(error, decoded) {
+            if (request.header('Authorization')) {
+                const authHeader = request.header('Authorization')
+                const token = authHeader.substr("Bearer ".length)
+                jwt.verify(token, '&/yde465hw3dk.fwjbq84fv34763t6', function(error, decoded) {
                     if (error) {
-                        console.log(error)
-                        return response.json({
-                            'status': '401',
+                        return response.status(401).json({
                             'error': 'your not logged in',
                             'code': 'AUTH_1'
                         })
@@ -70,8 +70,7 @@ router.route('/adverts')
                     }
                 })
             } else {
-                return response.json({
-                    'status': '401',
+                return response.status(401).json({
                     'error': 'your not logged in',
                     'code': 'AUTH_1'
                 })
@@ -81,7 +80,11 @@ router.route('/adverts')
     .post(authHelper.apiIsAuthenticated, function(request, response, next) {
         //create advert
         if (response.locals.userType === 1) {  
-            internshipManager.createStudentAdvert(response.locals.uid, request.body.title, request.body.body, request.body.field, request.body.contact, request.body.startdate, request.body.enddate, function(status, errorOrId) {
+            const user = {
+                'user_type': response.locals.userType,
+                'id': response.locals.uid
+            }
+            internshipManager.createStudentAdvert(user, request.body.title, request.body.body, request.body.field, request.body.contact, request.body.startdate, request.body.enddate, function(status, errorOrId) {
                 if (status) {
                     response.json({
                         'error': 'false',
@@ -97,7 +100,11 @@ router.route('/adverts')
             })
 
         } else if (response.locals.userType === 2) {
-            internshipManager.createRecruiterAdvert(response.locals.uid, request.body.title, request.body.body, request.body.field, request.body.city, request.body.website, request.body.contact, request.body.positions, request.body.deadline_date, function(status, errorOrId) {
+            const user = {
+                'user_type': response.locals.userType,
+                'id': response.locals.uid
+            }
+            internshipManager.createRecruiterAdvert(user, request.body.title, request.body.body, request.body.field, request.body.city, request.body.website, request.body.contact, request.body.positions, request.body.deadline_date, function(status, errorOrId) {
                 if (status) {
                     response.json({
                         'error': 'false',
@@ -121,7 +128,7 @@ router.route('/adverts')
         } 
     })
 
-router.route('/advert/:id')
+router.route('/adverts/:id')
     .all(function(request, response, next) {
         next();
     })

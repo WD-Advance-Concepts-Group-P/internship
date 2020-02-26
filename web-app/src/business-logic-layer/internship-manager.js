@@ -56,17 +56,17 @@ module.exports = function(container) {
         createStudentAdvert: function(user, title, body, field, contact, startDate, endDate, callback) {
 
             if (user.user_type === 1) {
-                if (title === '') {
+                if (title === '' || title == null) {
                     callback(false, 'title must be supplied')
-                } else if (body === '') {
+                } else if (body === '' || body == null) {
                     callback(false, 'body must be supplied')
-                } else if (field === 'Choose an option') {
+                } else if (field === 'Choose an option' || field == null) {
                     callback(false, 'You must choose an field')
-                } else if (contact === '') {
+                } else if (contact === '' || contact == null) {
                     callback(false, 'contact info must be supplied')
-                } else if (startDate === '') {
+                } else if (startDate === '' || startDate == null) {
                     callback(false, 'start date must be supplied')
-                } else if (endDate === '') {
+                } else if (endDate === '' || endDate == null) {
                     callback(false, 'end date must be supplied')
                 } else {
                     const info = { title, body, field, contact, startDate, endDate, postedBy: user.id}
@@ -83,23 +83,22 @@ module.exports = function(container) {
             }
         },
         createRecruiterAdvert: function(user, title, body, field, city, website, contact, positions, deadlineDate, callback) {
-
             if (user.user_type === 2) {
-                if (title === '') {
+                if (title === '' || title == null) {
                     callback(false, 'title must be supplied')
-                } else if (body === '') {
+                } else if (body === '' || body == null) {
                     callback(false, 'body must be supplied')
-                } else if (field === 'Choose an option') {
+                } else if (field === 'Choose an option' || field == null) {
                     callback(false, 'You must choose an field')
-                } else if (city === '') {
+                } else if (city === '' || city == null) {
                     callback(false, 'city must be supplied')
-                } else if (contact === '') {
+                } else if (contact === '' || contact == null) {
                     callback(false, 'contact info must be supplied')
-                } else if (website === '') {
+                } else if (website === '' || website == null) {
                     callback(false, 'website must be supplied')
-                } else if (positions === '') {
+                } else if (positions === '' || positions == null) {
                     callback(false, 'positions must be supplied')
-                } else if (deadlineDate === '') {
+                } else if (deadlineDate === '' || deadlineDate == null) {
                     callback(false, 'date must be supplied')
                 } else {
                     const info = { title, body, field, website, contact, positions, deadlineDate, postedBy: user.id, city}
@@ -107,7 +106,7 @@ module.exports = function(container) {
                     container.recruiterAdvertRepository.create(info).then(result => {
                         callback(true, result.id)
                     }).catch(error => {
-                        console.log(error)
+                        //console.log(error)
                         callback(false, 'db error')
                     })
                 }
@@ -207,19 +206,19 @@ module.exports = function(container) {
         updateStudentAdvert: function(user, id, title, body, field, contact, startDate, endDate, callback) {
 
             if (user.user_type === 1) {
-                if (title === '') {
+                if (title === '' || title == null) {
                     callback(false, 'title must be supplied')
-                } else if (id === '') {
+                } else if (id === '' || id == null) {
                     callback(false, 'id must be supplied')
-                } else if (body === '') {
+                } else if (body === '' || body == null) {
                     callback(false, 'body must be supplied')
-                } else if (field === 'Choose an option') {
+                } else if (field === 'Choose an option' || field == null) {
                     callback(false, 'You must choose an field')
-                } else if (contact === '') {
+                } else if (contact === '' || contact == null) {
                     callback(false, 'contact info must be supplied')
-                } else if (startDate === '') {
+                } else if (startDate === '' || startDate == null) {
                     callback(false, 'start date must be supplied')
-                } else if (endDate === '') {
+                } else if (endDate === '' || endDate == null) {
                     callback(false, 'end date must be supplied')
                 } else {
                     const info = { title, body, field, contact, startDate, endDate, postedBy: user.id, id}
@@ -238,23 +237,23 @@ module.exports = function(container) {
         updateRecruiterAdvert: function(user, id, title, body, field, city, website, contact, positions, deadlineDate, callback) {
 
             if (user.user_type === 2) {
-                if (title === '') {
+                if (title === '' || title == null) {
                     callback(false, 'title must be supplied')
-                } else if (body === '') {
+                } else if (body === '' || body == null) {
                     callback(false, 'body must be supplied')
-                } else if (id === '') {
+                } else if (id === '' || id == null) {
                     callback(false, 'id must be supplied')
-                } else if (field === 'Choose an option') {
+                } else if (field === 'Choose an option' || field == null) {
                     callback(false, 'You must choose an field')
-                } else if (city === '') {
+                } else if (city === '' || city == null) {
                     callback(false, 'city must be supplied')
-                } else if (contact === '') {
+                } else if (contact === '' || contact == null) {
                     callback(false, 'contact info must be supplied')
-                } else if (website === '') {
+                } else if (website === '' || website == null) {
                     callback(false, 'website must be supplied')
-                } else if (positions === '') {
+                } else if (positions === '' || positions == null) {
                     callback(false, 'positions must be supplied')
-                } else if (deadlineDate === '') {
+                } else if (deadlineDate === '' || deadlineDate == null) {
                     callback(false, 'date must be supplied')
                 } else {
                     const info = { title, body, field, website, contact, positions, deadlineDate, postedBy: user.id, id, city}

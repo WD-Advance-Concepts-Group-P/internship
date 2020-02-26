@@ -5,7 +5,7 @@ const container = require('../../main')
 const profileManager = container.resolve('profileManager')
 const authHelper = require('../../util/auth-helper')
 
-router.route('/user/info')
+router.route('/users/info')
     .all(authHelper.apiIsAuthenticated, function(request, response, next) {
         next();
     })
