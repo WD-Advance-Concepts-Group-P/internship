@@ -32,7 +32,7 @@ class ChatRepository {
         return new Promise((resolve, reject) => {
             Chat.create({
                 sender_id: chat.senderId,
-                receiver_id: chat.receiver_id,
+                receiver_id: chat.receiverId,
                 content: chat.content
             }).then(chat => {
                 resolve({ id: chat.id })
@@ -150,7 +150,7 @@ class ChatRepository {
             Chat.findAll({ 
                 where: { 
                     receiver_id: receiverId,
-                    sender_id: senderId
+                    sender_id: senderId,
                 }, 
             }).then(messages => {
                 resolve(messages)

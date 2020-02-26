@@ -20,7 +20,6 @@ sequelize.sync().then(() => {
         console.log('error creating the usertype ' + error)
     })
 
-
 }).catch((error) => {
     console.log('not synced ' + error)
 })
