@@ -28,7 +28,7 @@ app.engine("hbs", expressHandlebars({
 }))
 
 app.use(session({
-    secret: 'MySuperSecret%&Dsyur7632udhkef478g3fg657i34girew65784frig7w',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: new RedisStore({ client: redisClient }),

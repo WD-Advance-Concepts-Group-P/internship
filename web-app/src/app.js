@@ -10,7 +10,7 @@ const apiRoutes = require('./presentation-layer-REST-API/app')
 
 const app = express()
 
-app.use(normalRoutes)
 app.use(apiRoutes)
+app.use(normalRoutes)
 
 app.listen(8080)

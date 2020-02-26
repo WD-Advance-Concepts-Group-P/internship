@@ -16,26 +16,30 @@ router.route('/token')
         if (grantType == "password") {
             authManager.login(request.body.username, request.body.password, function(status, errorOrUser) {
                 if (status) {
-                    jwt.sign({ uid: errorOrUser.id, userType: errorOrUser.user_type }, '&/yde465hw3dk.fwjbq84fv34763t6', { expiresIn: '2h' }, function(error, token) {
+                    jwt.sign({ uid: errorOrUser.id, userType: errorOrUser.user_type }, process.env.JWT_TOKEN_AUTH, { expiresIn: '2h' }, function(error, token) {
                         if (error) {
+                            console.log(process.env.JWT_TOKEN_AUTH)
+                            console.log(error)
                             response.status(500).json({
                                 'error': 'APP_1',
                                 'message': 'error with application, please try again later',
                             })
                         } else {
-                            jwt.sign({ sub: errorOrUser.id, email: errorOrUser.email, nickname: errorOrUser.username }, 'uiaufewriofag7bi32r78qvqfz4', { expiresIn: '2h' }, function(error, idToken) {
+                            jwt.sign({ sub: errorOrUser.id, email: errorOrUser.email, nickname: errorOrUser.username }, process.env.JWT_TOKEN_ID, { expiresIn: '2h' }, function(error, idToken) {
 
                                 if (errorOrUser.seen === 0) {
                                     response.json({
                                         'error': 'APP_2',
                                         'message': 'you must create user info',
                                         'route': '/user/info',
+                                        'expires_in': '7200',
                                         'access_token': token,
                                         'id_token': idToken
                                     })
                                 } else {
                                     response.json({
                                         'access_token': token,
+                                        'expires_in': '7200',
                                         'id_token': idToken
                                     })
                                 }

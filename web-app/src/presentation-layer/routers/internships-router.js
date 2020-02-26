@@ -96,6 +96,7 @@ router.get('/my/adverts', authHelper.isAuthenticated, csrfProtection, function(r
     internshipManager.getAllAdvertsByUser(request.session.user.id, request.session.user.user_type, function(status, adverts) {
         if (status) {
             var model = {
+                searchBarHidden: true,
                 csrfToken: request.csrfToken(),
                 deleteOrUpdate: true,
                 Posts: adverts,
