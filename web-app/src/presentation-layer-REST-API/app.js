@@ -8,6 +8,7 @@ const internshipsRouter = require('./routers/internships-router')
 const app = express()
 
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false}))
 
 app.use('/api/v1', authenticationRouter)
 app.use('/api/v1', dashboardRouter)
