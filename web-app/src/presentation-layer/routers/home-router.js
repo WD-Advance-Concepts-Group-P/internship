@@ -13,13 +13,14 @@ router.get('/search', function(request, response) {
 
     var type = request.query.type
 
-    if (type == null) {
+    if (type == null || type == '') {
         type = 'recruiter'
     }
 
     internshipManager.searchAdverts(type, request.query.q, function(status, advertsOrError) {
         if (status) {
-            response.send(advertsOrError)
+            response.render('search.hbs')
+            //response.send(advertsOrError)
         } else {
             response.send(advertsOrError)
         }
