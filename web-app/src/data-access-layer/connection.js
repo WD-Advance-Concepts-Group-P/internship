@@ -8,5 +8,5 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USERNAME
     }
 });
 
-module.exports = sequelize;
 global.sequelize = sequelize;
+module.exports = sequelize;

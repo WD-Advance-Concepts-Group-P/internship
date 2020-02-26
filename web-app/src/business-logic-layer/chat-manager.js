@@ -11,12 +11,14 @@ module.exports = function(container) {
             } else {
         
                 const chat = { senderId, content: message, receiverId }
+
+                console.log(chat)
         
                 container.chatRepository.create(chat).then(result => {
                     callback(true, result.id)
                 }).catch(error => {
                     console.log(error)
-                    callback(false, 'db error')
+                    callback(false, error)
                 })
             }
         },

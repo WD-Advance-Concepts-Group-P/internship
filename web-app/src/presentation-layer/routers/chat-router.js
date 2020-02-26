@@ -18,7 +18,7 @@ router.get('/chats', authHelper.isAuthenticated, function(request, response) {
             }
             response.render("chat/chats.hbs", model)
         } else {
-            response.send('error')
+            response.send(chatsOrError)
         }
     })
 })
@@ -52,13 +52,13 @@ router.route('/chat/:id')
     })
 
 
-router.route('/chat/:receiver_id')
+router.route('/send/chat/:receiver_id')
     .all(authHelper.isAuthenticated)
     .get(csrfProtection, function(request, response, next) {
         response.render("chat/send-chat-messages.hbs", {csrfToken: request.csrfToken()})
     })
     .post(csrfProtection, function(request, response, next) {
-        chatManager.sendMessage(request.session.user.id, parseInt(request.params.receiver_id), request.body.message, function(status, errorOrId) {
+        chatManager.sendMessage(request.session.user.id, request.params.receiver_id, request.body.message, function(status, errorOrId) {
             if (status) {
                 response.send('yes' + errorOrId)
             } else {
