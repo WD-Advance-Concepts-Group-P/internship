@@ -31,3 +31,12 @@ services:
       POSTGRES_PASSWORD: test123
       POSTGRES_USER: root
       POSTGRES_DB: web-app
+  nginx:
+    build: nginx
+    volumes:
+      - "./nginx/spa:/usr/share/nginx/html/"
+    ports:
+      - "8888:80"
+    environment:
+      NGINX_HOST: localhost
+      NGINX_PORT: 80
