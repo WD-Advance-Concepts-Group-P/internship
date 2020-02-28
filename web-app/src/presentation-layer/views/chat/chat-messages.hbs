@@ -1,11 +1,14 @@
-<div class="column">
-      <div class="column col-11 col-sm-12">
+<div class="columns col-gapless">
+    <div class="colum col-12">
+        <a href="/chats"><- Back</a>
+    </div>
+    <div class="colum col-12">
         {{#if message}}
             <h3>{{message}}</h3>
         {{/if}}
+    </div>
+    <div class="column col-5">
         {{#if Chats.length}}
-            <a href="/chats"><- Back</a>
-            <br>
             {{#each Chats}}
                 <div class="card">
                     <div class="card-header">
@@ -21,36 +24,79 @@
                         {{{this.dataValues.content}}}
                     </div>
                     <br>
-                    <!--
-                        mysql
+                        <!--
+                            mysql
 
-                        <div class="card-header">
-                        <div class="card-subtitle text-gray">
-                            <ul>
-                                <li>{{this.sender_id}}</li>
-                                <li>{{this.receiver_id}}</li>
-                                <li>{{this.created_at}}</li>
-                            </ul>
-                        </div>
-                        </div>
-                        <div class="card-body" id="card-content">
-                            {{{this.content}}}
-                        </div>
-                    -->
+                            <div class="card-header">
+                            <div class="card-subtitle text-gray">
+                                <ul>
+                                    <li>{{this.sender_id}}</li>
+                                    <li>{{this.receiver_id}}</li>
+                                    <li>{{this.created_at}}</li>
+                                </ul>
+                            </div>
+                            </div>
+                            <div class="card-body" id="card-content">
+                                {{{this.content}}}
+                            </div>
+                        -->
+            
                 </div>
             {{/each}}
-            <form action="" method="POST">
-                <input type="hidden" name="_csrf" value="{{csrfToken}}">
-                <div class="form-group">
-                    <label class="form-label" for="messageInput">Message</label>
-                    <input class="form-input" id="messageInput" type="text" name="message" placeholder="Message" required>
-                </div>
-                <div class="form-group">
-                    <input class="form-submit" type="submit" placeholder="Send" value="Send">
-                </div>
-            </form>
         {{else}}
         <h1>No chat messages yet</h1>
         {{/if}}
+    </div>
+    <div class="column col-2"></div>
+    <div class="column col-5">
+        {{#if MyMessages.length}}
+            {{#each MyMessages}}
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-subtitle text-gray">
+                            <ul>
+                                <li>{{this.dataValues.sender_id}}</li>
+                                <li>{{this.dataValues.receiver_id}}</li>
+                                <li>{{this.dataValues.created_at}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body" id="card-content">
+                        {{{this.dataValues.content}}}
+                    </div>
+                    <br>
+                        <!--
+                            mysql
+
+                            <div class="card-header">
+                            <div class="card-subtitle text-gray">
+                                <ul>
+                                    <li>{{this.sender_id}}</li>
+                                    <li>{{this.receiver_id}}</li>
+                                    <li>{{this.created_at}}</li>
+                                </ul>
+                            </div>
+                            </div>
+                            <div class="card-body" id="card-content">
+                                {{{this.content}}}
+                            </div>
+                        -->
+                </div>
+            {{/each}}
+        {{else}}
+        <h1>No chat messages yet</h1>
+        {{/if}}
+    </div>
+    <div class="column col-12">
+        <form action="" method="POST">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <div class="form-group">
+                <label class="form-label" for="messageInput">Message</label>
+                <input class="form-input" id="messageInput" type="text" name="message" placeholder="Message" required>
+            </div>
+            <div class="form-group">
+                <input class="form-submit" type="submit" placeholder="Send" value="Send">
+            </div>
+        </form>
     </div>
 </div>

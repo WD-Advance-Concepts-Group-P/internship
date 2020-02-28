@@ -33,7 +33,10 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title h5"><a>{{this.dataValues.title}}</a></div>
+                        {{#if ../hideGotoAdvertLink}}
+                        {{else}}
                         <div class="card-title h6"><a href="/advert/{{this.dataValues.id}}?type=student">Advert</a></div>
+                        {{/if}}
                         {{#if ../deleteOrUpdate}}
                             <form action="/delete/advert" method="POST">
                                 <input type="hidden" name="_csrf" value="{{../csrfToken}}">
@@ -45,7 +48,10 @@
                             <a href="/update/advert?type=student&id={{this.dataValues.id}}">Update</a>
                         {{/if}}
                         <div class="card-subtitle text-gray">
+                            {{#if ../sendMessageHidden}}
+                            {{else}}
                             <a href="/send/chat/{{this.dataValues.posted_by}}">Send message</a>
+                            {{/if}}
                             <ul>
                                 <li>{{this.dataValues.field}}</li>
                                 <li>{{this.dataValues.contact}}</li>

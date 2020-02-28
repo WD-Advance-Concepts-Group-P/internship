@@ -153,7 +153,16 @@ class ChatRepository {
                     sender_id: senderId,
                 }, 
             }).then(messages => {
-                resolve(messages)
+                Chat.findAll({
+                    where: { 
+                        receiver_id: senderId,
+                        sender_id: receiverId,
+                    }, 
+                }).then(myMessages => {
+                    resolve([messages, myMessages])
+                }).catch(error => {
+                    reject(error)
+                })
             }).catch(error => {
                 reject(error)
             })
