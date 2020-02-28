@@ -1,3 +1,38 @@
+class Session {
+    constructor() {
+        this.authToken = null,
+        this.idToken = null,
+        this.hasRegisteredInfo = null
+    }
+
+    getAuthToken() {
+        return this.authToken;
+    }
+
+    setAuthToken(authToken) {
+        this.authToken = authToken;
+    }
+
+    getIdToken() {
+        return this.idToken;
+    }
+
+    setIdToken(idToken) {
+        this.idToken = idToken;
+    }
+
+    getRegisterdInfoValue() {
+        return this.hasRegisteredInfo
+    }
+
+    setRegisterdInfoValue(newHasRegisteredInfo) {
+        this.hasRegisteredInfo = newHasRegisteredInfo
+    }
+}
+
+const sessionManager = new Session()
+const url = 'http://localhost:8080/api/v1';
+
 const HomeComponent = {
     render: () => {
         return `
@@ -20,23 +55,23 @@ const LoginComponent = {
                         <input type="hidden" name="_csrf" value="{{csrfToken}}">
                         <div class="form-group">
                             <label class="form-label" for="usernameInput">Username</label>
-                            <input class="form-input" id="usernameInput" type="text" name="username" placeholder="Username" required>
+                            <input class="form-input column col-12" id="usernameInput" type="text" name="username" placeholder="Username" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="passwordInput">Password</label>
-                            <input class="form-input" id="passwordInput" type="password" name="password" placeholder="Password" required>
+                            <input class="form-input column col-12" id="passwordInput" type="password" name="password" placeholder="Password" required>
                         </div>
                         <div class="form-group">
                             <input class="form-submit column col-12 btn" type="submit" placeholder="Login" value="Login">
                         </div>
                     </form>
                     <br>
-                <div class="divider text-center" data-content="OR"></div>
-                <br>
-                <a href="#/register" class="btn column col-12">Create an Account</a>
+                    <div class="divider text-center" data-content="OR"></div>
+                    <br>
+                    <a href="#/register" class="btn column col-12">Create an Account</a>
+                </div>
+                <div class="column col-4"></div>
             </div>
-            <div class="column col-4"></div>
-        </div>
         `;
     }
 } 
@@ -67,10 +102,43 @@ const LogoutComponent = {
 const RegisterComponent = {
     render: () => {
         return `
-            <section>
-                <h1>Page Register</h1>
-                <p>This is just a test</p>
-            </section>
+        <div class="columns col-xl">
+            <div class="column col-4"></div>
+            <div class="column col-4 col-md-12">
+                <h1>Register</h1>
+                <form action="" method="POST">
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                    <div class="form-group">
+                        <label class="form-label" for="usernameInput">Username</label>
+                        <input class="form-input" id="usernameInput" type="text" name="username" placeholder="Username" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="emailInput">Email</label>
+                        <input class="form-input" id="emailInput" type="text" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="passwordInput">Password</label>
+                        <input class="form-input" id="passwordInput" type="password" name="password" placeholder="Password" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="option">Account Type</label>
+                        <select class="form-select" id="optionInput" name="accountType">
+                            <option>Choose an option</option>
+                            <option>Student</option>
+                            <option>Recruiter</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-submit column col-12 btn" type="submit" placeholder="Signup" value="Register">
+                    </div>
+                </form>
+                <br>
+                <div class="divider text-center" data-content="OR"></div>
+                <br>
+                <a href="#/login" class="btn column col-12">Login to your Account</a>
+            </div>
+            <div class="column col-4"></div>
+        </div>
         `;
     }
 }
@@ -141,14 +209,28 @@ const routes = [
     { path: '/student-adverts', component: StudentAdvertsComponent, },
 ];
 
+const authRequiredRoutes = [
+    '/profile',
+    '/profile/setup',
+    '/logout',
+];
+
 const parseLocation = () => location.hash.slice(1).toLowerCase() || '/';
 
 const findComponentByPath = (path, routes) => routes.find(r => r.path.match(new RegExp(`^\\${path}$`, 'gm'))) || undefined;
 
 const router = () => {
     const path = parseLocation();
+
+    if (sessionManager.getAuthToken() == null) {
+        for (i in authRequiredRoutes) {
+            if (path == authRequiredRoutes[i]) {
+                window.location.replace('#/login')
+            }
+        }
+    }
+
     const { component = ErrorComponent } = findComponentByPath(path, routes) || {};
-    console.log(findComponentByPath(path, routes))
     document.getElementById('app').innerHTML = component.render();
 };
 
@@ -159,19 +241,83 @@ function login() {
     const username = document.getElementById('usernameInput');
     const password = document.getElementById('passwordInput');
 
-    console.log('ja login ' + username.value + ' ' + password.value)
+    const loginUrl = url + '/token'
+    // create request object
+    const request = new Request(loginUrl, {
+        method: 'POST',
+        body: new URLSearchParams({
+            'username': username.value,
+            'password': password.value,
+            'grant_type': 'password'
+        }),
+    });
+
+    fetch(request)
+    .then(response => {
+        if (response.ok) {
+            return response.json()
+        } else {
+            return response.json()
+        }
+    })
+    .then(data => {
+        if (data.error) {
+            if (data.route) {
+                sessionManager.setAuthToken(data.access_token)
+                sessionManager.setIdToken(data.id_token)
+                sessionManager.setRegisterdInfoValue(false)
+                window.location.replace('#/profile/setup')
+            } else {
+                //display error
+                console.log(data)
+            }
+        } else {
+            sessionManager.setAuthToken(data.access_token)
+            sessionManager.setIdToken(data.id_token)
+            sessionManager.setRegisterdInfoValue(true)
+            window.location.replace('#/profile')
+        }
+    })
+    .catch(error => console.log(error))
 }
 
 function register() {
     const username = document.getElementById('usernameInput');
     const password = document.getElementById('passwordInput');
+    const email = document.getElementById('emailInput')
+    const optionUserType = document.getElementById('optionInput')
+    const userType = optionUserType.options[optionUserType.selectedIndex].value;
 
-    console.log('ja login ' + username.value + ' ' + password.value)
+    const registerUrl = url + '/users'
+    // create request object
+    const request = new Request(registerUrl, {
+        method: 'POST',
+        body: new URLSearchParams({
+            'email': email.value,
+            'username': username.value,
+            'password': password.value,
+            'accountType': userType
+        }),
+        
+    });
+
+    fetch(request)
+    .then(response => {
+        if (response.ok) {
+            return response.json()
+        } else {
+            return response.json()
+        }
+    })
+    .then(data => {
+        console.log(data)
+    })
+    .catch(error => console.log(error))
 }
 
 function logout() {
-    console.log('is on logout page')
-    console.log('submit on logout page')
+    sessionManager.setIdToken(null)
+    sessionManager.setAuthToken(null)
     window.location.replace('#/');
 }
 

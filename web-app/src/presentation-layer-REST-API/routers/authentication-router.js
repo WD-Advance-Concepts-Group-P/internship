@@ -13,13 +13,13 @@ router.route('/token')
         //login user
         const grantType = request.body.grant_type
 
+        console.log(request.body)
+
         if (grantType == "password") {
             authManager.login(request.body.username, request.body.password, function(status, errorOrUser) {
                 if (status) {
                     jwt.sign({ uid: errorOrUser.id, userType: errorOrUser.user_type }, process.env.JWT_TOKEN_AUTH, { expiresIn: '2h' }, function(error, token) {
                         if (error) {
-                            console.log(process.env.JWT_TOKEN_AUTH)
-                            console.log(error)
                             response.status(500).json({
                                 'error': 'APP_1',
                                 'message': 'error with application, please try again later',
@@ -28,7 +28,7 @@ router.route('/token')
                             jwt.sign({ sub: errorOrUser.id, email: errorOrUser.email, nickname: errorOrUser.username }, process.env.JWT_TOKEN_ID, { expiresIn: '2h' }, function(error, idToken) {
 
                                 if (errorOrUser.seen === 0) {
-                                    response.json({
+                                    response.status(200).json({
                                         'error': 'APP_2',
                                         'message': 'you must create user info',
                                         'route': '/user/info',
@@ -37,7 +37,7 @@ router.route('/token')
                                         'id_token': idToken
                                     })
                                 } else {
-                                    response.json({
+                                    response.status(200).json({
                                         'access_token': token,
                                         'expires_in': '7200',
                                         'id_token': idToken
@@ -79,7 +79,7 @@ router.route('/users')
                     'message': 'User created'
                 })
             } else {
-                response.json({
+                response.status(500).json({
                     'status': 'fail',
                     'code': 'AUTH_5',
                     'message': errorOrUserId

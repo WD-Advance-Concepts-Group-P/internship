@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 
 const authenticationRouter = require('./routers/authentication-router')
 const dashboardRouter = require('./routers/dashboard-router')
@@ -7,8 +8,16 @@ const internshipsRouter = require('./routers/internships-router')
 
 const app = express()
 
-app.use(bodyParser.json())
+const corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200,
+    methods: ['GET', 'PUT', 'POST', 'DELETE']
+}
+
+app.use(cors(corsOptions))
+
 app.use(bodyParser.urlencoded({ extended: false}))
+app.use(bodyParser.json())
 
 app.use('/api/v1', authenticationRouter)
 app.use('/api/v1', dashboardRouter)
