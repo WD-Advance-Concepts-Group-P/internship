@@ -20,7 +20,15 @@ router.route('/create-advert')
     })
     .post(function(request, response, next) {
         if (request.session.user.user_type === 1) {  
-            internshipManager.createStudentAdvert(request.session.user, request.body.title, request.body.body, request.body.field, request.body.contact, request.body.startdate, request.body.enddate, function(status, errorOrId) {
+            const values = {
+                title: request.body.title, 
+                body: request.body.body, 
+                field: request.body.field, 
+                contact: request.body.contact, 
+                start_date: request.body.startdate, 
+                end_date: request.body.enddate
+            }
+            internshipManager.createStudentAdvert(request.session.user, values, function(status, errorOrId) {
                 if (status) {
                     response.redirect('/my/adverts')
                 } else {
@@ -39,7 +47,17 @@ router.route('/create-advert')
             })
 
         } else if (request.session.user.user_type === 2) {
-            internshipManager.createRecruiterAdvert(request.session.user, request.body.title, request.body.body, request.body.field, request.body.city, request.body.website, request.body.contact, request.body.positions, request.body.deadline_date, function(status, errorOrId) {
+            const values = {
+                title: request.body.title, 
+                body: request.body.body, 
+                field: request.body.field, 
+                city: request.body.city, 
+                website: request.body.website, 
+                contact: request.body.contact, 
+                positions: request.body.positions, 
+                deadline_date: request.body.deadline_date
+            }
+            internshipManager.createRecruiterAdvert(request.session.user, values, function(status, errorOrId) {
                 if (status) {
                     response.redirect('/my/adverts')
                 } else {
@@ -130,7 +148,6 @@ router.route('/advert/:id')
                         response.render('errors/404.hbs', {validationErrors: 'Could not find any advert'})
                     } else {
                         var model
-                        console.log(request.session.user.id == advertsOrError.posted_by)
                         if (request.session.user.id == advertsOrError.posted_by) {
                             model = {
                                 csrfToken: request.csrfToken(),
@@ -143,7 +160,6 @@ router.route('/advert/:id')
                                 Post: advertsOrError,
                             }
                         }
-                        console.log(model)
                         if (request.query.type == 'student') {
                             response.render("internship/student-advert.hbs", model)
                         } else if (request.query.type == 'recruiter') {
@@ -188,7 +204,6 @@ router.route('/update/advert')
                         startdate: errorOrAdvert.start_date,
                         enddate: errorOrAdvert.end_date
                     }
-                    console.log(model)
                     response.render('internship/create-advert-student.hbs', model)
                 } else if (request.session.user.user_type === 2 && request.query.type === 'recruiter') {
                     const model = {
@@ -213,7 +228,15 @@ router.route('/update/advert')
     })
     .post(function(request, response, next) {
         if (request.session.user.user_type === 1 && request.query.type === 'student') {
-            internshipManager.updateStudentAdvert(request.session.user, request.query.id, request.body.title, request.body.body, request.body.field, request.body.contact, request.body.startdate, request.body.enddate, function(status, errorOrId) {
+            const values = {
+                title: request.body.title, 
+                body: request.body.body, 
+                field: request.body.field, 
+                contact: request.body.contact, 
+                start_date: request.body.startdate, 
+                end_date: request.body.enddate
+            }
+            internshipManager.updateStudentAdvert(request.session.user, request.query.id, values, function(status, errorOrId) {
                 if (status) {
                     response.redirect('/my/adverts')
                 } else {
@@ -231,7 +254,17 @@ router.route('/update/advert')
                 }
             })
         } else if (request.session.user.user_type === 2 && request.query.type === 'recruiter') {
-            internshipManager.updateRecruiterAdvert(request.session.user, request.query.id, request.body.title, request.body.body, request.body.field, request.body.city, request.body.website, request.body.contact, request.body.positions, request.body.deadline_date, function(status, errorOrId) {
+            const values = {
+                title: request.body.title, 
+                body: request.body.body, 
+                field: request.body.field, 
+                city: request.body.city, 
+                website: request.body.website, 
+                contact: request.body.contact, 
+                positions: request.body.positions, 
+                deadline_date: request.body.deadline_date
+            }
+            internshipManager.updateRecruiterAdvert(request.session.user, request.query.id, values, function(status, errorOrId) {
                 if (status) {
                     response.redirect('/my/adverts')
                 } else {

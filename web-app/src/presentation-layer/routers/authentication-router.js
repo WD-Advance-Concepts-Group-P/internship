@@ -3,7 +3,6 @@ const router = express.Router()
 const csurf = require('csurf')
 
 const csrfProtection = csurf()
-//const authManager = require('../../business-logic-layer/auth-manager')
 const authHelper = require('../../util/auth-helper')
 
 const container = require('../../main')
@@ -29,12 +28,16 @@ router.route('/login')
                     response.redirect('/profile/setup')
                 }
             } else {
-                const model = {
-                    validationErrors: errorOrUser,
-                    username,
-                    csrfToken: request.csrfToken(),
+                if (errorOrUser.includes('db error')) {
+                    response.render('500.hbs', {validationErrors: 'Database error please try again later'})
+                } else {
+                    const model = {
+                        validationErrors: errorOrUser,
+                        username,
+                        csrfToken: request.csrfToken(),
+                    }
+                    response.render('auth/login.hbs', model)
                 }
-                response.render('auth/login.hbs', model)
             }
         })
     })
@@ -59,13 +62,17 @@ router.route('/sign-up')
             if (status) {
                 response.redirect('/login')
             } else {
-                const model = {
-                    validationErrors: errorOrUser,
-                    username,
-                    email,
-                    csrfToken: request.csrfToken(),
+                if (errorOrUser.includes('db error')) {
+                    response.render('500.hbs', {validationErrors: 'Database error please try again later'})
+                } else {
+                    const model = {
+                        validationErrors: errorOrUser,
+                        username,
+                        email,
+                        csrfToken: request.csrfToken(),
+                    }
+                    response.render('auth/signup.hbs', model)
                 }
-                response.render('auth/signup.hbs', model)
             }
         })
     })

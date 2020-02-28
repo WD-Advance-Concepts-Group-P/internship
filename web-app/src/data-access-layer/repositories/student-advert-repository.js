@@ -33,17 +33,15 @@ class StudentAdvertRepository {
     create(advert) {
         return new Promise((resolve, reject) => {
             StudentAdverts.create({
-                title: advert.title,
-                body: advert.body,
-                field: advert.field,
-                contact: advert.contact,
-                start_date: advert.startDate,
-                end_date: advert.endDate,
+                title: advert.values.title,
+                body: advert.values.body,
+                field: advert.values.field,
+                contact: advert.values.contact,
+                start_date: advert.values.start_date,
+                end_date: advert.values.end_date,
                 posted_by: advert.postedBy
             }).then(advert => {
-                const result = advert.dataValues.id
-                console.log(result)
-                resolve({ id: result })
+                resolve({ id: advert.dataValues.id })
             }).catch(error => {
                 reject(error)
             })
@@ -66,12 +64,12 @@ class StudentAdvertRepository {
     update(advert) {
         return new Promise((resolve, reject) => {
             StudentAdverts.update({
-                title: advert.title,
-                body: advert.title,
-                field: advert.field,
-                contact: advert.contact,
-                start_date: advert.start_date,
-                end_date: advert.end_date
+                title: advert.values.title,
+                body: advert.values.body,
+                field: advert.values.field,
+                contact: advert.values.contact,
+                start_date: advert.values.start_date,
+                end_date: advert.values.end_date
             }, { where: {
                 id: advert.id,
                 posted_by: advert.postedBy

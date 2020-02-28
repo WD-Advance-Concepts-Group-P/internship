@@ -23,8 +23,8 @@ class AccountRepository {
             }).then(user => {
                 resolve({ id: user.id })
             }).catch(error => {
-                console.log(error.errors[0].message)
-                reject(error.errors[0].message)
+
+                reject(error.errors[0])
             })
         })
 	}
@@ -101,7 +101,6 @@ class AccountRepository {
                     profile_pic_url: info.profile_pic_url
                 }, { where: {account_id: info.id}
                 }).then(studentInfo => {
-                    console.log('nein')
                     resolve({ id: studentInfo.id })
                 }).catch(error => {
                     console.log(error)
@@ -192,7 +191,6 @@ class AccountRepository {
 	getByUsername(username) {
         return new Promise((resolve, reject) => {
             Accounts.findOne({ where: {username: username} }).then((info) => {
-                console.log(info)
                 if (info === null) {
                     reject('Wrong username/password')
                 } else {

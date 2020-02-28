@@ -38,19 +38,17 @@ class RecruiterAdvertRepository {
     create(advert) {
         return new Promise((resolve, reject) => {
             RecruiterAdvert.create({
-                title: advert.title,
-                body: advert.body,
-                field: advert.field,
-                city: advert.city,
-                website: advert.website,
-                contact: advert.contact,
-                positions: advert.positions,
-                deadline_date: advert.deadlineDate,
+                title: advert.values.title,
+                body: advert.values.body,
+                field: advert.values.field,
+                city: advert.values.city,
+                website: advert.values.website,
+                contact: advert.values.contact,
+                positions: advert.values.positions,
+                deadline_date: advert.values.deadline_date,
                 posted_by: advert.postedBy
             }).then(advert => {
-                const result = advert.dataValues.id
-                console.log(result)
-                resolve({ id: result })
+                resolve({ id: advert.dataValues.id })
             }).catch(error => {
                 reject(error)
             })
@@ -75,14 +73,14 @@ class RecruiterAdvertRepository {
     update(advert) {
         return new Promise((resolve, reject) => {
             RecruiterAdvert.update({
-                title: advert.title,
-                body: advert.body,
-                field: advert.field,
-                city: advert.city,
-                website: advert.website,
-                contact: advert.contact,
-                positions: advert.positions,
-                deadline_date: advert.deadlineDate
+                title: advert.values.title,
+                body: advert.values.body,
+                field: advert.values.field,
+                city: advert.values.city,
+                website: advert.values.website,
+                contact: advert.values.contact,
+                positions: advert.values.positions,
+                deadline_date: advert.values.deadline_date
             }, { where: {
                 id: advert.id,
                 posted_by: advert.postedBy
