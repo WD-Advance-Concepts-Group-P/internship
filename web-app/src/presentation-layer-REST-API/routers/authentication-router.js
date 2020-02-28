@@ -68,9 +68,6 @@ router.route('/users')
     })
     .post(function(request, response, next) {
         //create new user
-
-        console.log(request.body)
-        
         const username = request.body.username
         const email = request.body.email
         const password = request.body.password

@@ -1,7 +1,8 @@
 class Session {
     constructor() {
         this.authToken = null,
-        this.idToken = null
+        this.idToken = null,
+        this.hasRegisteredInfo = null
     }
 
     getAuthToken() {
@@ -19,9 +20,18 @@ class Session {
     setIdToken(idToken) {
         this.idToken = idToken;
     }
+
+    getRegisterdInfoValue() {
+        return this.hasRegisteredInfo
+    }
+
+    setRegisterdInfoValue(newHasRegisteredInfo) {
+        this.hasRegisteredInfo = newHasRegisteredInfo
+    }
 }
 
 const sessionManager = new Session()
+const url = 'http://localhost:8080/api/v1';
 
 const HomeComponent = {
     render: () => {
@@ -125,7 +135,7 @@ const RegisterComponent = {
                 <br>
                 <div class="divider text-center" data-content="OR"></div>
                 <br>
-                <a href="/login" class="btn column col-12">Login to your Account</a>
+                <a href="#/login" class="btn column col-12">Login to your Account</a>
             </div>
             <div class="column col-4"></div>
         </div>
@@ -231,63 +241,78 @@ function login() {
     const username = document.getElementById('usernameInput');
     const password = document.getElementById('passwordInput');
 
-    fetch('http://localhost:8080/api/v1/token', { 
+    const loginUrl = url + '/token'
+    // create request object
+    const request = new Request(loginUrl, {
         method: 'POST',
         body: new URLSearchParams({
             'username': username.value,
             'password': password.value,
             'grant_type': 'password'
         }),
-    }).then((response) => {
-        return response.json();
-    }).then((data) => {
-        sessionManager.setAuthToken(data.access_token)
-        sessionManager.setIdToken(data.id_token)
+    });
 
-        if (data.route) {
-            window.location.replace('#/profile/setup')
+    fetch(request)
+    .then(response => {
+        if (response.ok) {
+            return response.json()
         } else {
+            return response.json()
+        }
+    })
+    .then(data => {
+        if (data.error) {
+            if (data.route) {
+                sessionManager.setAuthToken(data.access_token)
+                sessionManager.setIdToken(data.id_token)
+                sessionManager.setRegisterdInfoValue(false)
+                window.location.replace('#/profile/setup')
+            } else {
+                //display error
+                console.log(data)
+            }
+        } else {
+            sessionManager.setAuthToken(data.access_token)
+            sessionManager.setIdToken(data.id_token)
+            sessionManager.setRegisterdInfoValue(true)
             window.location.replace('#/profile')
         }
     })
-    .catch((error) => {
-        console.log(error)
-    })
+    .catch(error => console.log(error))
 }
 
 function register() {
     const username = document.getElementById('usernameInput');
     const password = document.getElementById('passwordInput');
     const email = document.getElementById('emailInput')
-    const userType = document.getElementById('optionInput')
+    const optionUserType = document.getElementById('optionInput')
+    const userType = optionUserType.options[optionUserType.selectedIndex].value;
 
-    var formData = new FormData()
-    formData.append('username', username.value)
-    formData.append('email', email.value)
-    formData.append('password', password.value)
-    formData.append('accountType', userType.value)
+    const registerUrl = url + '/users'
+    // create request object
+    const request = new Request(registerUrl, {
+        method: 'POST',
+        body: new URLSearchParams({
+            'email': email.value,
+            'username': username.value,
+            'password': password.value,
+            'accountType': userType
+        }),
+        
+    });
 
-    try {
-
-        fetch('http://localhost:8080/api/v1/users', {
-            method: 'POST',
-            body: formData 
-        })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then((data) => {
-            window.location.replace('#/login')
-        })
-
-    } 
-    catch (e) {
-        window.location.replace('#/')
-        console.log(e)
-    }
+    fetch(request)
+    .then(response => {
+        if (response.ok) {
+            return response.json()
+        } else {
+            return response.json()
+        }
+    })
+    .then(data => {
+        console.log(data)
+    })
+    .catch(error => console.log(error))
 }
 
 function logout() {
