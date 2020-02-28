@@ -27,10 +27,14 @@ router.route('/chat/:id')
     .all(authHelper.isAuthenticated)
     .get(csrfProtection, function(request, response, next) {
         chatManager.getALlMessagesBychat(request.session.user.id, request.params.id, function(status, errorOrMessages) {
-            if (status) {
-                console.log(errorOrMessages)
+            if (status) {   
+                //console.log(errorOrMessages[0])
+                //response.json(errorOrMessages[0])
+
+                
                 var model = {
-                    Chats: errorOrMessages,
+                    MyMessages: errorOrMessages[1],
+                    Chats: errorOrMessages[0],
                     csrfToken: request.csrfToken()
                 }
         
@@ -44,6 +48,7 @@ router.route('/chat/:id')
     .post(csrfProtection, function(request, response, next) {
         chatManager.sendMessage(request.session.user.id, parseInt(request.params.id), request.body.message, function(status, errorOrId) {
             if (status) {
+                response.redirect('/chat/'+request.params.id)
                 response.send('yes' + errorOrId)
             } else {
                 response.send('no ' + errorOrId)

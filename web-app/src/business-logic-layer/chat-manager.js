@@ -44,7 +44,6 @@ module.exports = function(container) {
                 container.chatRepository.getAllMyMessagesByChat(userId, senderId).then(messages => {
                     callback(true, messages)
                 }).catch(error => {
-                    console.log('johan error')
                     console.log(error)
                     callback(false, 'error db')
                 })

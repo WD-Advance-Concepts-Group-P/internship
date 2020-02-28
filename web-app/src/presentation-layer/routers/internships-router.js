@@ -68,6 +68,7 @@ router.get('/student-adverts', function(request, response) {
     internshipManager.getALlStudentAdverts(function(status, advert) {
         if (status) {
             var model = {
+                sendMessageHidden: true,
                 Posts: advert,
             }
     
@@ -82,6 +83,7 @@ router.get('/positions', function(request, response) {
     internshipManager.getALlRecruiterAdverts(function(status, adverts) {
         if (status) {
             var model = {
+                sendMessageHidden: true,
                 Posts: adverts,
             }
     
@@ -97,6 +99,8 @@ router.get('/my/adverts', authHelper.isAuthenticated, csrfProtection, function(r
         if (status) {
             var model = {
                 searchBarHidden: true,
+                sendMessageHidden: true,
+                hideGotoAdvertLink: true,
                 csrfToken: request.csrfToken(),
                 deleteOrUpdate: true,
                 Posts: adverts,
@@ -125,10 +129,21 @@ router.route('/advert/:id')
                     if (advertsOrError == null) {
                         response.render('errors/404.hbs', {validationErrors: 'Could not find any advert'})
                     } else {
-                        var model = {
-                            csrfToken: request.csrfToken(),
-                            Post: advertsOrError,
+                        var model
+                        console.log(request.session.user.id == advertsOrError.posted_by)
+                        if (request.session.user.id == advertsOrError.posted_by) {
+                            model = {
+                                csrfToken: request.csrfToken(),
+                                Post: advertsOrError,
+                                sendMessageHidden: true
+                            }
+                        } else {
+                            model = {
+                                csrfToken: request.csrfToken(),
+                                Post: advertsOrError,
+                            }
                         }
+                        console.log(model)
                         if (request.query.type == 'student') {
                             response.render("internship/student-advert.hbs", model)
                         } else if (request.query.type == 'recruiter') {

@@ -12,7 +12,10 @@
                 <div class="card-header">
                     <div class="card-title h5"><a>{{Post.dataValues.title}}</a></div>
                         <div class="card-subtitle text-gray">
+                            {{#if sendMessageHidden}}
+                            {{else}}
                             <a href="/send/chat/{{Post.dataValues.posted_by}}">Send message</a>
+                            {{/if}}
                             <ul>
                                 <li>{{Post.dataValues.field}}</li>
                                 <li>{{Post.dataValues.contact}}</li>

@@ -20,6 +20,7 @@ router.get('/search', function(request, response) {
     internshipManager.searchAdverts(type, request.query.q, function(status, advertsOrError) {
         if (status) {
             var model = {
+                sendMessageHidden: true,
                 Posts: advertsOrError,
                 search: request.query.q
             }
