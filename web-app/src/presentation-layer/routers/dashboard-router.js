@@ -28,7 +28,7 @@ router.route('/setup')
         } else if (request.session.user.user_type === 2) {
             response.render('profile/recruiter-info.hbs', {csrfToken: request.csrfToken()})
         } else {
-            response.send('server error')
+            response.render('errors/error.hbs', {validationErrors: 'You don\'t have access to this feature'})
         }
     })
     .post(csrfProtection, function(request, response, next) {
@@ -69,7 +69,7 @@ router.route('/setup')
                 }
             })
         } else {
-            response.send('server error')
+            response.render('errors/error.hbs')
         } 
     })
 
@@ -110,7 +110,7 @@ router.route('/update')
                     response.send('server error')
                 }  
             } else {
-                response.send('noooo')
+                response.render('errors/error.hbs')
             }
         })
     })
@@ -134,7 +134,7 @@ router.route('/update')
                 }
             })
         } else {
-            response.send('server error')
+            response.render('errors/error.hbs')
         }
     })
 

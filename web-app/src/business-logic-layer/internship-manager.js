@@ -21,7 +21,6 @@ module.exports = function(container) {
                       };
                       const fuse = new Fuse(result, options)
                       const resultStudent = fuse.search(search)
-                      console.log(resultStudent)
                       callback(true, resultStudent)
                 }).catch(error => {
                     callback(false, error)
@@ -46,7 +45,6 @@ module.exports = function(container) {
                       };
                       const fuse = new Fuse(result, options)
                       const resultRecruiter = fuse.search(search)
-                      console.log(resultRecruiter)
                       callback(true, resultRecruiter)
                 }).catch(error => {
                     callback(false, error)
@@ -76,7 +74,6 @@ module.exports = function(container) {
                     container.studentAdvertRepository.create(info).then(result => {
                         callback(true, result.id)
                     }).catch(error => {
-                        console.log(error)
                         callback(false, 'db error')
                     })
                 }
@@ -108,7 +105,6 @@ module.exports = function(container) {
                     container.recruiterAdvertRepository.create(info).then(result => {
                         callback(true, result.id)
                     }).catch(error => {
-                        //console.log(error)
                         callback(false, 'db error')
                     })
                 }
@@ -135,14 +131,12 @@ module.exports = function(container) {
                 container.studentAdvertRepository.getAllByUser(id).then(adverts => {
                     callback(true, adverts)
                 }).catch(error => {
-                    console.log(error)
                     callback(false, 'error')
                 })
             } else if (user_type === 2) {
                 container.recruiterAdvertRepository.getAllByUser(id).then(adverts => {
                     callback(true, adverts)
                 }).catch(error => {
-                    console.log(error)
                     callback(false, 'error')
                 })
             } else {
@@ -152,16 +146,22 @@ module.exports = function(container) {
         getAdvertById: function(id, advert_type, callback) {
             if (advert_type === 'student') {
                 container.studentAdvertRepository.getById(id).then(advert => {
-                    callback(true, advert)
+                    if (advert == null) {
+                        callback(false, 'No advert')
+                    } else {
+                        callback(true, advert)
+                    }
                 }).catch(error => {
-                    console.log(error)
                     callback(false, error)
                 })
             } else if (advert_type === 'recruiter') {
                 container.recruiterAdvertRepository.getById(id).then(advert => {
-                    callback(true, advert)
+                    if (advert == null) {
+                        callback(false, 'No advert')
+                    } else {
+                        callback(true, advert)
+                    }
                 }).catch(error => {
-                    console.log(error)
                     callback(false, error)
                 })
             } else {
@@ -202,7 +202,6 @@ module.exports = function(container) {
             }
         },
         updateStudentAdvert: function(user, id, values, callback) {
-
             if (user.user_type === 1) {
                 if (values.title === '' || values.title == null) {
                     callback(false, 'title must be supplied')
@@ -224,7 +223,6 @@ module.exports = function(container) {
                     container.studentAdvertRepository.update(info).then(result => {
                         callback(true, result.id)
                     }).catch(error => {
-                        console.log(error)
                         callback(false, error)
                     })
                 }
@@ -258,7 +256,6 @@ module.exports = function(container) {
                     container.recruiterAdvertRepository.update(info).then(result => {
                         callback(true, result.id)
                     }).catch(error => {
-                        console.log(error)
                         callback(false, 'db error')
                     })
                 }

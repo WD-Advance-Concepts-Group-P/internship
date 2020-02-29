@@ -43,7 +43,6 @@ class AccountRepository {
     createUserInfo(userType, info) {
         if (userType === 1) {
             return new Promise((resolve, reject) => {
-                console.log(info)
                 Students.create({
                     account_id: info.id,
                     first_name: info.first_name,
@@ -56,7 +55,6 @@ class AccountRepository {
                     resume_url: info.resume_url,
                     profile_pic_url: info.profile_pic_url
                 }).then(studentInfo => {
-                    console.log('test johan')
                     resolve({ id: studentInfo })
                 }).catch(error => {
                     reject(error)
@@ -85,9 +83,7 @@ class AccountRepository {
     }
 
     updateUserInfo(userType, info) {
-
         if (userType === 1) {
-
             return new Promise((resolve, reject) => {
                 Students.update({
                     first_name: info.first_name,
@@ -103,7 +99,6 @@ class AccountRepository {
                 }).then(studentInfo => {
                     resolve({ id: studentInfo.id })
                 }).catch(error => {
-                    console.log(error)
                     reject(error)
                 })
             })

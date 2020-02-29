@@ -15,7 +15,7 @@ router.route('/create-advert')
         } else if (request.session.user.user_type === 2) {
             response.render('internship/create-advert-recruiter.hbs', {csrfToken: request.csrfToken(), website: 'https://'})
         } else {
-            response.render('errors/500.hbs')
+            response.render('errors/error.hbs')
         }
     })
     .post(function(request, response, next) {
@@ -78,7 +78,7 @@ router.route('/create-advert')
             })
 
         } else {
-            response.render('errors/500.hbs')
+            response.render('errors/error.hbs')
         } 
     })
 
@@ -92,7 +92,7 @@ router.get('/student-adverts', function(request, response) {
     
             response.render("internship/student-adverts.hbs", model)
         } else {
-            response.render('errors/500.hbs')
+            response.render('errors/error.hbs')
         }
     })
 })
@@ -107,7 +107,7 @@ router.get('/positions', function(request, response) {
     
             response.render("internship/recruiter-adverts.hbs", model)
         } else {
-            response.render('errors/500.hbs')
+            response.render('errors/error.hbs')
         }
     })
 })
@@ -128,10 +128,10 @@ router.get('/my/adverts', authHelper.isAuthenticated, csrfProtection, function(r
             } else if (request.session.user.user_type === 2) {
                 response.render("internship/recruiter-adverts.hbs", model)
             } else {
-                response.render('errors/500.hbs')
+                response.render('errors/error.hbs')
             }
         } else {
-            response.render('errors/500.hbs')
+            response.render('errors/error.hbs')
         }
     })
 })
@@ -145,7 +145,7 @@ router.route('/advert/:id')
             internshipManager.getAdvertById(request.params.id, request.query.type, function(status, advertsOrError) {
                 if (status) {
                     if (advertsOrError == null) {
-                        response.render('errors/404.hbs', {validationErrors: 'Could not find any advert'})
+                        response.render('errors/error.hbs', {validationErrors: 'Could not find any advert'})
                     } else {
                         var model
                         if (request.session.user.id == advertsOrError.posted_by) {
@@ -165,15 +165,15 @@ router.route('/advert/:id')
                         } else if (request.query.type == 'recruiter') {
                             response.render("internship/recruiter-advert.hbs", model)
                         } else {
-                            response.render('errors/500.hbs')
+                            response.render('errors/error.hbs')
                         }
                     }
                 } else {
-                    response.render('errors/500.hbs', {validationErrors: advertsOrError})
+                    response.render('errors/error.hbs', {validationErrors: advertsOrError})
                 }
             })
         } else {
-            response.render('errors/500.hbs', {validationErrors: 'Wrong type submitted'})
+            response.render('errors/error.hbs', {validationErrors: 'Wrong type submitted'})
         }
     })
 
@@ -184,7 +184,7 @@ router.route('/delete/advert')
             if (status) {
                 response.redirect('/my/adverts')
             } else {
-                response.render('errors/500.hbs', {validationErrors: error})
+                response.render('errors/error.hbs', {validationErrors: error, errorCode: '500'})
             }
         })
     })
@@ -219,10 +219,14 @@ router.route('/update/advert')
                     }
                     response.render('internship/create-advert-recruiter.hbs', model)
                 } else {
-                    response.render('errors/500.hbs', {validationErrors: 'You don\'t have access to this feature'})
+                    response.render('errors/error.hbs', {validationErrors: 'You don\'t have access to this feature'})
                 }
             } else {
-                response.render('errors/500.hbs')
+                if (errorOrAdvert.includes('No advert')) {
+                    response.render('errors/error.hbs', {validationErrors: errorOrAdvert, errorCode: '404 could not find the resource'})
+                } else {
+                    response.render('errors/error.hbs', {errorCode: '500 server error'})
+                }
             }
         })
     })
@@ -284,7 +288,7 @@ router.route('/update/advert')
                 }
             })
         } else {
-            response.render('errors/500.hbs')
+            response.render('errors/error.hbs', {validationErrors: 'Wrong type submitted (student or recruiter) allowed'})
         }
     })
  

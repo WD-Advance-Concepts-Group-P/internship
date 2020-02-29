@@ -29,7 +29,7 @@ router.route('/login')
                 }
             } else {
                 if (errorOrUser.includes('db error')) {
-                    response.render('500.hbs', {validationErrors: 'Database error please try again later'})
+                    response.render('error.hbs', {validationErrors: 'Database error please try again later'})
                 } else {
                     const model = {
                         validationErrors: errorOrUser,
@@ -63,7 +63,7 @@ router.route('/sign-up')
                 response.redirect('/login')
             } else {
                 if (errorOrUser.includes('db error')) {
-                    response.render('500.hbs', {validationErrors: 'Database error please try again later'})
+                    response.render('error.hbs', {validationErrors: 'Database error please try again later'})
                 } else {
                     const model = {
                         validationErrors: errorOrUser,
@@ -85,14 +85,14 @@ router.route('/logout')
     .post(csrfProtection, function(request, response, next) {
         request.session.destroy(function(error) {
             if (error) {
-                response.render('errors/500.hbs')
+                response.render('errors/error.hbs')
             } else {
                 response.redirect('/')
             }
         })
     })
 
-
+/*
 router.route('/forgotten-password')
     .get(function(request, response, next) {
         response.render('auth/forgot-password.hbs')
@@ -108,5 +108,6 @@ router.route('/reset/password/:id')
     .post(function(request, response, next) {
         response.send('reset password form')
     })
+*/
 
 module.exports = router
