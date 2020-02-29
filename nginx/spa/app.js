@@ -51,6 +51,9 @@ const LoginComponent = {
                 <div class="column col-4"></div>
                 <div class="column col-4 col-md-12">
                     <h1>Login</h1>
+                    <div class="hidden toast toast-error" id="errorMessage">
+                        test
+                    </div>
                     <form method="POST">
                         <input type="hidden" name="_csrf" value="{{csrfToken}}">
                         <div class="form-group">
@@ -106,6 +109,9 @@ const RegisterComponent = {
             <div class="column col-4"></div>
             <div class="column col-4 col-md-12">
                 <h1>Register</h1>
+                <div class="hidden toast toast-error" id="errorMessage">
+                    test
+                </div>
                 <form action="" method="POST">
                     <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <div class="form-group">
@@ -238,81 +244,125 @@ window.addEventListener('hashchange', router);
 window.addEventListener('load', router);
 
 function login() {
+    const errorMessage = document.getElementById('errorMessage')
+    errorMessage.classList.add('hidden')
+
     const username = document.getElementById('usernameInput');
     const password = document.getElementById('passwordInput');
 
-    const loginUrl = url + '/token'
-    // create request object
-    const request = new Request(loginUrl, {
-        method: 'POST',
-        body: new URLSearchParams({
-            'username': username.value,
-            'password': password.value,
-            'grant_type': 'password'
-        }),
-    });
+    if (password.value.length > 5 && username.value.length > 0) {
+        const loginUrl = url + '/token'
+        // create request object
+        const request = new Request(loginUrl, {
+            method: 'POST',
+            body: new URLSearchParams({
+                'username': username.value,
+                'password': password.value,
+                'grant_type': 'password'
+            }),
+        });
 
-    fetch(request)
-    .then(response => {
-        if (response.ok) {
-            return response.json()
-        } else {
-            return response.json()
-        }
-    })
-    .then(data => {
-        if (data.error) {
-            if (data.route) {
-                sessionManager.setAuthToken(data.access_token)
-                sessionManager.setIdToken(data.id_token)
-                sessionManager.setRegisterdInfoValue(false)
-                window.location.replace('#/profile/setup')
+        fetch(request)
+        .then(response => {
+            if (response.ok) {
+                response.json().then(data => {
+                    if (data.error) {
+                        if (data.route) {
+                            sessionManager.setAuthToken(data.access_token)
+                            sessionManager.setIdToken(data.id_token)
+                            sessionManager.setRegisterdInfoValue(false)
+                            window.location.replace('#/profile/setup')
+                        } else {
+                            //display error
+                            console.log(data)
+                        }
+                    } else {
+                        sessionManager.setAuthToken(data.access_token)
+                        sessionManager.setIdToken(data.id_token)
+                        sessionManager.setRegisterdInfoValue(true)
+                        window.location.replace('#/profile')
+                    }
+                })
             } else {
-                //display error
-                console.log(data)
+                response.json().then(data => {
+                    if (data.error == 'invalid_client') {
+                        //display invalid username/password
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = data.message
+                    } else {
+                        //display generic error
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Server error'
+                    }
+                })
             }
-        } else {
-            sessionManager.setAuthToken(data.access_token)
-            sessionManager.setIdToken(data.id_token)
-            sessionManager.setRegisterdInfoValue(true)
-            window.location.replace('#/profile')
-        }
-    })
-    .catch(error => console.log(error))
+        })
+        .catch(error => {
+            console.log('nein')
+            console.log(error)
+        })
+    } else {
+        errorMessage.classList.remove('hidden')
+        errorMessage.innerText = 'Password must be longer then 6 characters'
+    }
 }
 
 function register() {
+    const errorMessage = document.getElementById('errorMessage')
+    errorMessage.classList.add('hidden')
+
     const username = document.getElementById('usernameInput');
     const password = document.getElementById('passwordInput');
     const email = document.getElementById('emailInput')
     const optionUserType = document.getElementById('optionInput')
     const userType = optionUserType.options[optionUserType.selectedIndex].value;
 
-    const registerUrl = url + '/users'
-    // create request object
-    const request = new Request(registerUrl, {
-        method: 'POST',
-        body: new URLSearchParams({
-            'email': email.value,
-            'username': username.value,
-            'password': password.value,
-            'accountType': userType
-        }),
+    if (password.value.length > 5 && username.value.length > 0 && email.value.length > 5) {
         
-    });
-
-    fetch(request)
-    .then(response => {
-        if (response.ok) {
-            return response.json()
-        } else {
-            return response.json()
-        }
-    })
-    .then(data => {
-        console.log(data)
-    })
-    .catch(error => console.log(error))
+        const registerUrl = url + '/users'
+        // create request object
+        const request = new Request(registerUrl, {
+            method: 'POST',
+            body: new URLSearchParams({
+                'email': email.value,
+                'username': username.value,
+                'password': password.value,
+                'accountType': userType
+            }),
+            
+        });
+        fetch(request)
+        .then(response => {
+            if (response.ok) {
+                response.json().then(data => {
+                    window.location.replace('#/login')
+                })
+            } else {
+                response.json().then(data => {
+                    console.log(data)
+                    errorMessage.classList.remove('hidden')
+                    errorMessage.innerText = data.message
+                    /*
+                    if (data.error == 'invalid_client') {
+                        //display invalid username/password
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = data.message
+                    } else {
+                        //display generic error
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Server error'
+                    }*/
+                })
+            }
+        })
+        .catch(error => {
+            console.log('nein')
+            console.log(error)
+        })
+    } else {
+        errorMessage.classList.remove('hidden')
+        errorMessage.innerText = 'client side validation error'
+    }
 }
 
 function logout() {
