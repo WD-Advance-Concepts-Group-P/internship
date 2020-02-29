@@ -23,8 +23,8 @@ class AccountRepository {
             }).then(user => {
                 resolve({ id: user.id })
             }).catch(error => {
-                console.log(error.errors[0].message)
-                reject(error.errors[0].message)
+
+                reject(error.errors[0])
             })
         })
 	}
@@ -43,7 +43,6 @@ class AccountRepository {
     createUserInfo(userType, info) {
         if (userType === 1) {
             return new Promise((resolve, reject) => {
-                console.log(info)
                 Students.create({
                     account_id: info.id,
                     first_name: info.first_name,
@@ -56,7 +55,6 @@ class AccountRepository {
                     resume_url: info.resume_url,
                     profile_pic_url: info.profile_pic_url
                 }).then(studentInfo => {
-                    console.log('test johan')
                     resolve({ id: studentInfo })
                 }).catch(error => {
                     reject(error)
@@ -85,9 +83,7 @@ class AccountRepository {
     }
 
     updateUserInfo(userType, info) {
-
         if (userType === 1) {
-
             return new Promise((resolve, reject) => {
                 Students.update({
                     first_name: info.first_name,
@@ -101,10 +97,8 @@ class AccountRepository {
                     profile_pic_url: info.profile_pic_url
                 }, { where: {account_id: info.id}
                 }).then(studentInfo => {
-                    console.log('nein')
                     resolve({ id: studentInfo.id })
                 }).catch(error => {
-                    console.log(error)
                     reject(error)
                 })
             })
@@ -192,7 +186,6 @@ class AccountRepository {
 	getByUsername(username) {
         return new Promise((resolve, reject) => {
             Accounts.findOne({ where: {username: username} }).then((info) => {
-                console.log(info)
                 if (info === null) {
                     reject('Wrong username/password')
                 } else {

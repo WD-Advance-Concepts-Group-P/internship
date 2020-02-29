@@ -11,8 +11,6 @@ router.get('/chats', authHelper.isAuthenticated, function(request, response) {
 
     chatManager.getAllMyChats(request.session.user.id, function(status, chatsOrError) {
         if (status) {
-            console.log(chatsOrError)
-
             var model = {
                 Chats: chatsOrError,
             }
@@ -28,10 +26,6 @@ router.route('/chat/:id')
     .get(csrfProtection, function(request, response, next) {
         chatManager.getALlMessagesBychat(request.session.user.id, request.params.id, function(status, errorOrMessages) {
             if (status) {   
-                //console.log(errorOrMessages[0])
-                //response.json(errorOrMessages[0])
-
-                
                 var model = {
                     MyMessages: errorOrMessages[1],
                     Chats: errorOrMessages[0],
@@ -65,7 +59,7 @@ router.route('/send/chat/:receiver_id')
     .post(csrfProtection, function(request, response, next) {
         chatManager.sendMessage(request.session.user.id, request.params.receiver_id, request.body.message, function(status, errorOrId) {
             if (status) {
-                response.send('yes' + errorOrId)
+                response.redirect('/chat/'+request.params.receiver_id)
             } else {
                 response.send('no ' + errorOrId)
             }

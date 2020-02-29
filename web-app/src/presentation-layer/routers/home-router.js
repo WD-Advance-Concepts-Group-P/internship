@@ -37,10 +37,10 @@ router.get('/search', function(request, response) {
                 } else if (type == 'student') {
                     response.render("internship/student-adverts.hbs", model)
                 } else {
-                    response.render('errors/500.hbs', {validationErrors: 'Wrong type submitted'})
+                    response.render('errors/error.hbs', {validationErrors: 'Wrong type submitted'})
                 }
             } else {
-                response.render('errors/500.hbs', {validationErrors: advertsOrError})
+                response.render('errors/error.hbs', {validationErrors: advertsOrError})
             }
         })
     }

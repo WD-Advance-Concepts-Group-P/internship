@@ -1,7 +1,11 @@
 <div class="columns col-xl">
     <div class="column col-4"></div>
     <div class="column col-4 col-md-12">
-        <h3>404 Could not find your resource</h3>
+        {{#if errorCode}}
+        <h3>{{errorCode}}</h3>
+        {{else}}
+        <h3>Error</h3>
+        {{/if}}
         {{#if validationErrors.length}}
         <div class="toast toast-error">
             {{validationErrors}}

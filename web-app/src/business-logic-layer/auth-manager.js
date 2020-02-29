@@ -27,7 +27,7 @@ module.exports = function(container) {
                             }
                         })
                     }).catch(error => {
-                        callback(false, error)
+                        callback(false, 'db error')
                     })
                 }
             }
@@ -62,7 +62,11 @@ module.exports = function(container) {
                         container.accountRepository.create(account).then(result => {
                             callback(true, result.id)
                         }).catch(error => {
-                            callback(false, error)
+                            if (error.type == 'unique violation') {
+                                callback(false, error.message)
+                            } else {
+                                callback(false, 'db error')
+                            }
                         })
                     })
                 }

@@ -8,7 +8,6 @@ const container = require('../../main')
 const profileManager = container.resolve('profileManager')
 
 router.get('/', authHelper.isAuthenticated, function(request, response) {
-    console.log(request.session.user)
     const model = {
         user: request.session.user.username
     }
@@ -29,12 +28,23 @@ router.route('/setup')
         } else if (request.session.user.user_type === 2) {
             response.render('profile/recruiter-info.hbs', {csrfToken: request.csrfToken()})
         } else {
-            response.send('server error')
+            response.render('errors/error.hbs', {validationErrors: 'You don\'t have access to this feature'})
         }
     })
     .post(csrfProtection, function(request, response, next) {
         if (request.session.user.user_type === 1) {
-            profileManager.createStudentInfo(request.session.user.id, request.body.firstname, request.body.lastname, request.body.birthdate, request.body.bio, request.body.school, request.body.program, request.body.graduationdate, request.body.resume, request.body.profilepic, function(status, error) {
+            const values = {
+                firstname: request.body.firstname, 
+                lastname: request.body.lastname, 
+                birthdate: request.body.birthdate, 
+                bio: request.body.bio, 
+                school: request.body.school, 
+                program: request.body.program, 
+                graduationdate: request.body.graduationdate, 
+                resume: request.body.resume, 
+                profilepic: request.body.profilepic
+            }
+            profileManager.createStudentInfo(request.session.user.id, values, function(status, error) {
                 if (status) {
                     request.session.user.seen = 1
                     response.redirect('/profile')
@@ -43,7 +53,14 @@ router.route('/setup')
                 }
             })
         } else if (request.session.user.user_type === 2) {
-            profileManager.createRecruiterInfo(request.session.user.id, request.body.firstname, request.body.lastname, request.body.companyname, request.body.phonenumber, request.body.companylogo, function(status, error) {
+            const values = {
+                firstname: request.body.firstname, 
+                lastname: request.body.lastname, 
+                companyname: request.body.companyname, 
+                phonenumber: request.body.phonenumber, 
+                compnaylogo: request.body.companylogo
+            }
+            profileManager.createRecruiterInfo(request.session.user.id, values, function(status, error) {
                 if (status) {
                     request.session.user.seen = 1
                     response.redirect('/profile')
@@ -52,7 +69,7 @@ router.route('/setup')
                 }
             })
         } else {
-            response.send('server error')
+            response.render('errors/error.hbs')
         } 
     })
 
@@ -93,7 +110,7 @@ router.route('/update')
                     response.send('server error')
                 }  
             } else {
-                response.send('noooo')
+                response.render('errors/error.hbs')
             }
         })
     })
@@ -117,7 +134,7 @@ router.route('/update')
                 }
             })
         } else {
-            response.send('server error')
+            response.render('errors/error.hbs')
         }
     })
 
