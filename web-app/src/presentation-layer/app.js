@@ -68,7 +68,7 @@ app.use(internshipsRouter)
 app.use(chatRouter)
 
 app.use(function(request, response, next) {
-    response.render('errors/404.hbs', {validationErrors: 'This route does not exists'})
+    response.render('errors/error.hbs', {validationErrors: 'This route does not exists'})
 })
 
 module.exports = app
