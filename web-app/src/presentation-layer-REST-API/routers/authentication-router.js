@@ -42,6 +42,7 @@ router.route('/token')
                                     response.status(200).json({
                                         'access_token': token,
                                         'expires_in': '7200',
+                                        'user_type': errorOrUser.user_type,
                                         'id_token': idToken
                                     })
                                 }

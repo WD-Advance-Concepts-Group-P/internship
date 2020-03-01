@@ -57,7 +57,7 @@ router.route('/adverts')
                             if (status) {
                                 response.json({
                                     'error': 'false',
-                                    'message': errorOrAdverts
+                                    'advert': errorOrAdverts
                                 })
                             } else {
                                 response.json({

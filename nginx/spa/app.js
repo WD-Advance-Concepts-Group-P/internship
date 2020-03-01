@@ -1,41 +1,40 @@
 class Session {
-    constructor() {
-        this.authToken = null,
-        this.idToken = null,
-        this.hasRegisteredInfo = null
-        this.userType = null
+    constructor() {}
+
+    setAuthToken(authToken) {
+        localStorage.setItem('authToken', authToken);
     }
 
     getAuthToken() {
-        return this.authToken;
-    }
-
-    setAuthToken(authToken) {
-        this.authToken = authToken;
-    }
-
-    getIdToken() {
-        return this.idToken;
+        return localStorage.getItem('authToken');
     }
 
     setIdToken(idToken) {
-        this.idToken = idToken;
+        localStorage.setItem('idToken', idToken);
     }
 
-    getRegisterdInfoValue() {
-        return this.hasRegisteredInfo
+    getIdToken() {
+        return localStorage.getItem('idToken');
     }
 
     setRegisterdInfoValue(newHasRegisteredInfo) {
-        this.hasRegisteredInfo = newHasRegisteredInfo
+        localStorage.setItem('hasRegisteredInfo', newHasRegisteredInfo);
+    }
+
+    getRegisterdInfoValue() {
+        return localStorage.getItem('hasRegisteredInfo');
     }
 
     setUserType(type) {
-        this.userType = type
+        localStorage.setItem('userType', type);
     }
 
     getUserType() {
-        return this.userType
+        return localStorage.getItem('userType');
+    }
+
+    destroy() {
+        localStorage.clear();
     }
 
 }
@@ -162,10 +161,12 @@ const RegisterComponent = {
 const ProfileComponent = {
     render: () => {
         return `
-            <section>
-                <h1>Page Profile</h1>
-                <p>This is just a test</p>
-            </section>
+            <h3>Hello dashboard</h3>
+            <ul>
+                <li><a href="#/create-advert/student">Create advert</a></li>
+                <li><a href="#/my/adverts">My adverts</a></li>
+                <li><a href="#/logout">logout</a></li>
+            </ul>
         `;
     }
 } 
@@ -319,6 +320,21 @@ const AdvertComponent = {
     }
 }
 
+const MyAdvertsComponent = {
+    render: () => {
+        return `
+        <div class="columns col-xl">
+            <div class="column col-3"></div>
+            <div class="column col-6 col-md-12">
+                <h3>View My adverts</h3>
+                <div id="advert-area"></div>
+            </div>
+            <div class="column col-3"></div>
+        </div>
+        `;
+    }
+}
+
 const ErrorComponent = {
     render: () => {
         return `
@@ -341,6 +357,9 @@ const routes = [
     { path: '/positions', component: PositionsComponent, },
     { path: '/student-adverts', component: StudentAdvertsComponent, },
     { path: '/advert', component: AdvertComponent},
+    { path: '/create-advert/student', component: ErrorComponent},
+    { path: '/create-advert/recruiter', component: ErrorComponent},
+    { path: '/my/adverts', component: MyAdvertsComponent}
 ];
 
 const authRequiredRoutes = [
@@ -348,6 +367,9 @@ const authRequiredRoutes = [
     '/profile/setup/student',
     '/profile/setup/recruiter',
     '/logout',
+    '/my/adverts',
+    '/create-advert/student',
+    '/create-advert/recruiter'
 ];
 
 const parseLocation = () => location.hash.slice(1).toLowerCase() || '/';
@@ -374,6 +396,14 @@ const router = () => {
 
         if (path == '/profile/setup/recruiter' && sessionManager.getUserType() != 2) {
             window.location.replace('#/profile/setup/student')
+        }
+
+        if (path == '/create-advert/student' && sessionManager.getUserType() != 1) {
+            window.location.replace('#/create-advert/recruiter')
+        }
+
+        if (path == '/create-advert/recruiter' && sessionManager.getUserType() != 2) {
+            window.location.replace('#/create-advert/student')
         }
 
         if (sessionManager.getRegisterdInfoValue() == false) {
@@ -442,6 +472,7 @@ function login() {
                         sessionManager.setAuthToken(data.access_token)
                         sessionManager.setIdToken(data.id_token)
                         sessionManager.setRegisterdInfoValue(true)
+                        sessionManager.setUserType(data.user_type)
                         window.location.replace('#/profile')
                     }
                 })
@@ -526,8 +557,7 @@ function register() {
 }
 
 function logout() {
-    sessionManager.setIdToken(null)
-    sessionManager.setAuthToken(null)
+    sessionManager.destroy()
     window.location.replace('#/');
 }
 
@@ -747,27 +777,51 @@ function loadAdvert() {
                             advertArea.appendChild(div)
                         } else {
                             const div = document.createElement('div');
-                            div.innerHTML = `
-                                <div class="card">
-                                    <div class="card-header">
-                                        <div class="card-title h5"><a>`+ data.advert.title +`</a></div>
-                                        <div class="card-subtitle text-gray">
-                                            <ul>
-                                                <li>`+ data.advert.field +`</li>
-                                                <li>`+ data.advert.contact +`</li>
-                                                <li>`+ data.advert.website +`</li>
-                                                <li>`+ data.advert.deadline_date +`</li>
-                                                <li>`+ data.advert.posted_by +`</li>
-                                            </ul>
+                            if (type == 'student') {
+                                div.innerHTML = `
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="card-title h5"><a>`+ data.advert.title +`</a></div>
+                                            <div class="card-subtitle text-gray">
+                                                <ul>
+                                                    <li>`+ data.advert.field +`</li>
+                                                    <li>`+ data.advert.contact +`</li>
+                                                    <li>`+ data.advert.start_date +`</li>
+                                                    <li>`+ data.advert.end_date +`</li>
+                                                    <li>`+ data.advert.posted_by +`</li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="card-body" id="card-content">
-                                        `+ data.advert.body +`
+                                        <div class="card-body" id="card-content">
+                                            `+ data.advert.body +`
+                                        </div>
+                                        <br>
                                     </div>
                                     <br>
-                                </div>
-                                <br>
-                            `
+                                `
+                            } else if (type == 'recruiter') {
+                                div.innerHTML = `
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="card-title h5"><a>`+ data.advert.title +`</a></div>
+                                            <div class="card-subtitle text-gray">
+                                                <ul>
+                                                    <li>`+ data.advert.field +`</li>
+                                                    <li>`+ data.advert.contact +`</li>
+                                                    <li>`+ data.advert.website +`</li>
+                                                    <li>`+ data.advert.deadline_date +`</li>
+                                                    <li>`+ data.advert.posted_by +`</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card-body" id="card-content">
+                                            `+ data.advert.body +`
+                                        </div>
+                                        <br>
+                                    </div>
+                                    <br>
+                                `
+                            }
                             advertArea.appendChild(div)
                         }
                     })
@@ -785,6 +839,89 @@ function loadAdvert() {
     }
 }
 
+function loadMyAdverts() {
+    const advertUrl = url+'/adverts'
+    const request = new Request(advertUrl, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer '+sessionManager.getAuthToken()+'',
+        },
+    });
+    fetch(request)
+    .then(response => {
+        if (response.ok) {
+            response.json().then(data => {
+                const advertArea = document.getElementById('advert-area')
+                if (data.error == 'true') {
+                    const div = document.createElement('div');
+                    div.innerHTML = '<h3>No adverts</h3>'
+                    advertArea.appendChild(div)
+                } else {
+                    const div = document.createElement('div');
+                    for (i in data.advert) {
+                        if (sessionManager.getUserType() == 1) {
+                            div.innerHTML = `
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title h5"><a>`+ data.advert[i].title +`</a></div>
+                                        <div class="card-title h6"><a href="#/advert?id=`+ data.advert[i].id +`&type=student">Advert</a></div>
+                                        <div class="card-subtitle text-gray">
+                                            <ul>
+                                                <li>`+ data.advert[i].field +`</li>
+                                                <li>`+ data.advert[i].contact +`</li>
+                                                <li>`+ data.advert[i].start_date +`</li>
+                                                <li>`+ data.advert[i].end_date +`</li>
+                                                <li>`+ data.advert[i].posted_by +`</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" id="card-content">
+                                        `+ data.advert[i].body +`
+                                    </div>
+                                    <br>
+                                </div>
+                                <br>
+                            `
+                        } else if (sessionManager.getUserType() == 2) {
+                            div.innerHTML = `
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title h5"><a>`+ data.advert[i].title +`</a></div>
+                                        <div class="card-title h6"><a href="#/advert?id=`+ data.advert[i].id +`&type=recruiter">Advert</a></div>
+                                        <div class="card-subtitle text-gray">
+                                            <ul>
+                                                <li>`+ data.advert[i].field +`</li>
+                                                <li>`+ data.advert[i].contact +`</li>
+                                                <li>`+ data.advert[i].website +`</li>
+                                                <li>`+ data.advert[i].deadline_date +`</li>
+                                                <li>`+ data.advert[i].posted_by +`</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" id="card-content">
+                                        `+ data.advert[i].body +`
+                                    </div>
+                                    <br>
+                                </div>
+                                <br>
+                            `
+                        }
+                        advertArea.appendChild(div)       
+                    }
+                }
+            })
+        } else {
+            response.json().then(data => {
+                console.log(data)
+            })
+        }
+    })
+    .catch(error => {
+        console.log('nein')
+        console.log(error)
+    })    
+}
+
 function handleLoad() {
     var page = parseLocation()
     const new_path = page.split('?')
@@ -800,10 +937,10 @@ function handleLoad() {
         case '/advert':
             loadAdvert()
             break;              
-        /*case '/logout':
-            // code block
+        case '/my/adverts':
+            loadMyAdverts()
             break;
-        case '/login':
+        /*case '/login':
             // code block
             break;
         case '/logout':
