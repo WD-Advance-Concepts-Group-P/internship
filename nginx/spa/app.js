@@ -160,24 +160,131 @@ const ProfileComponent = {
     }
 } 
 
-const ProfileSetupComponent = {
+const ProfileSetupStudentComponent = {
     render: () => {
         return `
-            <section>
-                <h1>Page Profile setup</h1>
-                <p>This is just a test</p>
-            </section>
+        <div class="columns col-xl">
+            <div class="column col-3"></div>
+            <div class="column col-6 col-md-12">
+                <h3>Profile setup</h3>
+                <form action="" method="POST">
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                    <div class="form-group">
+                        <label class="form-label" for="firstnameInput">Firstname</label>
+                        <input class="form-input {{css_class}}" id="firstnameInput" type="text" name="firstname" placeholder="Firstname" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="lastnameInput">Lastname</label>
+                        <input class="form-input {{css_class}}" id="lastnameInput" type="text" name="lastname" placeholder="Lastname" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="birthdateInput">Birth date (optional)</label>
+                        <input class="form-input" id="birthdateInput" type="date" name="birthdate">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="biotextInput">Bio (optional)</label>
+                        <textarea class="form-input" id="biotextInput" placeholder="Textarea" rows="3" name="bio"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="schoolInput">School (optional)</label>
+                        <input class="form-input" id="schoolInput" type="text" name="school" placeholder="School">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="programInput">Program (optional)</label>
+                        <input class="form-input" id="programInput" type="text" name="program" placeholder="Program">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="graduationdateInput">graduation date (optional)</label>
+                        <input class="form-input" id="graduationdateInput" type="date" name="graduationdate">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="resumeInput">Resume url (optional)</label>
+                        <input class="form-input" id="resumeInput" type="url" name="resume" placeholder="Resume url">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="profilepicInput">Profile picture url (optional)</label>
+                        <input class="form-input" id="profilepicInput" type="url" name="profilepic" placeholder="Profile Picture Url">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-submit column col-12 btn" type="submit" placeholder="Send" value="Send">
+                    </div>
+                </form>
+                <br>
+            </div>
+            <div class="column col-3"></div>
+        </div>
         `;
     }
 } 
 
+const ProfileSetupRecruiterComponent = {
+    render: () => {
+        return `
+        <div class="columns col-xl">
+            <div class="column col-3"></div>
+            <div class="column col-6 col-md-12">
+                <h3>Profile setup</h3>
+                <form action="" method="POST">
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                    <div class="form-group">
+                        <label class="form-label" for="firstnameInput">Firstname</label>
+                        <input class="form-input {{css_class}}" id="firstnameInput" type="text" name="firstname" placeholder="Firstname" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="lastnameInput">Lastname</label>
+                        <input class="form-input {{css_class}}" id="lastnameInput" type="text" name="lastname" placeholder="Lastname" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="birthdateInput">Birth date (optional)</label>
+                        <input class="form-input" id="birthdateInput" type="date" name="birthdate">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="biotextInput">Bio (optional)</label>
+                        <textarea class="form-input" id="biotextInput" placeholder="Textarea" rows="3" name="bio"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="schoolInput">School (optional)</label>
+                        <input class="form-input" id="schoolInput" type="text" name="school" placeholder="School">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="programInput">Program (optional)</label>
+                        <input class="form-input" id="programInput" type="text" name="program" placeholder="Program">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="graduationdateInput">graduation date (optional)</label>
+                        <input class="form-input" id="graduationdateInput" type="date" name="graduationdate">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="resumeInput">Resume url (optional)</label>
+                        <input class="form-input" id="resumeInput" type="url" name="resume" placeholder="Resume url">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="profilepicInput">Profile picture url (optional)</label>
+                        <input class="form-input" id="profilepicInput" type="url" name="profilepic" placeholder="Profile Picture Url">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-submit column col-12 btn" type="submit" placeholder="Send" value="Send">
+                    </div>
+                </form>
+                <br>
+            </div>
+            <div class="column col-3"></div>
+        </div>
+        `;
+    }
+}
+
 const PositionsComponent = {
     render: () => {
         return `
-            <section>
-                <h1>Page Positions</h1>
-                <p>This is just a test</p>
-            </section>
+        <div class="columns col-xl">
+            <div class="column col-3"></div>
+            <div class="column col-6 col-md-12">
+                <h3>View Recruiter adverts</h3>
+                <div id="advert-area"></div>
+            </div>
+            <div class="column col-3"></div>
+        </div>
         `;
     }
 }
@@ -185,10 +292,14 @@ const PositionsComponent = {
 const StudentAdvertsComponent = {
     render: () => {
         return `
-            <section>
-                <h1>Page student-adverts</h1>
-                <p>This is just a test</p>
-            </section>
+        <div class="columns col-xl">
+            <div class="column col-3"></div>
+            <div class="column col-6 col-md-12">
+                <h3>View student adverts</h3>
+                <div id="advert-area"></div>
+            </div>
+            <div class="column col-3"></div>
+        </div>
         `;
     }
 }
@@ -210,14 +321,16 @@ const routes = [
     { path: '/logout', component: LogoutComponent, },
     { path: '/register', component: RegisterComponent, },
     { path: '/profile', component: ProfileComponent, },
-    { path: '/profile/setup', component: ProfileSetupComponent, },
+    { path: '/profile/setup/student', component: ProfileSetupStudentComponent, },
+    { path: '/profile/setup/recruiter', component: ProfileSetupRecruiterComponent, },
     { path: '/positions', component: PositionsComponent, },
     { path: '/student-adverts', component: StudentAdvertsComponent, },
 ];
 
 const authRequiredRoutes = [
     '/profile',
-    '/profile/setup',
+    '/profile/setup/student',
+    '/profile/setup/recruiter',
     '/logout',
 ];
 
@@ -242,6 +355,8 @@ const router = () => {
 
 window.addEventListener('hashchange', router);
 window.addEventListener('load', router);
+window.addEventListener('hashchange', handleLoad);
+window.addEventListener('load', handleLoad);
 
 function login() {
     const errorMessage = document.getElementById('errorMessage')
@@ -271,7 +386,11 @@ function login() {
                             sessionManager.setAuthToken(data.access_token)
                             sessionManager.setIdToken(data.id_token)
                             sessionManager.setRegisterdInfoValue(false)
-                            window.location.replace('#/profile/setup')
+                            if (data.user_type == 1) {
+                                window.location.replace('#/profile/setup/student')
+                            } else if (data.user_type == 2) {
+                                window.location.replace('#/profile/setup/recruiter')
+                            }
                         } else {
                             //display error
                             console.log(data)
@@ -317,10 +436,8 @@ function register() {
     const optionUserType = document.getElementById('optionInput')
     const userType = optionUserType.options[optionUserType.selectedIndex].value;
 
-    if (password.value.length > 5 && username.value.length > 0 && email.value.length > 5) {
-        
+    if (password.value.length > 5 && username.value.length > 0 && email.value.length > 5 && userType != 'Choose an option') {
         const registerUrl = url + '/users'
-        // create request object
         const request = new Request(registerUrl, {
             method: 'POST',
             body: new URLSearchParams({
@@ -361,7 +478,7 @@ function register() {
         })
     } else {
         errorMessage.classList.remove('hidden')
-        errorMessage.innerText = 'client side validation error'
+        errorMessage.innerText = 'Password must be longer then 6 characters\nEmail must be supplied\nUsername must be supplied\nAccount type can not be Choose an option'
     }
 }
 
@@ -369,6 +486,143 @@ function logout() {
     sessionManager.setIdToken(null)
     sessionManager.setAuthToken(null)
     window.location.replace('#/');
+}
+
+function loadStudentAdverts() {
+    const studentAdvertsUrl = url + '/adverts?type=student'
+    const request = new Request(studentAdvertsUrl, {
+        method: 'GET',
+    });
+    fetch(request)
+    .then(response => {
+        if (response.ok) {
+            response.json().then(data => {
+                const advertArea = document.getElementById('advert-area')
+                if (data.advert.length == 0) {
+                    const div = document.createElement('div');
+                    div.innerHTML = '<h3>No adverts</h3>'
+                    advertArea.appendChild(div)
+                } else {
+                    for (i in data.advert) {
+                        const div = document.createElement('div');
+                        div.innerHTML = `
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title h5"><a>`+ data.advert[i].title +`</a></div>
+                                    <div class="card-title h6"><a href="#/advert/`+ data.advert[i].id +`?type=student">Advert</a></div>
+                                    <div class="card-subtitle text-gray">
+                                        <ul>
+                                            <li>`+ data.advert[i].field +`</li>
+                                            <li>`+ data.advert[i].contact +`</li>
+                                            <li>`+ data.advert[i].start_date +`</li>
+                                            <li>`+ data.advert[i].end_date +`</li>
+                                            <li>`+ data.advert[i].posted_by +`</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body" id="card-content">
+                                    `+ data.advert[i].body +`
+                                </div>
+                                <br>
+                            </div>
+                            <br>
+                        `
+                        advertArea.appendChild(div)
+                    }  
+                }  
+            })
+        } else {
+            response.json().then(data => {
+                console.log(data)
+            })
+        }
+    })
+    .catch(error => {
+        console.log('nein')
+        console.log(error)
+    })
+}
+
+function loadRecruiterAdverts() {
+    console.log('load recruiter adverts')
+    const recruiterAdvertsUrl = url + '/adverts?type=recruiter'
+    const request = new Request(recruiterAdvertsUrl, {
+        method: 'GET',
+    });
+    fetch(request)
+    .then(response => {
+        if (response.ok) {
+            response.json().then(data => {
+                const advertArea = document.getElementById('advert-area')
+                if (data.advert.length == 0) {
+                    const div = document.createElement('div');
+                    div.innerHTML = '<h3>No adverts</h3>'
+                    advertArea.appendChild(div)
+                } else {
+                    for (i in data.advert) {
+                        const div = document.createElement('div');
+                        div.innerHTML = `
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title h5"><a>`+ data.advert[i].title +`</a></div>
+                                    <div class="card-title h6"><a href="#/advert/`+ data.advert[i].id +`?type=student">Advert</a></div>
+                                    <div class="card-subtitle text-gray">
+                                        <ul>
+                                            <li>`+ data.advert[i].field +`</li>
+                                            <li>`+ data.advert[i].contact +`</li>
+                                            <li>`+ data.advert[i].website +`</li>
+                                            <li>`+ data.advert[i].deadline_date +`</li>
+                                            <li>`+ data.advert[i].posted_by +`</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body" id="card-content">
+                                    `+ data.advert[i].body +`
+                                </div>
+                                <br>
+                            </div>
+                            <br>
+                        `
+                        advertArea.appendChild(div)
+                    }
+                }
+            })
+        } else {
+            response.json().then(data => {
+                console.log(data)
+            })
+        }
+    })
+    .catch(error => {
+        console.log('nein')
+        console.log(error)
+    })
+}
+
+function handleLoad() {
+    const page = parseLocation()
+    switch(page) {
+        case '/student-adverts':
+            loadStudentAdverts()
+            break;
+        case '/positions':
+            loadRecruiterAdverts()
+            break;
+        /*case '/register':
+            //register()
+            break;              
+        case '/logout':
+            // code block
+            break;
+        case '/login':
+            // code block
+            break;
+        case '/logout':
+            // code block
+            break;*/
+        default:
+            // code block
+    }
 }
 
 function handleSubmit(page) {

@@ -28,8 +28,10 @@ router.route('/token')
                             jwt.sign({ sub: errorOrUser.id, email: errorOrUser.email, nickname: errorOrUser.username }, process.env.JWT_TOKEN_ID, { expiresIn: '2h' }, function(error, idToken) {
 
                                 if (errorOrUser.seen === 0) {
+                                    console.log(errorOrUser)
                                     response.status(200).json({
                                         'error': 'APP_2',
+                                        'user_type': errorOrUser.user_type,
                                         'message': 'you must create user info',
                                         'route': '/user/info',
                                         'expires_in': '7200',
