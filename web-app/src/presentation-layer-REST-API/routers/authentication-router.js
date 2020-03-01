@@ -33,7 +33,7 @@ router.route('/token')
                                         'error': 'APP_2',
                                         'user_type': errorOrUser.user_type,
                                         'message': 'you must create user info',
-                                        'route': '/user/info',
+                                        'route': '/users/info',
                                         'expires_in': '7200',
                                         'access_token': token,
                                         'id_token': idToken

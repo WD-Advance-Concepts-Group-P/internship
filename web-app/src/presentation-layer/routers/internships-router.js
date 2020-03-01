@@ -148,7 +148,7 @@ router.route('/advert/:id')
                         response.render('errors/error.hbs', {validationErrors: 'Could not find any advert'})
                     } else {
                         var model
-                        if (request.session.user.id == advertsOrError.posted_by) {
+                        if (request.session.user && request.session.user.id == advertsOrError.posted_by) {
                             model = {
                                 csrfToken: request.csrfToken(),
                                 Post: advertsOrError,

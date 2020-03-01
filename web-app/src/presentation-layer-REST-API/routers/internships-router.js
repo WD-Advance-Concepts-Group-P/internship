@@ -19,7 +19,7 @@ router.route('/adverts')
                         'advert': errorOrAdvert
                     })
                 } else {
-                    response.json({
+                    response.status(500).json({
                         'error': 'true',
                         'message': errorOrAdvert,
                         'code': 'APP_ERR'
@@ -34,7 +34,7 @@ router.route('/adverts')
                         'advert': errorOrAdvert
                     })
                 } else {
-                    response.json({
+                    response.status(500).json({
                         'error': 'true',
                         'message': errorOrAdvert,
                         'code': 'APP_ERR'
@@ -134,13 +134,16 @@ router.route('/adverts/:id')
     })
     .get(function(request, response, next) {
         //get advert
+        console.log('Nu körs jag')
         internshipManager.getAdvertById(request.params.id, request.query.type, function(status, errorOrAdvert) {
             if (status) {
+                console.log('Nu körs även jag')
                 response.json({
                     'error': 'false',
                     'advert': errorOrAdvert
                 })
             } else {
+                console.log('Nu körs även jag error')
                 response.json({
                     'error': 'true',
                     'message': errorOrAdvert,
