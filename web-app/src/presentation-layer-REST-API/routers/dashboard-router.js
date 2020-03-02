@@ -33,17 +33,6 @@ router.route('/users/info')
     .post(function(request, response, next) {
         //create user info
         if (response.locals.userType === 1) {
-
-            console.log(request.body.firstname)
-            console.log(request.body.lastname)
-            console.log(request.body.birthdate)
-            console.log(request.body.bio)
-            console.log(request.body.school)
-            console.log(request.body.program)
-            console.log(request.body.graduationdate)
-            console.log(request.body.resume)
-            console.log(request.body.profilepic)
-
             const values = {
                 firstname: request.body.firstname, 
                 lastname: request.body.lastname, 
@@ -71,10 +60,21 @@ router.route('/users/info')
                 }
             })
         } else if (response.locals.userType === 2) {
-            profileManager.createRecruiterInfo(response.locals.uid, request.body.firstname, request.body.lastname, request.body.companyname, request.body.phonenumber, request.body.companylogo, function(status, error) {
+
+            const values = {
+                firstname: request.body.firstname, 
+                lastname: request.body.lastname, 
+                companyname: request.body.companyname,
+                phonenumber: (request.body.phonenumber ? request.body.phonenumber : null),
+                companylogo: (request.body.companylogo ? request.body.companylogo : null),
+            }
+
+            profileManager.createRecruiterInfo(response.locals.uid, values, function(status, error) {
                 if (status) {
-                    request.session.user.seen = 1
-                    response.redirect('/profile')
+                    response.json({
+                        'error': 'false',
+                        'message': 'created',
+                    })
                 } else {
                     response.status(500).json({
                         'error': 'true',
@@ -84,7 +84,7 @@ router.route('/users/info')
                 }
             })
         } else {
-            response.json({
+            response.status(500).json({
                 'error': 'true',
                 'message': 'wrong user type',
                 'code': 'APP_ERR'

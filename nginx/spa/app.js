@@ -163,7 +163,7 @@ const ProfileComponent = {
         return `
             <h3>Hello dashboard</h3>
             <ul>
-                <li><a href="#/create-advert/student">Create advert</a></li>
+                <li><a href="#/create-advert">Create advert</a></li>
                 <li><a href="#/my/adverts">My adverts</a></li>
                 <li><a href="#/logout">logout</a></li>
             </ul>
@@ -245,23 +245,23 @@ const ProfileSetupRecruiterComponent = {
                     <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <div class="form-group">
                         <label class="form-label" for="firstnameInput">Firstname</label>
-                        <input class="form-input {{css_class}}" id="firstnameInput" type="text" name="firstname" placeholder="Firstname" value="{{firstname}}" required>
+                        <input class="form-input" id="firstnameInput" type="text" name="firstname" placeholder="Firstname" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="lastnameInput">Lastname</label>
-                        <input class="form-input {{css_class}}" id="lastnameInput" type="text" name="lastname" placeholder="Lastname" value="{{lastname}}" required>
+                        <input class="form-input" id="lastnameInput" type="text" name="lastname" placeholder="Lastname" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="companynameInput">Company name</label>
-                        <input class="form-input" id="companynameInput" type="text" name="companyname" placeholder="Company name" value="{{companyname}}" required>
+                        <input class="form-input" id="companynameInput" type="text" name="companyname" placeholder="Company name" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="phonenumberInput">Phone number (optional)</label>
-                        <input class="form-input" id="phonenumberInput" type="tel" name="phonenumber" placeholder="1-(888)-888-8888" value="{{phonenumber}}">
+                        <input class="form-input" id="phonenumberInput" type="tel" name="phonenumber" placeholder="1-(888)-888-8888">
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="companylogoInput">Company logo url (optional)</label>
-                        <input class="form-input" id="companylogoInput" type="url" name="companylogo" placeholder="https://test.com/logo.png" value="{{companylogo}}">
+                        <input class="form-input" id="companylogoInput" type="url" name="companylogo" placeholder="https://test.com/logo.png">
                     </div>
                     <div class="form-group">
                         <input class="form-submit column col-12 btn" type="submit" placeholder="Send" value="Send">
@@ -335,6 +335,43 @@ const MyAdvertsComponent = {
     }
 }
 
+const CreateAdvertComponent = {
+    render: () => {
+        return `
+        <div class="columns col-xl">
+            <div class="column col-3"></div>
+            <div class="column col-6 col-md-12">
+                <div id="advert-area"></div>
+            </div>
+            <div class="column col-3"></div>
+        </div>
+        `;
+    }
+}
+
+const DeleteAdvertComponent = {
+    render: () => {
+        return `
+        <div class="columns col-xl">
+            <div class="column col-3"></div>
+            <div class="column col-6 col-md-12">
+                <h2>Profile setup</h2>
+                <div class="hidden toast toast-error" id="errorMessage">
+                    test
+                </div>
+                <form action="" method="POST">
+                    <div class="form-group">
+                        <input class="form-submit column col-12 btn" type="submit" placeholder="Delete" value="Delete">
+                    </div>
+                </form>
+                <br>
+            </div>
+            <div class="column col-3"></div>
+        </div>
+        `;
+    }
+}
+
 const ErrorComponent = {
     render: () => {
         return `
@@ -357,9 +394,9 @@ const routes = [
     { path: '/positions', component: PositionsComponent, },
     { path: '/student-adverts', component: StudentAdvertsComponent, },
     { path: '/advert', component: AdvertComponent},
-    { path: '/create-advert/student', component: ErrorComponent},
-    { path: '/create-advert/recruiter', component: ErrorComponent},
-    { path: '/my/adverts', component: MyAdvertsComponent}
+    { path: '/create-advert', component: CreateAdvertComponent},
+    { path: '/my/adverts', component: MyAdvertsComponent},
+    { path: '/delete', component: DeleteAdvertComponent},
 ];
 
 const authRequiredRoutes = [
@@ -368,8 +405,8 @@ const authRequiredRoutes = [
     '/profile/setup/recruiter',
     '/logout',
     '/my/adverts',
-    '/create-advert/student',
-    '/create-advert/recruiter'
+    '/create-advert',
+    '/delete'
 ];
 
 const parseLocation = () => location.hash.slice(1).toLowerCase() || '/';
@@ -414,8 +451,12 @@ const router = () => {
             }
         }
 
-        if (path == '/register' || path == '/login') {
-            window.location.replace('#/profile')
+        if (path == '/register' || path == '/login' || path == '/profile') {
+            if (sessionManager.getRegisterdInfoValue() == false) {
+                window.location.replace('#/profile/setup/student')
+            } else {
+                window.location.replace('#/profile')
+            }
         }
     }
 
@@ -618,6 +659,212 @@ function profileSetupStudent() {
     } else {
         errorMessage.classList.remove('hidden')
         errorMessage.innerText = 'Firstname must be supplied\nLastname must be supplied'
+    }
+}
+
+function profileSetupRecruiter() {
+    const errorMessage = document.getElementById('errorMessage')
+    errorMessage.classList.add('hidden')
+    const firstname = document.getElementById('firstnameInput');
+    const lastname = document.getElementById('lastnameInput');
+    const companyname = document.getElementById('companynameInput')
+    const phonenumber = document.getElementById('phonenumberInput')
+    const companylogo = document.getElementById('companylogoInput')
+
+    if (firstname.value.length > 0 && lastname.value.length > 0 && companyname.value.length > 0) {
+        const profileSetupRecruiter = url + '/users/info'
+        const request = new Request(profileSetupRecruiter, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer '+sessionManager.getAuthToken()+'',
+            },
+            body: new URLSearchParams({
+                'firstname': firstname.value,
+                'lastname': lastname.value,
+                'companyname': companyname.value,
+                'phonenumber': phonenumber.value,
+                'companylogo': companylogo.value
+            }),
+            
+        });
+        fetch(request)
+        .then(response => {
+            if (response.ok) {
+                response.json().then(data => {
+                    console.log('setup '+data)
+                    sessionManager.setRegisterdInfoValue(true)
+                    window.location.replace('#/profile')
+                })
+            } else {
+                console.log(response)
+                /*response.json().then(data => {
+                    console.log(data)
+                    errorMessage.classList.remove('hidden')
+                    errorMessage.innerText = data.message
+                })*/
+            }
+        })
+        .catch(error => {
+            console.log('nein')
+            console.log(error)
+        })
+    } else {
+        errorMessage.classList.remove('hidden')
+        errorMessage.innerText = 'Firstname must be supplied\nLastname must be supplied\nCompany name must be supplied'
+    }
+}
+
+function createAdvert() {
+    const errorMessage = document.getElementById('errorMessage')
+    errorMessage.classList.add('hidden')
+
+    const createAdvertUrl = url + '/adverts'
+
+    console.log('create advert')
+
+    if (sessionManager.getUserType() == 1) {
+
+        // get advert info
+        const title = document.getElementById('titleInput');
+        const body = document.getElementById('bodyInput');
+        const fieldOptions = document.getElementById('option')
+        const field = fieldOptions.options[fieldOptions.selectedIndex].value;
+        const contact = document.getElementById('contactInput')
+        const startdate = document.getElementById('startdateInput')
+        const enddate = document.getElementById('enddateInput')
+
+        //validate
+        if (title.value.length > 0 && body.value.length > 0 && contact.value.length > 0) {
+            const request = new Request(createAdvertUrl, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer '+sessionManager.getAuthToken()+'',
+                },
+                body: new URLSearchParams({
+                    'title': title.value,
+                    'body': body.value,
+                    'field': field,
+                    'contact': contact.value,
+                    'startdate': startdate.value,
+                    'enddate': enddate.value
+                }), 
+            });
+            fetch(request)
+            .then(response => {
+                if (response.ok) {
+                    response.json().then(data => {
+                        console.log('create advert')
+                        window.location.replace('#/my/adverts')
+                    })
+                } else {
+                    console.log(response)
+                }
+            })
+            .catch(error => {
+                console.log('nein')
+                console.log(error)
+            })
+        } else {
+            errorMessage.classList.remove('hidden')
+            errorMessage.innerText = 'everything must be supplied'
+        }
+    } else if (sessionManager.getUserType() == 2) {
+        // get advert info
+        const title = document.getElementById('titleInput');
+        const body = document.getElementById('bodyInput');
+        const fieldOptions = document.getElementById('option')
+        const field = fieldOptions.options[fieldOptions.selectedIndex].value;
+        const contact = document.getElementById('contactInput')
+        const website = document.getElementById('websiteInput')
+        const positions = document.getElementById('positionsInput')
+        const deadlinedate = document.getElementById('deadlinedateInput')
+
+        //validate
+        if (title.value.length > 0 && body.value.length > 0 && contact.value.length > 0) {
+            const request = new Request(createAdvertUrl, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer '+sessionManager.getAuthToken()+'',
+                },
+                body: new URLSearchParams({
+                    'title': title.value,
+                    'body': body.value,
+                    'field': field,
+                    'contact': contact.value,
+                    'website': website.value,
+                    'positions': positions.value,
+                    'deadlinedate': deadlinedate.value
+                }), 
+            });
+            fetch(request)
+            .then(response => {
+                if (response.ok) {
+                    response.json().then(data => {
+                        console.log('create advert')
+                        window.location.replace('#/my/adverts')
+                    })
+                } else {
+                    console.log(response)
+                }
+            })
+            .catch(error => {
+                console.log('nein')
+                console.log(error)
+            })
+        } else {
+            errorMessage.classList.remove('hidden')
+            errorMessage.innerText = 'everything must be supplied'
+        }
+    }
+}
+
+function deleteAdvert() {
+    const query = location.hash.split('?')
+    const params = query[1].split('&')
+
+    if (params.length > 2 || params.length < 2) {
+        console.log('too few arguments or to many arguments')
+    } else {
+        const param1 = params[0].split('=')
+        const param2 = params[1].split('=')
+
+        var id
+        var type
+        if (param1[0] == 'id') {
+            id = param1[1]
+            type = param2[1]
+        } else {
+            id = param2[1]
+            type = param1[1]
+        }
+
+        if (id == null || type == null || id == '' || type == '') {
+            console.log('something is null')
+        } else {
+            const deleteAdvertUrl = url+'/adverts/'+id+''
+            const request = new Request(deleteAdvertUrl, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer '+sessionManager.getAuthToken()+'',
+                }
+            });
+            fetch(request)
+            .then(response => {
+                if (response.ok) {
+                    response.json().then(data => {
+                        window.location.replace('#/my/adverts')
+                    })
+                } else {
+                    response.json().then(data => {
+                        console.log(data)
+                    })
+                }
+            })
+            .catch(error => {
+                console.log('nein')
+                console.log(error)
+            })
+        }
     }
 }
 
@@ -857,14 +1104,14 @@ function loadMyAdverts() {
                     div.innerHTML = '<h3>No adverts</h3>'
                     advertArea.appendChild(div)
                 } else {
-                    const div = document.createElement('div');
                     for (i in data.advert) {
+                        const div = document.createElement('div');
                         if (sessionManager.getUserType() == 1) {
                             div.innerHTML = `
                                 <div class="card">
                                     <div class="card-header">
                                         <div class="card-title h5"><a>`+ data.advert[i].title +`</a></div>
-                                        <div class="card-title h6"><a href="#/advert?id=`+ data.advert[i].id +`&type=student">Advert</a></div>
+                                        <div class="card-title h6"><a href="#/delete?id=`+ data.advert[i].id +`&type=student">Delete</a></div>
                                         <div class="card-subtitle text-gray">
                                             <ul>
                                                 <li>`+ data.advert[i].field +`</li>
@@ -887,7 +1134,7 @@ function loadMyAdverts() {
                                 <div class="card">
                                     <div class="card-header">
                                         <div class="card-title h5"><a>`+ data.advert[i].title +`</a></div>
-                                        <div class="card-title h6"><a href="#/advert?id=`+ data.advert[i].id +`&type=recruiter">Advert</a></div>
+                                        <div class="card-title h6"><a href="#/delete?id=`+ data.advert[i].id +`&type=recruiter">Delete</a></div>
                                         <div class="card-subtitle text-gray">
                                             <ul>
                                                 <li>`+ data.advert[i].field +`</li>
@@ -922,11 +1169,122 @@ function loadMyAdverts() {
     })    
 }
 
+function loadCreateAdvert() {
+    const advertArea = document.getElementById('advert-area')
+    const div = document.createElement('div');
+    if (sessionManager.getUserType() == 1) {
+        div.innerHTML = `
+        <div class="columns col-xl">
+            <div class="column col-3"></div>
+            <div class="column col-6 col-md-12">
+                <h3>Create student advert</h3>
+                <div class="hidden toast toast-error" id="errorMessage">
+                    test
+                </div>
+                <form action="" method="POST">
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                    <div class="form-group">
+                        <label class="form-label" for="titleInput">Title</label>
+                        <input class="form-input" id="titleInput" type="text" name="title" placeholder="Title" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="bodyInput">Body</label>
+                        <textarea class="form-input" id="bodyInput" name="body" placeholder="Textarea" rows="5"></textarea required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="option">Field</label>
+                        <select class="form-select" id="option" name="field">
+                            <option>Choose an option</option>
+                            <option>Tech</option>
+                            <option>All</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="contactInput">Contact</label>
+                        <input class="form-input" id="contactInput" type="text" name="contact" placeholder="Cotact" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="startdateInput">start date</label>
+                        <input class="form-input" id="startdateInput" type="date" name="startdate" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="enddateInput">End date</label>
+                        <input class="form-input" id="enddateInput" type="date" name="enddate" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-submit column col-12 btn" type="submit" placeholder="Create" value="Create">
+                    </div>
+                </form>
+                <br>
+            </div>
+            <div class="column col-3"></div>
+        </div>
+        `
+        advertArea.appendChild(div) 
+    } else if (sessionManager.getUserType() == 2) {
+        div.innerHTML = `
+        <div class="columns col-xl">
+            <div class="column col-3"></div>
+            <div class="column col-6 col-md-12">
+                <h3>create recruiter advert</h3>
+                <div class="hidden toast toast-error" id="errorMessage">
+                    test
+                </div>
+                <form action="" method="POST">
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                    <div class="form-group">
+                        <label class="form-label" for="titleInput">Title</label>
+                        <input class="form-input" id="titleInput" type="text" name="title" placeholder="Title" value="" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="bodyInput">Body</label>
+                        <textarea class="form-input" id="bodyInput" name="body" placeholder="Textarea" rows="5"></textarea required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="option">Field</label>
+                        <select class="form-select" id="option" name="field">
+                            <option>Choose an option</option>
+                            <option>Tech</option>
+                            <option>All</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="cityInput">City</label>
+                        <input class="form-input" id="cityInput" type="text" name="city" placeholder="City" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="contactInput">Contact</label>
+                        <input class="form-input" id="contactInput" type="text" name="contact" placeholder="Contact" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="websiteInput">Website</label>
+                        <input class="form-input" id="websiteInput" type="url" name="website" placeholder="Website" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="positionsInput">Number of positions</label>
+                        <input class="form-input" id="positionsInput" type="number" name="positions" placeholder="Number of positions" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="deadlinedateInput">Deadline date</label>
+                        <input class="form-input" id="deadlinedateInput" type="date" name="deadline_date" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-submit column col-12 btn" type="submit" placeholder="Create" value="Create">
+                    </div>
+                </form>
+                <br>
+            </div>
+            <div class="column col-3"></div>
+        </div>
+        `
+        advertArea.appendChild(div) 
+    }
+}
+
 function handleLoad() {
     var page = parseLocation()
     const new_path = page.split('?')
     page = new_path[0]
-    console.log(page)
     switch(page) {
         case '/student-adverts':
             loadStudentAdverts()
@@ -940,10 +1298,10 @@ function handleLoad() {
         case '/my/adverts':
             loadMyAdverts()
             break;
-        /*case '/login':
-            // code block
+        case '/create-advert':
+            loadCreateAdvert()
             break;
-        case '/logout':
+        /*case '/logout':
             // code block
             break;*/
         default:
@@ -951,7 +1309,10 @@ function handleLoad() {
     }
 }
 
-function handleSubmit(page) {
+function handleSubmit() {
+    var page = parseLocation()
+    const new_path = page.split('?')
+    page = new_path[0]
     switch(page) {
         case '/login':
             login()
@@ -966,12 +1327,14 @@ function handleSubmit(page) {
             profileSetupStudent()
             break;
         case '/profile/setup/recruiter':
-            console.log('test recruiter setup')
-            // code block
+            profileSetupRecruiter()
             break;
-        /*case '/logout':
-            // code block
-            break;*/
+        case '/create-advert':
+            createAdvert()
+            break;
+        case '/delete':
+            deleteAdvert()
+            break;
         default:
             // code block
     }
@@ -980,6 +1343,6 @@ function handleSubmit(page) {
 document.addEventListener('DOMContentLoaded', function(e) {
     document.addEventListener('submit', function(e) {
         e.preventDefault();
-        handleSubmit(parseLocation())
+        handleSubmit()
     }, false)
 }, false)
