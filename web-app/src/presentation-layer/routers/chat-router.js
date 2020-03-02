@@ -11,6 +11,7 @@ router.get('/chats', authHelper.isAuthenticated, function(request, response) {
 
     chatManager.getAllMyChats(request.session.user.id, function(status, chatsOrError) {
         if (status) {
+            console.log(chatsOrError)
             var model = {
                 Chats: chatsOrError,
             }

@@ -74,6 +74,7 @@ module.exports = function(container) {
                     container.studentAdvertRepository.create(info).then(result => {
                         callback(true, result.id)
                     }).catch(error => {
+                        console.log(error)
                         callback(false, 'db error')
                     })
                 }

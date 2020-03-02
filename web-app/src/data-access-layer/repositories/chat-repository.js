@@ -131,7 +131,7 @@ class ChatRepository {
                     model: Chat,
                     type: Sequelize.QueryTypes.SELECT,
                     group: ['username'],
-                    raw: false
+                    raw: true
                 }
             ).then(chats => {
                 resolve(chats)
@@ -148,12 +148,14 @@ class ChatRepository {
     getAllMyMessagesByChat(receiverId, senderId) {
         return new Promise((resolve, reject) => {
             Chat.findAll({ 
+                raw: true,
                 where: { 
                     receiver_id: receiverId,
                     sender_id: senderId,
                 }, 
             }).then(messages => {
                 Chat.findAll({
+                    raw: true,
                     where: { 
                         receiver_id: senderId,
                         sender_id: receiverId,

@@ -5,6 +5,7 @@ const csrfProtection = csurf()
 
 const container = require('../../main')
 const internshipManager = container.resolve('internshipManager')
+const profileManager = container.resolve('profileManager')
 const authHelper = require('../../util/auth-helper')
 
 router.route('/create-advert')
@@ -28,6 +29,9 @@ router.route('/create-advert')
                 start_date: request.body.startdate, 
                 end_date: request.body.enddate
             }
+
+            console.log(values)
+
             internshipManager.createStudentAdvert(request.session.user, values, function(status, errorOrId) {
                 if (status) {
                     response.redirect('/my/adverts')
@@ -144,6 +148,7 @@ router.route('/advert/:id')
         if (request.query.type == 'student' || request.query.type == 'recruiter') {
             internshipManager.getAdvertById(request.params.id, request.query.type, function(status, advertsOrError) {
                 if (status) {
+                    console.log(advertsOrError)
                     if (advertsOrError == null) {
                         response.render('errors/error.hbs', {validationErrors: 'Could not find any advert'})
                     } else {
@@ -291,5 +296,45 @@ router.route('/update/advert')
             response.render('errors/error.hbs', {validationErrors: 'Wrong type submitted (student or recruiter) allowed'})
         }
     })
- 
+
+router.get('/creator/:id', function(request, response) {
+    console.log('nein')
+
+    var user_type
+    if (request.query.type == 'student') {
+        user_type = 1
+    } else if (request.query.type == 'recruiter') {
+        user_type = 2
+    } else {
+        return response.render('errors/error.hbs', {validationErrors: 'Invalid user type submitted (student/recruiter)'})
+    }
+
+    const user = {
+        user_type: user_type,
+        id: request.params.id
+    }
+    profileManager.getUserInfo(user, function(status, infoOrError) {
+        if (status) {
+            if (user_type == 1) {
+                const model = {
+                    student: true,
+                    info: infoOrError 
+                }
+                console.log(infoOrError)
+                response.render('profile/creator.hbs', model)
+            } else if (user_type == 2) {
+                const model = {
+                    student: false,
+                    info: infoOrError 
+                }
+                console.log(infoOrError)
+                response.render('profile/creator.hbs', model)
+            }
+        } else {
+            console.log(infoOrError)
+            response.render('errors/error.hbs', {validationErrors: 'No user info'})
+        }
+    })
+})
+
 module.exports = router

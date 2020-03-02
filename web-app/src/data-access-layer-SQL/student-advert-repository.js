@@ -44,12 +44,12 @@ class StudentAdvertRepository {
             VALUES (?, ?, ?, ?, ?, ?, ?, NOW())`
 
         const values = [
-            advert.title, 
-            advert.body, 
-            advert.field, 
-            advert.contact, 
-            advert.startDate, 
-            advert.endDate, 
+            advert.values.title, 
+            advert.values.body, 
+            advert.values.field, 
+            advert.values.contact, 
+            advert.values.start_date, 
+            advert.values.end_date, 
             advert.postedBy
         ]
 

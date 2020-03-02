@@ -1,0 +1,37 @@
+<div class="columns col-xl">
+    <div class="column col-3"></div>
+    <div class="column col-6 col-md-12">
+        {{#if title}}
+        <h1>{{title}}</h1>
+        {{else}}
+        <h1>Creator Information</h1>
+        {{/if}}   
+        {{#if validationErrors.length}}
+        <div class="toast toast-error">
+            {{validationErrors}}
+        </div>
+        {{/if}}
+        {{#if student}}
+        <ul>
+            <li>{{info.first_name}}</li>
+            <li>{{info.last_name}}</li>
+            <li>{{info.birth_date}}</li>
+            <li>{{info.biography_text}}</li>
+            <li>{{info.school}}</li>
+            <li>{{info.program}}</li>
+            <li>{{info.graduation_year}}</li>
+            <li>{{info.resume_url}}</li>
+            <li>{{info.profile_pic_url}}</li>
+        </ul>
+        {{else}}
+        <ul>
+            <li>{{info.first_name}}</li>
+            <li>{{info.last_name}}</li>
+            <li>{{info.phone_number}}</li>
+            <li>{{info.company_name}}</li>
+            <li>{{info.company_logo_url}}</li>
+        </ul>
+        {{/if}}
+    </div>
+    <div class="column col-3"></div>
+</div>
