@@ -28,10 +28,12 @@ router.route('/token')
                             jwt.sign({ sub: errorOrUser.id, email: errorOrUser.email, nickname: errorOrUser.username }, process.env.JWT_TOKEN_ID, { expiresIn: '2h' }, function(error, idToken) {
 
                                 if (errorOrUser.seen === 0) {
+                                    console.log(errorOrUser)
                                     response.status(200).json({
                                         'error': 'APP_2',
+                                        'user_type': errorOrUser.user_type,
                                         'message': 'you must create user info',
-                                        'route': '/user/info',
+                                        'route': '/users/info',
                                         'expires_in': '7200',
                                         'access_token': token,
                                         'id_token': idToken
@@ -40,6 +42,7 @@ router.route('/token')
                                     response.status(200).json({
                                         'access_token': token,
                                         'expires_in': '7200',
+                                        'user_type': errorOrUser.user_type,
                                         'id_token': idToken
                                     })
                                 }

@@ -19,7 +19,7 @@ router.route('/adverts')
                         'advert': errorOrAdvert
                     })
                 } else {
-                    response.json({
+                    response.status(500).json({
                         'error': 'true',
                         'message': errorOrAdvert,
                         'code': 'APP_ERR'
@@ -34,7 +34,7 @@ router.route('/adverts')
                         'advert': errorOrAdvert
                     })
                 } else {
-                    response.json({
+                    response.status(500).json({
                         'error': 'true',
                         'message': errorOrAdvert,
                         'code': 'APP_ERR'
@@ -57,7 +57,7 @@ router.route('/adverts')
                             if (status) {
                                 response.json({
                                     'error': 'false',
-                                    'message': errorOrAdverts
+                                    'advert': errorOrAdverts
                                 })
                             } else {
                                 response.json({
@@ -84,14 +84,24 @@ router.route('/adverts')
                 'user_type': response.locals.userType,
                 'id': response.locals.uid
             }
-            internshipManager.createStudentAdvert(user, request.body.title, request.body.body, request.body.field, request.body.contact, request.body.startdate, request.body.enddate, function(status, errorOrId) {
+
+            const values = {
+                title: request.body.title,
+                body: request.body.body,
+                field: request.body.field,
+                contact: request.body.contact,
+                start_date: request.body.startdate,
+                end_date: request.body.enddate,
+            }
+
+            internshipManager.createStudentAdvert(user, values, function(status, errorOrId) {
                 if (status) {
                     response.json({
                         'error': 'false',
                         'message': errorOrId
                     })
                 } else {
-                    response.json({
+                    response.status(500).json({
                         'error': 'true',
                         'message': errorOrId,
                         'code': 'APP_2'
@@ -104,14 +114,26 @@ router.route('/adverts')
                 'user_type': response.locals.userType,
                 'id': response.locals.uid
             }
-            internshipManager.createRecruiterAdvert(user, request.body.title, request.body.body, request.body.field, request.body.city, request.body.website, request.body.contact, request.body.positions, request.body.deadline_date, function(status, errorOrId) {
+
+            const values = {
+                title: request.body.title,
+                body: request.body.body,
+                field: request.body.field,
+                city: request.body.city,
+                contact: request.body.contact,
+                website: request.body.website,
+                positions: request.body.positions,
+                deadline_date: request.body.deadlinedate,
+            }
+
+            internshipManager.createRecruiterAdvert(user, values, function(status, errorOrId) {
                 if (status) {
                     response.json({
                         'error': 'false',
                         'message': errorOrId
                     })
                 } else {
-                    response.json({
+                    response.status(500).json({
                         'error': 'true',
                         'message': errorOrId,
                         'code': 'APP_2'
@@ -134,13 +156,16 @@ router.route('/adverts/:id')
     })
     .get(function(request, response, next) {
         //get advert
+        console.log('Nu körs jag')
         internshipManager.getAdvertById(request.params.id, request.query.type, function(status, errorOrAdvert) {
             if (status) {
+                console.log('Nu körs även jag')
                 response.json({
                     'error': 'false',
                     'advert': errorOrAdvert
                 })
             } else {
+                console.log('Nu körs även jag error')
                 response.json({
                     'error': 'true',
                     'message': errorOrAdvert,

@@ -27,7 +27,7 @@ module.exports = function(container) {
                             }
                         })
                     }).catch(error => {
-                        callback(false, 'db error')
+                        callback(false, error)
                     })
                 }
             }

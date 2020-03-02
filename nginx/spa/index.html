@@ -8,6 +8,11 @@
         <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
         <title>SPA - Website</title>
         <script src="app.js"></script>
+        <style>
+            .hidden {
+                display: none;
+            }
+        </style>
     </head>
     <body>
         <div class="container mt-2">
@@ -17,22 +22,23 @@
                     <a href="#" class="btn btn-link">Home</a>
                 </section>
                 <section class="navbar-center column col-6">
-                    <form action="/search" method="GET" class="column">
+                    <!--<form action="/search" method="GET" class="column">
                     <div class="input-group input-inline column col-12">
                         <input class="form-input" type="text" placeholder="search" name="q">
                         <button class="btn btn-primary input-group-btn">Search</button>
                     </div>
-                    </form>
+                    </form>-->
                 </section>
                 <section class="navbar-section column col-2">
                     <a href="#/profile" class="btn btn-link">Profile</a>
                     <a href="#/logout" class="btn btn-link">Logout</a>
                     <a href="#/login" class="btn btn-link">Login</a>
+                    <div class="column col-2"></div>
                 </section>
             </header>
             <br>
             <div class="columns col-xl">
-                <div class="column col-12 col-md-12" id="app"></div>
+                <div class="column col-12 col-md-12 col-xs-12" id="app"></div>
             </div>
             <br>
             <br>
