@@ -129,7 +129,12 @@ module.exports = function(container) {
         getUserInfo: function(user, callback) {
             if (user.user_type === 1 || user.user_type === 2) {
                 container.accountRepository.getUserInfo(user.id, user.user_type).then(info => {
-                    callback(true, info)
+                    console.log(info)
+                    if (info == null) {
+                        callback(false, 'No Info')
+                    } else {
+                        callback(true, info)
+                    }
                 }).catch(error => {
                     console.log(error)
                     callback(false, error)

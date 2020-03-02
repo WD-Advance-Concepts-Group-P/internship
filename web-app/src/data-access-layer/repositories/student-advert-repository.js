@@ -106,7 +106,7 @@ class StudentAdvertRepository {
      */
     getById(id) {
         return new Promise((resolve, reject) => {
-            StudentAdverts.findOne({where: { id: id }}).then(adverts => {
+            StudentAdverts.findOne({ raw: true, where: { id: id }}).then(adverts => {
                 resolve(adverts)
             }).catch(error => {
                 reject(error)
@@ -117,6 +117,7 @@ class StudentAdvertRepository {
     getAllByUser(id) {
         return new Promise((resolve, reject) => {
             StudentAdverts.findAll({
+                raw: true,
                 where: { posted_by: id }
             }).then(adverts => {
                 resolve(adverts)
@@ -132,7 +133,7 @@ class StudentAdvertRepository {
      */
     getAll() {
         return new Promise((resolve, reject) => {
-            StudentAdverts.findAll().then(adverts => {
+            StudentAdverts.findAll({ raw: true }).then(adverts => {
                 resolve(adverts)
             }).catch(error => {
                 reject(error)

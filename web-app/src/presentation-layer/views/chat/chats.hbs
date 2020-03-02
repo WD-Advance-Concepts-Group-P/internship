@@ -7,7 +7,7 @@
         {{#if Chats.length}}
             {{#each Chats}}
                 <div class="card">
-                    <a href="/chat/{{this.dataValues.sender_id}}">{{this.dataValues.username}}</a>
+                    <a href="/chat/{{this.sender_id}}">{{this.username}}</a>
                     <!-- mysql <a href="/chat/{{this.sender_id}}">{{this.username}}</a> -->
                 </div>
             {{/each}}

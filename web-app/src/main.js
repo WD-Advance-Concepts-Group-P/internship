@@ -20,10 +20,20 @@ const profileManager = require('./business-logic-layer/profile-manager')
 
 const container = awilix.createContainer()
 
+/*
+MySql
+container.register('accountRepository', awilix.asClass(AccountRepository))
+container.register('recruiterAdvertRepository', awilix.asClass(RecruiterAdvertRepository))
+container.register('studentAdvertRepository', awilix.asClass(StudentAdvertRepository))
+container.register('chatRepository', awilix.asClass(ChatRepository))
+*/
+
+
 container.register('accountRepository', awilix.asClass(AccountRepositorySequelize))
 container.register('recruiterAdvertRepository', awilix.asClass(RecruiterAdvertRepositorySequelize))
 container.register('studentAdvertRepository', awilix.asClass(StudentAdvertRepositorySequelize))
 container.register('chatRepository', awilix.asClass(ChatRepositorySequelize))
+
 
 container.register('authManager', awilix.asFunction(authManager))
 container.register('internshipManager', awilix.asFunction(internshipManager))

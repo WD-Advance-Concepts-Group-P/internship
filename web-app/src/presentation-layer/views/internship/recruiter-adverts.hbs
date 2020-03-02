@@ -20,8 +20,8 @@
 <br>
 {{/if}}
 <div class="columns col-xl">
-    <div class="column col-3"></div>
-    <div class="column col-6 col-md-12">
+    <div class="column col-1"></div>
+    <div class="column col-10 col-md-12">
         <h3>View recruiter adverts</h3>
         {{#if validationErrors.length}}
         <div class="toast toast-error">
@@ -31,60 +31,42 @@
         {{#if Posts.length}}
             {{#each Posts}}
                 <div class="card">
-                    <div class="card-header">
-                        <div class="card-title h5"><a>{{this.dataValues.title}}</a></div>
-                        {{#if ../hideGotoAdvertLink}}
-                        {{else}}
-                        <div class="card-title h6"><a href="/advert/{{this.dataValues.id}}?type=recruiter">Advert</a></div>
-                        {{/if}}
-                        {{#if ../deleteOrUpdate}}
-                            <form action="/delete/advert" method="POST">
-                                <input type="hidden" name="_csrf" value="{{../csrfToken}}">
-                                <input type="hidden" name="id" value="{{this.dataValues.id}}">
-                                <div class="form-group">
-                                    <input class="form-submit" type="submit" placeholder="Delete" value="Delete">
-                                </div>
-                            </form>
-                            <a href="/update/advert?type=recruiter&id={{this.dataValues.id}}">Update</a>
-                        {{/if}}
-                        <div class="card-subtitle text-gray">
-                            {{#if ../sendMessageHidden}}
-                            {{else}}
-                            <a href="/send/chat/{{this.dataValues.posted_by}}">Send message</a>
+                    <div class="columns">
+                        <div class="column col-1"></div>
+                        <h2 class="column col-7"><a href="/advert/{{this.id}}?type=recruiter">{{this.title}}</a></h2>
+                        <div class="column col-4">
+                            {{#if ../deleteOrUpdate}}
+                                <form action="/delete/advert" method="POST">
+                                    <input type="hidden" name="_csrf" value="{{../csrfToken}}">
+                                    <input type="hidden" name="id" value="{{this.id}}">
+                                    <div class="form-group">
+                                        <input class="form-submit" type="submit" placeholder="Delete" value="Delete">
+                                    </div>
+                                </form>
+                                <a href="/update/advert?type=recruiter&id={{this.id}}">Update</a>
                             {{/if}}
-                            <ul>
-                                <li>{{this.dataValues.field}}</li>
-                                <li>{{this.dataValues.contact}}</li>
-                                <li>{{this.dataValues.website}}</li>
-                                <li>{{this.dataValues.deadline_date}}</li>
-                                <li>{{this.dataValues.posted_by}}</li>
-                            </ul>
                         </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column col-1"></div>
+                        <p class="column col-3">Field: {{this.field}}</p>
+                        <p class="column col-4">Contact: {{this.contact}}</p>
+                        {{#if ../sendMessageHidden}}
+                        {{else}}
+                        <p class="column col-3">Ask something: <a href="/send/chat/{{this.posted_by}}">Chat</a></p>
+                        {{/if}}
+                        <div class="column col-1"></div>
+                    </div>
+                    <div class="columns">
+                        <p class="column col-3 col-xs-6"> Location: {{this.city}}</p>
+                        <p class="column col-3 col-xs-6"><a href="{{this.website}}">{{this.website}}</a></p>
+                        <p class="column col-3 col-xs-6">postitions: {{this.positions}}</p>
+                        <p class="column col-3 col-xs-6">Last day to apply: {{this.deadline_date}}</p>
                     </div>
                     <div class="card-body" id="card-content">
-                        {{{this.dataValues.body}}}
+                        <p>Description:</p>
+                        {{this.body}}
                     </div>
-                    <!--
-                        use this when mysql is the db
-
-                        <div class="card-header">
-                        <div class="card-title h5"><a>{{this.title}}</a></div>
-                        <div class="card-subtitle text-gray">
-                            <a href="/chat/{{this.posted_by}}">Send message</a>
-                            <ul>
-                                <li>{{this.field}}</li>
-                                <li>{{this.contact}}</li>
-                                <li>{{this.website}}</li>
-                                <li>{{this.deadline_date}}</li>
-                                <li>{{this.posted_by}}</li>
-                            </ul>
-                        </div>
-                        </div>
-                        <div class="card-body" id="card-content">
-                            {{{this.body}}}
-                        </div>
-                    -->
-                    <br>
                 </div>
                 <br>
             {{/each}}
@@ -92,5 +74,5 @@
         <h1>No adverts yet</h1>
         {{/if}}
     </div>
-    <div class="column col-3"></div>
+    <div class="column col-1"></div>
 </div>

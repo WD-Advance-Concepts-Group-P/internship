@@ -125,7 +125,7 @@ class AccountRepository {
     getUserInfo(uid, userType) {
         if (userType === 1) {
             return new Promise((resolve, reject) => {
-                Students.findOne({ where: {account_id: uid} }).then(info => {
+                Students.findOne({ raw: true, where: {account_id: uid} }).then(info => {
                     resolve(info)
                 }).catch(error => {
                     reject(error)
@@ -133,7 +133,7 @@ class AccountRepository {
             })
         } else if (userType === 2) {
             return new Promise((resolve, reject) => {
-                Recruiter.findOne({ where: {account_id: uid} }).then(info => {
+                Recruiter.findOne({ raw: true, where: {account_id: uid} }).then(info => {
                     resolve(info)
                 }).catch(error => {
                     reject(error)
@@ -185,7 +185,7 @@ class AccountRepository {
      */
 	getByUsername(username) {
         return new Promise((resolve, reject) => {
-            Accounts.findOne({ where: {username: username} }).then((info) => {
+            Accounts.findOne({ raw: true, where: {username: username} }).then((info) => {
                 if (info === null) {
                     reject('Wrong username/password')
                 } else {
