@@ -469,6 +469,10 @@ window.addEventListener('load', router);
 window.addEventListener('hashchange', handleLoad);
 window.addEventListener('load', handleLoad);
 
+/*
+* Handle submit function
+*/
+
 function login() {
     const errorMessage = document.getElementById('errorMessage')
     errorMessage.classList.add('hidden')
@@ -532,8 +536,8 @@ function login() {
             }
         })
         .catch(error => {
-            console.log('nein')
-            console.log(error)
+            errorMessage.classList.remove('hidden')
+            errorMessage.innerText = 'Network error'
         })
     } else {
         errorMessage.classList.remove('hidden')
@@ -571,25 +575,22 @@ function register() {
                 })
             } else {
                 response.json().then(data => {
-                    console.log(data)
-                    errorMessage.classList.remove('hidden')
-                    errorMessage.innerText = data.message
-                    /*
-                    if (data.error == 'invalid_client') {
-                        //display invalid username/password
+                    if (response.status == 400) {
                         errorMessage.classList.remove('hidden')
                         errorMessage.innerText = data.message
-                    } else {
-                        //display generic error
+                    } else if (response.status == 500) {
                         errorMessage.classList.remove('hidden')
                         errorMessage.innerText = 'Server error'
-                    }*/
+                    } else {
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Server error'
+                    }
                 })
             }
         })
         .catch(error => {
-            console.log('nein')
-            console.log(error)
+            errorMessage.classList.remove('hidden')
+            errorMessage.innerText = 'Network error'
         })
     } else {
         errorMessage.classList.remove('hidden')
@@ -644,17 +645,23 @@ function profileSetupStudent() {
                     window.location.replace('#/profile')
                 })
             } else {
-                console.log(response)
-                /*response.json().then(data => {
-                    console.log(data)
-                    errorMessage.classList.remove('hidden')
-                    errorMessage.innerText = data.message
-                })*/
+                response.json().then(data => {
+                    if (response.status == 400) {
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = data.message
+                    } else if (response.status == 500) {
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Server error'
+                    } else {
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Server error'
+                    }
+                })
             }
         })
         .catch(error => {
-            console.log('nein')
-            console.log(error)
+            errorMessage.classList.remove('hidden')
+            errorMessage.innerText = 'Network error'
         })
     } else {
         errorMessage.classList.remove('hidden')
@@ -696,17 +703,23 @@ function profileSetupRecruiter() {
                     window.location.replace('#/profile')
                 })
             } else {
-                console.log(response)
-                /*response.json().then(data => {
-                    console.log(data)
-                    errorMessage.classList.remove('hidden')
-                    errorMessage.innerText = data.message
-                })*/
+                response.json().then(data => {
+                    if (response.status == 400) {
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = data.message
+                    } else if (response.status == 500) {
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Server error'
+                    } else {
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Server error'
+                    }
+                })
             }
         })
         .catch(error => {
-            console.log('nein')
-            console.log(error)
+            errorMessage.classList.remove('hidden')
+            errorMessage.innerText = 'Network error'
         })
     } else {
         errorMessage.classList.remove('hidden')
@@ -719,8 +732,6 @@ function createAdvert() {
     errorMessage.classList.add('hidden')
 
     const createAdvertUrl = url + '/adverts'
-
-    console.log('create advert')
 
     if (sessionManager.getUserType() == 1) {
 
@@ -753,16 +764,26 @@ function createAdvert() {
             .then(response => {
                 if (response.ok) {
                     response.json().then(data => {
-                        console.log('create advert')
                         window.location.replace('#/my/adverts')
                     })
                 } else {
-                    console.log(response)
+                    response.json().then(data => {
+                        if (response.status == 400) {
+                            errorMessage.classList.remove('hidden')
+                            errorMessage.innerText = data.message
+                        } else if (response.status == 500) {
+                            errorMessage.classList.remove('hidden')
+                            errorMessage.innerText = 'Server error'
+                        } else {
+                            errorMessage.classList.remove('hidden')
+                            errorMessage.innerText = 'Server error'
+                        }
+                    })
                 }
             })
             .catch(error => {
-                console.log('nein')
-                console.log(error)
+                errorMessage.classList.remove('hidden')
+                errorMessage.innerText = 'Network error'
             })
         } else {
             errorMessage.classList.remove('hidden')
@@ -775,6 +796,7 @@ function createAdvert() {
         const fieldOptions = document.getElementById('option')
         const field = fieldOptions.options[fieldOptions.selectedIndex].value;
         const contact = document.getElementById('contactInput')
+        const city = document.getElementById('cityInput')
         const website = document.getElementById('websiteInput')
         const positions = document.getElementById('positionsInput')
         const deadlinedate = document.getElementById('deadlinedateInput')
@@ -790,6 +812,7 @@ function createAdvert() {
                     'title': title.value,
                     'body': body.value,
                     'field': field,
+                    'city': city.value,
                     'contact': contact.value,
                     'website': website.value,
                     'positions': positions.value,
@@ -800,16 +823,26 @@ function createAdvert() {
             .then(response => {
                 if (response.ok) {
                     response.json().then(data => {
-                        console.log('create advert')
                         window.location.replace('#/my/adverts')
                     })
                 } else {
-                    console.log(response)
+                    response.json().then(data => {
+                        if (response.status == 400) {
+                            errorMessage.classList.remove('hidden')
+                            errorMessage.innerText = data.message
+                        } else if (response.status == 500) {
+                            errorMessage.classList.remove('hidden')
+                            errorMessage.innerText = 'Server error'
+                        } else {
+                            errorMessage.classList.remove('hidden')
+                            errorMessage.innerText = 'Server error'
+                        }
+                    })
                 }
             })
             .catch(error => {
-                console.log('nein')
-                console.log(error)
+                errorMessage.classList.remove('hidden')
+                errorMessage.innerText = 'Network error'
             })
         } else {
             errorMessage.classList.remove('hidden')
@@ -861,8 +894,8 @@ function deleteAdvert() {
                 }
             })
             .catch(error => {
-                console.log('nein')
-                console.log(error)
+                errorMessage.classList.remove('hidden')
+                errorMessage.innerText = 'Network error'
             })
         }
     }
@@ -920,18 +953,18 @@ function loadStudentAdverts() {
             })
         } else {
             response.json().then(data => {
-                console.log(data)
+                errorMessage.classList.remove('hidden')
+                errorMessage.innerText = 'Network error'
             })
         }
     })
     .catch(error => {
-        console.log('nein')
-        console.log(error)
+        errorMessage.classList.remove('hidden')
+        errorMessage.innerText = 'Network error'
     })
 }
 
 function loadRecruiterAdverts() {
-    console.log('load recruiter adverts')
     const recruiterAdvertsUrl = url + '/adverts?type=recruiter'
     const request = new Request(recruiterAdvertsUrl, {
         method: 'GET',
@@ -976,13 +1009,14 @@ function loadRecruiterAdverts() {
             })
         } else {
             response.json().then(data => {
-                console.log(data)
+                errorMessage.classList.remove('hidden')
+                errorMessage.innerText = 'Network error'
             })
         }
     })
     .catch(error => {
-        console.log('nein')
-        console.log(error)
+        errorMessage.classList.remove('hidden')
+        errorMessage.innerText = 'Network error'
     })
 }
 
@@ -1074,13 +1108,14 @@ function loadAdvert() {
                     })
                 } else {
                     response.json().then(data => {
-                        console.log(data)
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Network error'
                     })
                 }
             })
             .catch(error => {
-                console.log('nein')
-                console.log(error)
+                errorMessage.classList.remove('hidden')
+                errorMessage.innerText = 'Network error'
             })
         }
     }
@@ -1159,13 +1194,14 @@ function loadMyAdverts() {
             })
         } else {
             response.json().then(data => {
-                console.log(data)
+                errorMessage.classList.remove('hidden')
+                errorMessage.innerText = 'Network error'
             })
         }
     })
     .catch(error => {
-        console.log('nein')
-        console.log(error)
+        errorMessage.classList.remove('hidden')
+        errorMessage.innerText = 'Network error'
     })    
 }
 

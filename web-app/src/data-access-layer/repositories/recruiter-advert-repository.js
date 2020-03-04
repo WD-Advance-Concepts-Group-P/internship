@@ -147,7 +147,7 @@ class RecruiterAdvertRepository {
      */
     getAll() {
         return new Promise((resolve, reject) => {
-            RecruiterAdvert.findAll({ raw: true }).then(adverts => {
+            RecruiterAdvert.findAll({ raw: true, order: [['created_at', 'DESC']] }).then(adverts => {
                 resolve(adverts)
             }).catch(error => {
                 reject(error)
