@@ -121,9 +121,9 @@ class ChatRepository {
     }
 
     getAllMyMessagesByChat(receiverId, senderId) {
-        const sql = `SELECT * FROM Chat WHERE sender_id = ? AND receiver_id = ? ORDER BY id DESC`
+        const sql = `SELECT * FROM Chat WHERE sender_id = ? AND receiver_id = ? UNION SELECT * FROM Chat WHERE sender_id = ? AND receiver_id = ? ORDER BY id DESC`
 
-        return this.dbh.all(sql, [senderId, receiverId])
+        return this.dbh.all(sql, [senderId, receiverId, receiverId, senderId])
     }
 
 	/**

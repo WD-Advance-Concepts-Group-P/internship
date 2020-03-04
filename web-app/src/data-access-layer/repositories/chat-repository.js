@@ -5,21 +5,6 @@ const Accounts = require('./account-repository')
 
 class ChatRepository {
 
-    /*
-    TODO: Not working
-    */
-
-	createTable() {
-        const sql = `CREATE TABLE Chat (
-			id INT AUTO_INCREMENT PRIMARY KEY,
-			sender_id INT NOT NULL,
-			receiver_id INT NOT NULL,
-			content TEXT NOT NULL,
-			created_at DATE NOT NULL)`
-        
-        return this.dbh.run(sql)
-    }
-
 	/**
      * Create a new chat in the repository
      * @param {Object} chat The 'chat' object

@@ -105,6 +105,7 @@ module.exports = function(container) {
                     container.recruiterAdvertRepository.create(info).then(result => {
                         callback(true, result.id)
                     }).catch(error => {
+                        console.log(error)
                         callback(false, 'db error')
                     })
                 }
