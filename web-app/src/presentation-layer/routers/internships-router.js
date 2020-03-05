@@ -298,8 +298,6 @@ router.route('/update/advert')
     })
 
 router.get('/creator/:id', function(request, response) {
-    console.log('nein')
-
     var user_type
     if (request.query.type == 'student') {
         user_type = 1
