@@ -1,3 +1,17 @@
+import { sessionManager } from './session.js';
+
+import { HomeComponent, LoginComponent, LogoutComponent, 
+    RegisterComponent, ProfileComponent, ProfileSetupStudentComponent, 
+    ProfileSetupRecruiterComponent, PositionsComponent, StudentAdvertsComponent, 
+    AdvertComponent, CreateAdvertComponent, 
+    MyAdvertsComponent, DeleteAdvertComponent } from './components.js';
+
+import { loadStudentAdverts, loadRecruiterAdverts, 
+    loadAdvert, loadMyAdverts, loadCreateAdvert } from './loadFunctions.js';
+
+import { login, logout, register, profileSetupStudent,
+    profileSetupRecruiter, createAdvert, deleteAdvert } from './submitFunctions.js';
+
 /*class Session {
     constructor() {}
 
@@ -38,19 +52,6 @@
     }
 
 }*/
-import { sessionManager } from './session.js';
-
-import { HomeComponent, LoginComponent, LogoutComponent, 
-    RegisterComponent, ProfileComponent, ProfileSetupStudentComponent, 
-    ProfileSetupRecruiterComponent, PositionsComponent, StudentAdvertsComponent, 
-    AdvertComponent, CreateAdvertComponent, 
-    MyAdvertsComponent, DeleteAdvertComponent } from './components.js';
-
-import { loadStudentAdverts, loadRecruiterAdverts, 
-    loadAdvert, loadMyAdverts, loadCreateAdvert } from './loadFunctions.js';
-
-import { login, logout, register, profileSetupStudent,
-    profileSetupRecruiter, createAdvert, deleteAdvert } from './submitFunctions.js';
 
 /*
 const HomeComponent = {
