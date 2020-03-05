@@ -927,23 +927,21 @@ function loadStudentAdverts() {
                         const div = document.createElement('div');
                         div.innerHTML = `
                             <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title h5"><a>`+ data.advert[i].title +`</a></div>
-                                    <div class="card-title h6"><a href="#/advert?id=`+ data.advert[i].id +`&type=student">Advert</a></div>
-                                    <div class="card-subtitle text-gray">
-                                        <ul>
-                                            <li>`+ data.advert[i].field +`</li>
-                                            <li>`+ data.advert[i].contact +`</li>
-                                            <li>`+ data.advert[i].start_date +`</li>
-                                            <li>`+ data.advert[i].end_date +`</li>
-                                            <li>`+ data.advert[i].posted_by +`</li>
-                                        </ul>
-                                    </div>
+                                <div class="columns">
+                                    <div class="column col-1"></div>
+                                    <h2 class="column col-8"><a href="#/advert?id=`+ data.advert[i].id +`&type=student">`+ data.advert[i].title +`</a></h2>
+                                    <div class="column col-3"></div>
+                                </div>
+                                <div class="columns">
+                                    <div class="colum col-1"></div>
+                                    <p class="column col-2">Field: `+ data.advert[i].field +`</p>
+                                    <p class="column col-3">Contact: `+ data.advert[i].contact +`</p>
+                                    <div class="column col-6">Dates: `+ data.advert[i].start_date.slice(0, 10) +` - `+ data.advert[i].end_date.slice(0, 10) +`</div>
                                 </div>
                                 <div class="card-body" id="card-content">
+                                    <p>Description:</p>
                                     `+ data.advert[i].body +`
                                 </div>
-                                <br>
                             </div>
                             <br>
                         `
@@ -983,23 +981,28 @@ function loadRecruiterAdverts() {
                         const div = document.createElement('div');
                         div.innerHTML = `
                             <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title h5"><a>`+ data.advert[i].title +`</a></div>
-                                    <div class="card-title h6"><a href="#/advert?id=`+ data.advert[i].id +`&type=recruiter">Advert</a></div>
-                                    <div class="card-subtitle text-gray">
-                                        <ul>
-                                            <li>`+ data.advert[i].field +`</li>
-                                            <li>`+ data.advert[i].contact +`</li>
-                                            <li>`+ data.advert[i].website +`</li>
-                                            <li>`+ data.advert[i].deadline_date +`</li>
-                                            <li>`+ data.advert[i].posted_by +`</li>
-                                        </ul>
-                                    </div>
+                                <div class="columns">
+                                    <div class="column col-1"></div>
+                                    <h2 class="column col-7"><a href="#/advert?id=`+ data.advert[i].id +`&type=recruiter">`+ data.advert[i].title +`</a></h2>
+                                </div>
+                                <div class="columns">
+                                    <div class="column col-1"></div>
+                                    <p class="column col-3">Field: `+ data.advert[i].field +`</p>
+                                    <p class="column col-4">Contact: `+ data.advert[i].contact +`</p>
+                                    <p class="column col-3 col-xs-6"><a href="`+ data.advert[i].website +`">`+ data.advert[i].website +`</a></p>
+                                    <div class="column col-1"></div>
+                                </div>
+                                <div class="columns">
+                                    <div class="column col-1"></div>
+                                    <p class="column col-3 col-xs-6"> Location: `+ data.advert[i].city +`</p>
+                                    <p class="column col-3 col-xs-6">postitions: `+ data.advert[i].positions +`</p>
+                                    <p class="column col-4 col-xs-6">Last day to apply: `+ data.advert[i].deadline_date.slice(0, 10) +`</p>
+                                    <div class="column col-1"></div>
                                 </div>
                                 <div class="card-body" id="card-content">
+                                    <p>Description:</p>
                                     `+ data.advert[i].body +`
                                 </div>
-                                <br>
                             </div>
                             <br>
                         `
@@ -1061,44 +1064,49 @@ function loadAdvert() {
                             if (type == 'student') {
                                 div.innerHTML = `
                                     <div class="card">
-                                        <div class="card-header">
-                                            <div class="card-title h5"><a>`+ data.advert.title +`</a></div>
-                                            <div class="card-subtitle text-gray">
-                                                <ul>
-                                                    <li>`+ data.advert.field +`</li>
-                                                    <li>`+ data.advert.contact +`</li>
-                                                    <li>`+ data.advert.start_date +`</li>
-                                                    <li>`+ data.advert.end_date +`</li>
-                                                    <li>`+ data.advert.posted_by +`</li>
-                                                </ul>
-                                            </div>
+                                        <div class="columns">
+                                            <div class="column col-1"></div>
+                                            <h2 class="column col-8">`+ data.advert.title +`</h2>
+                                            <div class="column col-3"></div>
+                                        </div>
+                                        <div class="columns">
+                                            <div class="colum col-1"></div>
+                                            <p class="column col-2">Field: `+ data.advert.field +`</p>
+                                            <p class="column col-3">Contact: `+ data.advert.contact +`</p>
+                                            <div class="column col-6">Dates: `+ data.advert.start_date.slice(0, 10) +` - `+ data.advert.end_date.slice(0, 10) +`</div>
                                         </div>
                                         <div class="card-body" id="card-content">
+                                            <p>Description:</p>
                                             `+ data.advert.body +`
                                         </div>
-                                        <br>
                                     </div>
                                     <br>
                                 `
                             } else if (type == 'recruiter') {
                                 div.innerHTML = `
                                     <div class="card">
-                                        <div class="card-header">
-                                            <div class="card-title h5"><a>`+ data.advert.title +`</a></div>
-                                            <div class="card-subtitle text-gray">
-                                                <ul>
-                                                    <li>`+ data.advert.field +`</li>
-                                                    <li>`+ data.advert.contact +`</li>
-                                                    <li>`+ data.advert.website +`</li>
-                                                    <li>`+ data.advert.deadline_date +`</li>
-                                                    <li>`+ data.advert.posted_by +`</li>
-                                                </ul>
-                                            </div>
+                                        <div class="columns">
+                                            <div class="column col-1"></div>
+                                            <h2 class="column col-7">`+ data.advert.title +`</h2>
+                                        </div>
+                                        <div class="columns">
+                                            <div class="column col-1"></div>
+                                            <p class="column col-3">Field: `+ data.advert.field +`</p>
+                                            <p class="column col-4">Contact: `+ data.advert.contact +`</p>
+                                            <p class="column col-3 col-xs-6"><a href="`+ data.advert.website +`">`+ data.advert.website +`</a></p>
+                                            <div class="column col-1"></div>
+                                        </div>
+                                        <div class="columns">
+                                            <div class="column col-1"></div>
+                                            <p class="column col-3 col-xs-6"> Location: `+ data.advert.city +`</p>
+                                            <p class="column col-3 col-xs-6">postitions: `+ data.advert.positions +`</p>
+                                            <p class="column col-4 col-xs-6">Last day to apply: `+ data.advert.deadline_date.slice(0, 10) +`</p>
+                                            <div class="column col-1"></div>
                                         </div>
                                         <div class="card-body" id="card-content">
+                                            <p>Description:</p>
                                             `+ data.advert.body +`
                                         </div>
-                                        <br>
                                     </div>
                                     <br>
                                 `
@@ -1108,14 +1116,15 @@ function loadAdvert() {
                     })
                 } else {
                     response.json().then(data => {
-                        errorMessage.classList.remove('hidden')
-                        errorMessage.innerText = 'Network error'
+                        //errorMessage.classList.remove('hidden')
+                        //errorMessage.innerText = 'Network error'
                     })
                 }
             })
             .catch(error => {
-                errorMessage.classList.remove('hidden')
-                errorMessage.innerText = 'Network error'
+                console.log(error)
+                //errorMessage.classList.remove('hidden')
+                //errorMessage.innerText = 'Network error'
             })
         }
     }
@@ -1144,46 +1153,50 @@ function loadMyAdverts() {
                         if (sessionManager.getUserType() == 1) {
                             div.innerHTML = `
                                 <div class="card">
-                                    <div class="card-header">
-                                        <div class="card-title h5"><a>`+ data.advert[i].title +`</a></div>
-                                        <div class="card-title h6"><a href="#/delete?id=`+ data.advert[i].id +`&type=student">Delete</a></div>
-                                        <div class="card-subtitle text-gray">
-                                            <ul>
-                                                <li>`+ data.advert[i].field +`</li>
-                                                <li>`+ data.advert[i].contact +`</li>
-                                                <li>`+ data.advert[i].start_date +`</li>
-                                                <li>`+ data.advert[i].end_date +`</li>
-                                                <li>`+ data.advert[i].posted_by +`</li>
-                                            </ul>
-                                        </div>
+                                    <div class="columns">
+                                        <div class="column col-1"></div>
+                                        <h2 class="comumn col-5">`+ data.advert[i].title +`</h2>
+                                        <h4 class="column col-5"><a href="#/delete?id=`+ data.advert[i].id +`&type=student">Delete</a></h4>
+                                        <div class="column col-1"></div>
+                                    </div>
+                                    <div class="columns">
+                                        <div class="colum col-1"></div>
+                                        <p class="column col-2">Field: `+ data.advert[i].field +`</p>
+                                        <p class="column col-3">Contact: `+ data.advert[i].contact +`</p>
+                                        <div class="column col-6">Dates: `+ data.advert[i].start_date.slice(0, 10) +` - `+ data.advert[i].end_date.slice(0, 10) +`</div>
                                     </div>
                                     <div class="card-body" id="card-content">
+                                        <p>Description:</p>
                                         `+ data.advert[i].body +`
                                     </div>
-                                    <br>
                                 </div>
                                 <br>
                             `
                         } else if (sessionManager.getUserType() == 2) {
                             div.innerHTML = `
                                 <div class="card">
-                                    <div class="card-header">
-                                        <div class="card-title h5"><a>`+ data.advert[i].title +`</a></div>
-                                        <div class="card-title h6"><a href="#/delete?id=`+ data.advert[i].id +`&type=recruiter">Delete</a></div>
-                                        <div class="card-subtitle text-gray">
-                                            <ul>
-                                                <li>`+ data.advert[i].field +`</li>
-                                                <li>`+ data.advert[i].contact +`</li>
-                                                <li>`+ data.advert[i].website +`</li>
-                                                <li>`+ data.advert[i].deadline_date +`</li>
-                                                <li>`+ data.advert[i].posted_by +`</li>
-                                            </ul>
-                                        </div>
+                                    <div class="columns">
+                                        <div class="column col-1"></div>
+                                        <h2 class="column col-7"><a href="#/advert?id=`+ data.advert[i].id +`&type=recruiter">`+ data.advert[i].title +`</a></h2>
+                                    </div>
+                                    <div class="columns">
+                                        <div class="column col-1"></div>
+                                        <p class="column col-3">Field: `+ data.advert[i].field +`</p>
+                                        <p class="column col-4">Contact: `+ data.advert[i].contact +`</p>
+                                        <p class="column col-3 col-xs-6"><a href="`+ data.advert[i].website +`">`+ data.advert[i].website +`</a></p>
+                                        <div class="column col-1"></div>
+                                    </div>
+                                    <div class="columns">
+                                        <div class="column col-1"></div>
+                                        <p class="column col-3 col-xs-6"> Location: `+ data.advert[i].city +`</p>
+                                        <p class="column col-3 col-xs-6">postitions: `+ data.advert[i].positions +`</p>
+                                        <p class="column col-4 col-xs-6">Last day to apply: `+ data.advert[i].deadline_date.slice(0, 10) +`</p>
+                                        <div class="column col-1"></div>
                                     </div>
                                     <div class="card-body" id="card-content">
+                                        <p>Description:</p>
                                         `+ data.advert[i].body +`
                                     </div>
-                                    <br>
                                 </div>
                                 <br>
                             `
