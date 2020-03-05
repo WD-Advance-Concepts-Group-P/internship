@@ -1250,7 +1250,7 @@ function loadCreateAdvert() {
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="contactInput">Contact</label>
-                        <input class="form-input" id="contactInput" type="text" name="contact" placeholder="Cotact" required>
+                        <input class="form-input" id="contactInput" type="text" name="contact" placeholder="Contact" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="startdateInput">start date</label>
