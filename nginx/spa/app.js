@@ -1,4 +1,4 @@
-class Session {
+/*class Session {
     constructor() {}
 
     setAuthToken(authToken) {
@@ -37,11 +37,22 @@ class Session {
         localStorage.clear();
     }
 
-}
+}*/
+import { sessionManager } from './session.js';
 
-const sessionManager = new Session()
-const url = 'http://localhost:8080/api/v1';
+import { HomeComponent, LoginComponent, LogoutComponent, 
+    RegisterComponent, ProfileComponent, ProfileSetupStudentComponent, 
+    ProfileSetupRecruiterComponent, PositionsComponent, StudentAdvertsComponent, 
+    AdvertComponent, CreateAdvertComponent, 
+    MyAdvertsComponent, DeleteAdvertComponent } from './components.js';
 
+import { loadStudentAdverts, loadRecruiterAdverts, 
+    loadAdvert, loadMyAdverts, loadCreateAdvert } from './loadFunctions.js';
+
+import { login, logout, register, profileSetupStudent,
+    profileSetupRecruiter, createAdvert, deleteAdvert } from './submitFunctions.js';
+
+/*
 const HomeComponent = {
     render: () => {
         return `
@@ -381,7 +392,7 @@ const ErrorComponent = {
             </section>
         `;
     }
-}
+}*/
    
 const routes = [
     { path: '/', component: HomeComponent, },
@@ -420,7 +431,7 @@ const router = () => {
     path = new_path[0]
 
     if (sessionManager.getAuthToken() == null) {
-        for (i in authRequiredRoutes) {
+        for (var i in authRequiredRoutes) {
             if (path == authRequiredRoutes[i]) {
                 window.location.replace('#/login')
             }
@@ -473,6 +484,7 @@ window.addEventListener('load', handleLoad);
 * Handle submit function
 */
 
+/*
 function login() {
     const errorMessage = document.getElementById('errorMessage')
     errorMessage.classList.add('hidden')
@@ -900,6 +912,7 @@ function deleteAdvert() {
         }
     }
 }
+*/
 
 /*
 * Load functions
@@ -908,6 +921,7 @@ function deleteAdvert() {
 * Load functions below
 */
 
+/*
 function loadStudentAdverts() {
     const studentAdvertsUrl = url + '/adverts?type=student'
     const request = new Request(studentAdvertsUrl, {
@@ -923,7 +937,7 @@ function loadStudentAdverts() {
                     div.innerHTML = '<h3>No adverts</h3>'
                     advertArea.appendChild(div)
                 } else {
-                    for (i in data.advert) {
+                    for (var i in data.advert) {
                         const div = document.createElement('div');
                         div.innerHTML = `
                             <div class="card">
@@ -1148,7 +1162,7 @@ function loadMyAdverts() {
                     div.innerHTML = '<h3>No adverts</h3>'
                     advertArea.appendChild(div)
                 } else {
-                    for (i in data.advert) {
+                    for (var i in data.advert) {
                         const div = document.createElement('div');
                         if (sessionManager.getUserType() == 1) {
                             div.innerHTML = `
@@ -1328,7 +1342,7 @@ function loadCreateAdvert() {
         `
         advertArea.appendChild(div) 
     }
-}
+}*/
 
 function handleLoad() {
     var page = parseLocation()
