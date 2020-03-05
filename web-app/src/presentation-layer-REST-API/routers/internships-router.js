@@ -176,7 +176,7 @@ router.route('/adverts/:id')
                     'advert': errorOrAdvert
                 })
             } else {
-                response.json({
+                response.status(500).json({
                     'error': 'true',
                     'message': errorOrAdvert,
                     'code': 'APP_ERR'
@@ -194,7 +194,7 @@ router.route('/adverts/:id')
                         'message': 'success updating advert'
                     })
                 } else {
-                    response.json({
+                    response.status(500).json({
                         'error': 'true',
                         'message': errorOrId,
                         'code': 'APP_2'
@@ -209,7 +209,7 @@ router.route('/adverts/:id')
                         'message': 'success updating advert'
                     })
                 } else {
-                    response.json({
+                    response.status(500).json({
                         'error': 'true',
                         'message': errorOrId,
                         'code': 'APP_2'
@@ -217,7 +217,7 @@ router.route('/adverts/:id')
                 }
             })
         } else {
-            response.json({
+            response.status(400).json({
                 'error': 'true',
                 'message': 'invalid type submitted (student or recruiter are valid)',
                 'code': 'TYPE_1'
@@ -238,7 +238,7 @@ router.route('/adverts/:id')
                     'message': 'success deleting advert'
                 })
             } else {
-                response.json({
+                response.status(500).json({
                     'error': 'true',
                     'message': error,
                     'code': 'APP_2'

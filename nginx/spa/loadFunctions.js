@@ -77,7 +77,7 @@ export function loadRecruiterAdverts() {
                     div.innerHTML = '<h3>No adverts</h3>'
                     advertArea.appendChild(div)
                 } else {
-                    for (i in data.advert) {
+                    for (var i in data.advert) {
                         const div = document.createElement('div');
                         div.innerHTML = `
                             <div class="card">
@@ -146,9 +146,9 @@ export function loadAdvert() {
         if (id == null || type == null || id == '' || type == '') {
             console.log('something is null')
         } else {
-            const advertUrl = url+'/adverts/'+id+'?type='+type
+            const advertUrl = url+'/adverts/'+id+'?type='+type+''
             const request = new Request(advertUrl, {
-                method: 'GET',
+                method: 'GET'
             });
             fetch(request)
             .then(response => {
