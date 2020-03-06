@@ -1,18 +1,4 @@
-import { sessionManager } from './session.js';
-
-import { HomeComponent, LoginComponent, LogoutComponent, 
-    RegisterComponent, ProfileComponent, ProfileSetupStudentComponent, 
-    ProfileSetupRecruiterComponent, PositionsComponent, StudentAdvertsComponent, 
-    AdvertComponent, CreateAdvertComponent, 
-    MyAdvertsComponent, DeleteAdvertComponent } from './components.js';
-
-import { loadStudentAdverts, loadRecruiterAdverts, 
-    loadAdvert, loadMyAdverts, loadCreateAdvert } from './loadFunctions.js';
-
-import { login, logout, register, profileSetupStudent,
-    profileSetupRecruiter, createAdvert, deleteAdvert } from './submitFunctions.js';
-
-/*class Session {
+class Session {
     constructor() {}
 
     setAuthToken(authToken) {
@@ -51,9 +37,8 @@ import { login, logout, register, profileSetupStudent,
         localStorage.clear();
     }
 
-}*/
+}
 
-/*
 const HomeComponent = {
     render: () => {
         return `
@@ -393,7 +378,7 @@ const ErrorComponent = {
             </section>
         `;
     }
-}*/
+}
    
 const routes = [
     { path: '/', component: HomeComponent, },
@@ -485,7 +470,6 @@ window.addEventListener('load', handleLoad);
 * Handle submit function
 */
 
-/*
 function login() {
     const errorMessage = document.getElementById('errorMessage')
     errorMessage.classList.add('hidden')
@@ -913,7 +897,6 @@ function deleteAdvert() {
         }
     }
 }
-*/
 
 /*
 * Load functions
@@ -922,7 +905,6 @@ function deleteAdvert() {
 * Load functions below
 */
 
-/*
 function loadStudentAdverts() {
     const studentAdvertsUrl = url + '/adverts?type=student'
     const request = new Request(studentAdvertsUrl, {
@@ -1343,7 +1325,7 @@ function loadCreateAdvert() {
         `
         advertArea.appendChild(div) 
     }
-}*/
+}
 
 function handleLoad() {
     var page = parseLocation()

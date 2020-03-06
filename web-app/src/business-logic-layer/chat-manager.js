@@ -11,9 +11,7 @@ module.exports = function(container) {
             } else {
         
                 const chat = { senderId, content: message, receiverId }
-
                 console.log(chat)
-        
                 container.chatRepository.create(chat).then(result => {
                     callback(true, result.id)
                 }).catch(error => {
@@ -27,7 +25,7 @@ module.exports = function(container) {
                 callback(false, 'must supplie userId')
             } else {
                 container.chatRepository.getAllMyChats(userId).then(chats => {
-                    //console.log(chats)
+                    console.log(chats)
                     callback(true, chats)
                 }).catch(error => {
                     console.log(error)
@@ -42,6 +40,7 @@ module.exports = function(container) {
                 callback(false, 'must supplie senderId')
             } else {
                 container.chatRepository.getAllMyMessagesByChat(userId, senderId).then(messages => {
+                    console.log(messages)
                     callback(true, messages)
                 }).catch(error => {
                     console.log(error)

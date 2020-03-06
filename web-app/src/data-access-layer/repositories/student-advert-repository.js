@@ -133,7 +133,7 @@ class StudentAdvertRepository {
      */
     getAll() {
         return new Promise((resolve, reject) => {
-            StudentAdverts.findAll({ raw: true }).then(adverts => {
+            StudentAdverts.findAll({ raw: true, order: [['created_at', 'DESC']] }).then(adverts => {
                 resolve(adverts)
             }).catch(error => {
                 reject(error)

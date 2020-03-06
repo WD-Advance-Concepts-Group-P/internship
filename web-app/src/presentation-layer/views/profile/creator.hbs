@@ -13,23 +13,49 @@
         {{/if}}
         {{#if student}}
         <ul>
-            <li>{{info.first_name}}</li>
-            <li>{{info.last_name}}</li>
-            <li>{{info.birth_date}}</li>
-            <li>{{info.biography_text}}</li>
-            <li>{{info.school}}</li>
-            <li>{{info.program}}</li>
-            <li>{{info.graduation_year}}</li>
-            <li>{{info.resume_url}}</li>
-            <li>{{info.profile_pic_url}}</li>
+
+            {{#if info.profile_pic_url}}
+            <img src="{{info.profile_pic_url}}">
+            {{/if}}
+
+            {{#if info.first_name}}
+            <li>Name: {{info.first_name}} {{info.last_name}}</li>
+            {{/if}}
+            {{#if info.birth_date}}
+            <li>birthdate: {{info.birth_date}}</li>
+            {{/if}}
+            {{#if info.biography_text}}
+            <li>Bio: {{info.biography_text}}</li>
+            {{/if}}
+            {{#if info.school}}
+            <li>School: {{info.school}}</li>
+            {{/if}}
+            {{#if info.program}}
+            <li>Program: {{info.program}}</li>
+            {{/if}}
+            {{#if info.graduation_year}}
+            <li>Graduation year: {{info.graduation_year}}</li>
+            {{/if}}
+            {{#if info.resume_url}}
+            <li>Resume: {{info.resume_url}}</li>
+            {{/if}}
         </ul>
         {{else}}
         <ul>
-            <li>{{info.first_name}}</li>
-            <li>{{info.last_name}}</li>
-            <li>{{info.phone_number}}</li>
-            <li>{{info.company_name}}</li>
-            <li>{{info.company_logo_url}}</li>
+
+            {{#if info.company_logo_url}}
+            <img src="{{info.company_logo_url}}">
+            {{/if}}
+
+            {{#if info.first_name}}
+            <li>Name: {{info.first_name}} {{info.last_name}}</li>
+            {{/if}}
+            {{#if info.phone_number}}
+            <li>Phonenumber: {{info.phone_number}}</li>
+            {{/if}}
+            {{#if info.company_name}}
+            <li>Company: {{info.company_name}}</li>
+            {{/if}}
         </ul>
         {{/if}}
     </div>

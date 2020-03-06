@@ -14,10 +14,10 @@ const corsOptions = {
     methods: ['GET', 'PUT', 'POST', 'DELETE']
 }
 
-app.use(cors(corsOptions))
-
-app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false}))
+
+app.use(cors(corsOptions))
 
 app.use('/api/v1', authenticationRouter)
 app.use('/api/v1', dashboardRouter)

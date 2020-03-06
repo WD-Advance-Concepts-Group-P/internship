@@ -7,7 +7,9 @@
         <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
         <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
         <title>SPA - Website</title>
-        <script src="app.js"></script>
+        <script src="app.js" type="module"></script>
+        <script nomodule src="fallback.js"></script>
+        <!--<script src="app.js"></script>-->
         <style>
             .hidden {
                 display: none;

@@ -54,7 +54,6 @@ module.exports = function(container) {
             }
         },
         createStudentAdvert: function(user, values, callback) {
-
             if (user.user_type === 1) {
                 if (values.title === '' || values.title == null) {
                     callback(false, 'title must be supplied')
@@ -106,6 +105,7 @@ module.exports = function(container) {
                     container.recruiterAdvertRepository.create(info).then(result => {
                         callback(true, result.id)
                     }).catch(error => {
+                        console.log(error)
                         callback(false, 'db error')
                     })
                 }

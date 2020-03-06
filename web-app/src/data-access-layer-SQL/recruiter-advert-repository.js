@@ -52,14 +52,14 @@ class RecruiterAdvertRepository {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`
 
         const values = [
-            advert.title, 
-            advert.body, 
-            advert.field, 
-            advert.city, 
-            advert.website, 
-            advert.contact, 
-            advert.positions, 
-            advert.deadlineDate, 
+            advert.values.title, 
+            advert.values.body, 
+            advert.values.field, 
+            advert.values.city, 
+            advert.values.website, 
+            advert.values.contact, 
+            advert.values.positions, 
+            advert.values.deadline_date, 
             advert.postedBy
         ]
 
@@ -87,14 +87,14 @@ class RecruiterAdvertRepository {
             WHERE id = ?`
 
         const values = [
-            advert.title, 
-            advert.body, 
-            advert.field, 
-            advert.address, 
-            advert.website, 
-            advert.contact, 
-            advert.positions, 
-            advert.deadlineDate, 
+            advert.values.title, 
+            advert.values.body, 
+            advert.values.field, 
+            advert.values.address, 
+            advert.values.website, 
+            advert.values.contact, 
+            advert.values.positions, 
+            advert.values.deadline_date, 
             advert.id
         ]
 

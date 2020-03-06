@@ -22,7 +22,7 @@ router.route('/users/info')
                     'info': errorOrInfo
                 })
             } else {
-                response.json({
+                response.status(500).json({
                     'error': 'true',
                     'message': errorOrInfo,
                     'code': 'APP_ERR'
@@ -84,7 +84,7 @@ router.route('/users/info')
                 }
             })
         } else {
-            response.status(500).json({
+            response.status(400).json({
                 'error': 'true',
                 'message': 'wrong user type',
                 'code': 'APP_ERR'

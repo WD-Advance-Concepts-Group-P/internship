@@ -123,7 +123,17 @@ class ChatRepository {
     getAllMyMessagesByChat(receiverId, senderId) {
         const sql = `SELECT * FROM Chat WHERE sender_id = ? AND receiver_id = ? ORDER BY id DESC`
 
-        return this.dbh.all(sql, [senderId, receiverId])
+        return new Promise((resolve, reject) => {
+            this.dbh.all(sql, [senderId, receiverId]).then((messages) => {
+                this.dbh.all(sql, [receiverId, senderId]).then((myMessages) =>{
+                    resolve([messages, myMessages])
+                }).catch((error) => {
+                    reject(error)
+                })
+            }).catch((error) => {
+                reject(error)
+            })
+        })
     }
 
 	/**

@@ -82,11 +82,19 @@ router.route('/users')
                     'message': 'User created'
                 })
             } else {
-                response.status(500).json({
-                    'status': 'fail',
-                    'code': 'AUTH_5',
-                    'message': errorOrUserId
-                })
+                if (errorOrUserId.includes("db error")) {
+                    response.status(500).json({
+                        'status': 'fail',
+                        'code': 'AUTH_5',
+                        'message': errorOrUserId
+                    })
+                } else {
+                    response.status(400).json({
+                        'status': 'fail',
+                        'code': 'AUTH_5',
+                        'message': errorOrUserId
+                    })
+                }
             }
         })
     })

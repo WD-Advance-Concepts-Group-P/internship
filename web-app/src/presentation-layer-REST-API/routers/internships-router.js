@@ -101,11 +101,19 @@ router.route('/adverts')
                         'message': errorOrId
                     })
                 } else {
-                    response.status(500).json({
-                        'error': 'true',
-                        'message': errorOrId,
-                        'code': 'APP_2'
-                    })
+                    if (errorOrId.includes('db error')) {
+                        response.status(500).json({
+                            'error': 'true',
+                            'message': errorOrId,
+                            'code': 'APP_2'
+                        })
+                    } else {
+                        response.status(400).json({
+                            'error': 'true',
+                            'message': errorOrId,
+                            'code': 'APP_2'
+                        })
+                    }
                 }
             })
 
@@ -133,19 +141,24 @@ router.route('/adverts')
                         'message': errorOrId
                     })
                 } else {
-                    response.status(500).json({
-                        'error': 'true',
-                        'message': errorOrId,
-                        'code': 'APP_2'
-                    })
+                    if (errorOrId.includes('db error')) {
+                        response.status(500).json({
+                            'error': 'true',
+                            'message': errorOrId
+                        })
+                    } else {
+                        response.status(400).json({
+                            'error': 'true',
+                            'message': errorOrId
+                        })
+                    }
                 }
             })
 
         } else {
-            response.json({
+            response.status(400).json({
                 'error': 'true',
-                'message': 'invalid type / this is a server error',
-                'code': 'APP_1'
+                'message': 'invalid type / this is a server error'
             })
         } 
     })
@@ -156,17 +169,14 @@ router.route('/adverts/:id')
     })
     .get(function(request, response, next) {
         //get advert
-        console.log('Nu körs jag')
         internshipManager.getAdvertById(request.params.id, request.query.type, function(status, errorOrAdvert) {
             if (status) {
-                console.log('Nu körs även jag')
                 response.json({
                     'error': 'false',
                     'advert': errorOrAdvert
                 })
             } else {
-                console.log('Nu körs även jag error')
-                response.json({
+                response.status(500).json({
                     'error': 'true',
                     'message': errorOrAdvert,
                     'code': 'APP_ERR'
@@ -184,7 +194,7 @@ router.route('/adverts/:id')
                         'message': 'success updating advert'
                     })
                 } else {
-                    response.json({
+                    response.status(500).json({
                         'error': 'true',
                         'message': errorOrId,
                         'code': 'APP_2'
@@ -199,7 +209,7 @@ router.route('/adverts/:id')
                         'message': 'success updating advert'
                     })
                 } else {
-                    response.json({
+                    response.status(500).json({
                         'error': 'true',
                         'message': errorOrId,
                         'code': 'APP_2'
@@ -207,7 +217,7 @@ router.route('/adverts/:id')
                 }
             })
         } else {
-            response.json({
+            response.status(400).json({
                 'error': 'true',
                 'message': 'invalid type submitted (student or recruiter are valid)',
                 'code': 'TYPE_1'
@@ -228,7 +238,7 @@ router.route('/adverts/:id')
                     'message': 'success deleting advert'
                 })
             } else {
-                response.json({
+                response.status(500).json({
                     'error': 'true',
                     'message': error,
                     'code': 'APP_2'
