@@ -13,12 +13,10 @@
         {{/if}}
         {{#if student}}
         <ul>
-            <!--
-                TODO: add image
+
             {{#if info.profile_pic_url}}
-            <li>{{info.profile_pic_url}}</li>
+            <img src="{{info.profile_pic_url}}">
             {{/if}}
-            -->
 
             {{#if info.first_name}}
             <li>Name: {{info.first_name}} {{info.last_name}}</li>
@@ -44,12 +42,10 @@
         </ul>
         {{else}}
         <ul>
-            <!--
-                TODO: add image
+
             {{#if info.company_logo_url}}
-            <li>{{info.company_logo_url}}</li>
+            <img src="{{info.company_logo_url}}">
             {{/if}}
-            -->
 
             {{#if info.first_name}}
             <li>Name: {{info.first_name}} {{info.last_name}}</li>
