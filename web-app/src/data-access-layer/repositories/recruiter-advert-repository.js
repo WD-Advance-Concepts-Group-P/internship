@@ -132,6 +132,7 @@ class RecruiterAdvertRepository {
         return new Promise((resolve, reject) => {
             RecruiterAdvert.findAll({
                 raw: true,
+                order: [['created_at', 'DESC']],
                 where: { posted_by: id }
             }).then(adverts => {
                 resolve(adverts)

@@ -118,6 +118,7 @@ class StudentAdvertRepository {
         return new Promise((resolve, reject) => {
             StudentAdverts.findAll({
                 raw: true,
+                order: [['created_at', 'DESC']],
                 where: { posted_by: id }
             }).then(adverts => {
                 resolve(adverts)
