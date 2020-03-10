@@ -1,10 +1,14 @@
 export const HomeComponent = {
     render: () => {
         return `
-            <section>
-                <h1>Home</h1>
-                <p>This is just a test</p>
-            </section>
+            <div class="columns col-xl">
+                <div class="column col-3"></div>
+                <div class="column col-6 col-md-12">
+                    <h1>Home</h1>
+                    <p>Find interns or create internships adverts</p>
+                </div>
+                <div class="column col-3"></div>
+            </div>
         `;
     }
 } 
@@ -117,12 +121,18 @@ export const RegisterComponent = {
 export const ProfileComponent = {
     render: () => {
         return `
-            <h3>Hello dashboard</h3>
-            <ul>
-                <li><a href="#/create-advert">Create advert</a></li>
-                <li><a href="#/my/adverts">My adverts</a></li>
-                <li><a href="#/logout">logout</a></li>
-            </ul>
+        <div class="columns col-xl">
+            <div class="column col-3"></div>
+            <div class="column col-6 col-md-12">
+                <h3>Hello dashboard</h3>
+                <ul>
+                    <li><a href="#/create-advert">Create advert</a></li>
+                    <li><a href="#/my/adverts">My adverts</a></li>
+                    <li><a href="#/logout">logout</a></li>
+                </ul>
+            </div>
+            <div class="column col-3"></div>
+        </div>
         `;
     }
 } 
@@ -235,12 +245,15 @@ export const PositionsComponent = {
     render: () => {
         return `
         <div class="columns col-xl">
-            <div class="column col-3"></div>
-            <div class="column col-6 col-md-12">
+            <div class="column col-1"></div>
+            <div class="column col-10 col-md-12">
                 <h3>View Recruiter adverts</h3>
+                <div class="hidden toast toast-error" id="errorMessage">
+                    test
+                </div>
                 <div id="advert-area"></div>
             </div>
-            <div class="column col-3"></div>
+            <div class="column col-1"></div>
         </div>
         `;
     }
@@ -250,12 +263,15 @@ export const StudentAdvertsComponent = {
     render: () => {
         return `
         <div class="columns col-xl">
-            <div class="column col-3"></div>
-            <div class="column col-6 col-md-12">
+            <div class="column col-1"></div>
+            <div class="column col-10 col-md-12">
                 <h3>View student adverts</h3>
+                <div class="hidden toast toast-error" id="errorMessage">
+                    test
+                </div>
                 <div id="advert-area"></div>
             </div>
-            <div class="column col-3"></div>
+            <div class="column col-1"></div>
         </div>
         `;
     }
@@ -265,12 +281,15 @@ export const AdvertComponent = {
     render: () => {
         return `
         <div class="columns col-xl">
-            <div class="column col-3"></div>
-            <div class="column col-6 col-md-12">
+            <div class="column col-1"></div>
+            <div class="column col-10 col-md-12">
                 <h3>View student adverts</h3>
+                <div class="hidden toast toast-error" id="errorMessage">
+                    test
+                </div>
                 <div id="advert-area"></div>
             </div>
-            <div class="column col-3"></div>
+            <div class="column col-1"></div>
         </div>
         `;
     }
@@ -280,12 +299,15 @@ export const MyAdvertsComponent = {
     render: () => {
         return `
         <div class="columns col-xl">
-            <div class="column col-3"></div>
-            <div class="column col-6 col-md-12">
+            <div class="column col-1"></div>
+            <div class="column col-10 col-md-12">
                 <h3>View My adverts</h3>
+                <div class="hidden toast toast-error" id="errorMessage">
+                    test
+                </div>
                 <div id="advert-area"></div>
             </div>
-            <div class="column col-3"></div>
+            <div class="column col-1"></div>
         </div>
         `;
     }
@@ -295,11 +317,11 @@ export const CreateAdvertComponent = {
     render: () => {
         return `
         <div class="columns col-xl">
-            <div class="column col-3"></div>
-            <div class="column col-6 col-md-12">
+            <div class="column col-1"></div>
+            <div class="column col-10 col-md-12">
                 <div id="advert-area"></div>
             </div>
-            <div class="column col-3"></div>
+            <div class="column col-1"></div>
         </div>
         `;
     }
@@ -331,10 +353,14 @@ export const DeleteAdvertComponent = {
 export const ErrorComponent = {
     render: () => {
         return `
-            <section>
-                <h1>Error</h1>
-                <p>This is just a test</p>
-            </section>
+            <div class="columns col-xl">
+                <div class="column col-3"></div>
+                <div class="column col-6 col-md-12">
+                    <h1>Error</h1>
+                    <p>This is just a test</p>
+                </div>
+                <div class="column col-3"></div>
+            </div>
         `;
     }
 }

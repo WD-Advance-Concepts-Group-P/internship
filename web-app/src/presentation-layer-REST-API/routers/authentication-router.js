@@ -13,8 +13,6 @@ router.route('/token')
         //login user
         const grantType = request.body.grant_type
 
-        console.log(request.body)
-
         if (grantType == "password") {
             authManager.login(request.body.username, request.body.password, function(status, errorOrUser) {
                 if (status) {
@@ -28,7 +26,6 @@ router.route('/token')
                             jwt.sign({ sub: errorOrUser.id, email: errorOrUser.email, nickname: errorOrUser.username }, process.env.JWT_TOKEN_ID, { expiresIn: '2h' }, function(error, idToken) {
 
                                 if (errorOrUser.seen === 0) {
-                                    console.log(errorOrUser)
                                     response.status(200).json({
                                         'error': 'APP_2',
                                         'user_type': errorOrUser.user_type,

@@ -128,7 +128,8 @@ export function loadAdvert() {
     const params = query[1].split('&')
 
     if (params.length > 2 || params.length < 2) {
-        console.log('too few arguments or to many arguments')
+        errorMessage.classList.remove('hidden')
+        errorMessage.innerText = 'too few arguments or to many arguments'
     } else {
         const param1 = params[0].split('=')
         const param2 = params[1].split('=')
@@ -144,7 +145,8 @@ export function loadAdvert() {
         }
 
         if (id == null || type == null || id == '' || type == '') {
-            console.log('something is null')
+            errorMessage.classList.remove('hidden')
+            errorMessage.innerText = 'id or type is not submitted'
         } else {
             const advertUrl = url+'/adverts/'+id+'?type='+type+''
             const request = new Request(advertUrl, {
@@ -216,15 +218,14 @@ export function loadAdvert() {
                     })
                 } else {
                     response.json().then(data => {
-                        //errorMessage.classList.remove('hidden')
-                        //errorMessage.innerText = 'Network error'
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Network error'
                     })
                 }
             })
             .catch(error => {
-                console.log(error)
-                //errorMessage.classList.remove('hidden')
-                //errorMessage.innerText = 'Network error'
+                errorMessage.classList.remove('hidden')
+                errorMessage.innerText = 'Network error'
             })
         }
     }
@@ -255,8 +256,9 @@ export function loadMyAdverts() {
                                 <div class="card">
                                     <div class="columns">
                                         <div class="column col-1"></div>
-                                        <h2 class="comumn col-5">`+ data.advert[i].title +`</h2>
-                                        <h4 class="column col-5"><a href="#/delete?id=`+ data.advert[i].id +`&type=student">Delete</a></h4>
+                                        <h2 class="comumn col-4">`+ data.advert[i].title +`</h2>
+                                        <h4 class="column col-3"><a href="#/delete?id=`+ data.advert[i].id +`&type=student">Delete</a></h4>
+                                        <h4 class="column col-3"><a href="#/update?id=`+ data.advert[i].id +`&type=student">Update</a></h4>
                                         <div class="column col-1"></div>
                                     </div>
                                     <div class="columns">
@@ -277,7 +279,10 @@ export function loadMyAdverts() {
                                 <div class="card">
                                     <div class="columns">
                                         <div class="column col-1"></div>
-                                        <h2 class="column col-7"><a href="#/advert?id=`+ data.advert[i].id +`&type=recruiter">`+ data.advert[i].title +`</a></h2>
+                                        <h2 class="comumn col-4">`+ data.advert[i].title +`</h2>
+                                        <h4 class="column col-3"><a href="#/delete?id=`+ data.advert[i].id +`&type=recruiter">Delete</a></h4>
+                                        <h4 class="column col-3"><a href="#/update?id=`+ data.advert[i].id +`&type=recruiter">Update</a></h4>
+                                        <div class="column col-1"></div>
                                     </div>
                                     <div class="columns">
                                         <div class="column col-1"></div>
@@ -323,9 +328,7 @@ export function loadCreateAdvert() {
     const div = document.createElement('div');
     if (sessionManager.getUserType() == 1) {
         div.innerHTML = `
-        <div class="columns col-xl">
-            <div class="column col-3"></div>
-            <div class="column col-6 col-md-12">
+            <div class="column col-12 col-md-12">
                 <h3>Create student advert</h3>
                 <div class="hidden toast toast-error" id="errorMessage">
                     test
@@ -366,15 +369,11 @@ export function loadCreateAdvert() {
                 </form>
                 <br>
             </div>
-            <div class="column col-3"></div>
-        </div>
         `
         advertArea.appendChild(div) 
     } else if (sessionManager.getUserType() == 2) {
         div.innerHTML = `
-        <div class="columns col-xl">
-            <div class="column col-3"></div>
-            <div class="column col-6 col-md-12">
+            <div class="column col-12 col-md-12">
                 <h3>create recruiter advert</h3>
                 <div class="hidden toast toast-error" id="errorMessage">
                     test
@@ -423,9 +422,161 @@ export function loadCreateAdvert() {
                 </form>
                 <br>
             </div>
-            <div class="column col-3"></div>
-        </div>
         `
         advertArea.appendChild(div) 
+    }
+}
+
+export function loadUpdateAdvert() {
+    const query = location.hash.split('?')
+    const params = query[1].split('&')
+
+    if (params.length > 2 || params.length < 2) {
+        errorMessage.classList.remove('hidden')
+        errorMessage.innerText = 'too few arguments or to many arguments'
+    } else {
+        const param1 = params[0].split('=')
+        const param2 = params[1].split('=')
+
+        var id
+        var type
+        if (param1[0] == 'id') {
+            id = param1[1]
+            type = param2[1]
+        } else {
+            id = param2[1]
+            type = param1[1]
+        }
+
+        if (id == null || type == null || id == '' || type == '') {
+            errorMessage.classList.remove('hidden')
+            errorMessage.innerText = 'id or type is not submitted'
+        } else {
+            const advertUrl = url+'/adverts/'+id+'?type='+type+''
+            const request = new Request(advertUrl, {
+                method: 'GET'
+            });
+            fetch(request)
+            .then(response => {
+                if (response.ok) {
+                    response.json().then(data => {
+                        const advertArea = document.getElementById('advert-area')
+                        if (data.error == 'true') {
+                            const div = document.createElement('div');
+                            div.innerHTML = '<h3>No adverts</h3>'
+                            advertArea.appendChild(div)
+                        } else {
+                            const div = document.createElement('div');
+                            if (type == 'student') {
+                                div.innerHTML = `
+                                <div class="column col-12 col-md-12">
+                                    <h3>Update student advert</h3>
+                                    <div class="hidden toast toast-error" id="errorMessage">
+                                        test
+                                    </div>
+                                    <form action="" method="POST">
+                                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                                        <div class="form-group">
+                                            <label class="form-label" for="titleInput">Title</label>
+                                            <input class="form-input {{css_class}}" id="titleInput" type="text" name="title" placeholder="Title" value="`+ data.advert.title +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="bodyInput">Body</label>
+                                            <textarea class="form-input {{css_class}}" id="bodyInput" name="body" placeholder="Textarea" rows="5">`+ data.advert.body +`</textarea required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="option">Field</label>
+                                            <select class="form-select {{css_class}}" id="option" name="field" value="`+ data.advert.field +`">
+                                                <option>Choose an option</option>
+                                                <option>Tech</option>
+                                                <option>All</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="contactInput">Contact</label>
+                                            <input class="form-input {{css_class}}" id="contactInput" type="text" name="contact" placeholder="Contact" value="`+ data.advert.contact +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="startdateInput">start date</label>
+                                            <input class="form-input {{css_class}}" id="startdateInput" type="date" name="startdate" value="`+ data.advert.start_date +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="enddateInput">End date</label>
+                                            <input class="form-input {{css_class}}" id="enddateInput" type="date" name="enddate" value="`+ data.advert.end_date +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-submit column col-12 btn" type="submit" placeholder="Update" value="Update">
+                                        </div>
+                                    </form>
+                                    <br>
+                                </div>
+                                `
+                            } else if (type == 'recruiter') {
+                                div.innerHTML = `
+                                <div class="column col-12 col-md-12">
+                                    <h3>Update recruiter advert</h3>
+                                    <div class="hidden toast toast-error" id="errorMessage">
+                                        test
+                                    </div>
+                                    <form action="" method="POST">
+                                        <div class="form-group">
+                                            <label class="form-label" for="titleInput">Title</label>
+                                            <input class="form-input {{css_class}}" id="titleInput" type="text" name="title" placeholder="Title" value="`+ data.advert.title +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="bodyInput">Body</label>
+                                            <textarea class="form-input {{css_class}}" id="bodyInput" name="body" placeholder="Textarea" rows="5">`+ data.advert.body +`</textarea required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="option">Field</label>
+                                            <select class="form-select {{css_class}}" id="option" name="field" value="`+ data.advert.field +`">
+                                                <option>Choose an option</option>
+                                                <option>Tech</option>
+                                                <option>All</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="cityInput">City</label>
+                                            <input class="form-input {{css_class}}" id="cityInput" type="text" name="city" placeholder="City" value="`+ data.advert.city +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="contactInput">Contact</label>
+                                            <input class="form-input {{css_class}}" id="contactInput" type="text" name="contact" placeholder="Contact" value="`+ data.advert.contact +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="websiteInput">Website</label>
+                                            <input class="form-input {{css_class}}" id="websiteInput" type="url" name="website" placeholder="Website" value="`+ data.advert.website +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="positionsInput">Number of positions</label>
+                                            <input class="form-input {{css_class}}" id="positionsInput" type="number" name="positions" placeholder="Number of positions" value="`+ data.advert.positions +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="deadlinedateInput">Deadline date</label>
+                                            <input class="form-input {{css_class}}" id="deadlinedateInput" type="date" name="deadline_date" value="`+ data.advert.deadline_date.slice(0, 10) +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-submit column col-12 btn" type="submit" placeholder="Update" value="Update">
+                                        </div>
+                                    </form>
+                                    <br>
+                                </div>
+                                `
+                            }
+                            advertArea.appendChild(div)
+                        }
+                    })
+                } else {
+                    response.json().then(data => {
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Network error'
+                    })
+                }
+            })
+            .catch(error => {
+                errorMessage.classList.remove('hidden')
+                errorMessage.innerText = 'Network error'
+            })
+        }
     }
 }

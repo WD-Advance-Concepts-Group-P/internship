@@ -23,7 +23,7 @@ module.exports = function(container) {
                       const resultStudent = fuse.search(search)
                       callback(true, resultStudent)
                 }).catch(error => {
-                    callback(false, error)
+                    callback(false, 'db error')
                 })
             } else if (type === 'recruiter') {
                 container.recruiterAdvertRepository.getAll().then(result => {
@@ -47,7 +47,7 @@ module.exports = function(container) {
                       const resultRecruiter = fuse.search(search)
                       callback(true, resultRecruiter)
                 }).catch(error => {
-                    callback(false, error)
+                    callback(false, 'db error')
                 })
             } else {
                 callback(false, 'Invalid type')
@@ -73,7 +73,6 @@ module.exports = function(container) {
                     container.studentAdvertRepository.create(info).then(result => {
                         callback(true, result.id)
                     }).catch(error => {
-                        console.log(error)
                         callback(false, 'db error')
                     })
                 }
@@ -105,7 +104,6 @@ module.exports = function(container) {
                     container.recruiterAdvertRepository.create(info).then(result => {
                         callback(true, result.id)
                     }).catch(error => {
-                        console.log(error)
                         callback(false, 'db error')
                     })
                 }
@@ -132,13 +130,13 @@ module.exports = function(container) {
                 container.studentAdvertRepository.getAllByUser(id).then(adverts => {
                     callback(true, adverts)
                 }).catch(error => {
-                    callback(false, 'error')
+                    callback(false, 'db error')
                 })
             } else if (user_type === 2) {
                 container.recruiterAdvertRepository.getAllByUser(id).then(adverts => {
                     callback(true, adverts)
                 }).catch(error => {
-                    callback(false, 'error')
+                    callback(false, 'db error')
                 })
             } else {
                 callback(false, 'You don\'t have access to this feature')
@@ -153,7 +151,7 @@ module.exports = function(container) {
                         callback(true, advert)
                     }
                 }).catch(error => {
-                    callback(false, error)
+                    callback(false, 'db error')
                 })
             } else if (advert_type === 'recruiter') {
                 container.recruiterAdvertRepository.getById(id).then(advert => {
@@ -163,7 +161,7 @@ module.exports = function(container) {
                         callback(true, advert)
                     }
                 }).catch(error => {
-                    callback(false, error)
+                    callback(false, 'db error')
                 })
             } else {
                 callback(false, 'You must send a advert type (student or recruiter)')
@@ -176,13 +174,13 @@ module.exports = function(container) {
                         container.studentAdvertRepository.delete(advertId).then(result => {
                             callback(true, 'success')
                         }).catch(error => {
-                            callback(false, error)
+                            callback(false, 'db error')
                         })
                     } else {
                         callback(false, 'You don\'t own that advert')
                     }
                 }).catch(error => {
-                    callback(false, error)
+                    callback(false, 'db error')
                 })
             } else if (user.user_type === 2) {
                 container.recruiterAdvertRepository.getById(advertId).then(advert => {
@@ -190,13 +188,13 @@ module.exports = function(container) {
                         container.recruiterAdvertRepository.delete(advertId).then(result => {
                             callback(true, 'success')
                         }).catch(error => {
-                            callback(false, error)
+                            callback(false, 'db error')
                         })
                     } else {
                         callback(false, 'You don\'t own that advert')
                     }
                 }).catch(error => {
-                    callback(false, error)
+                    callback(false, 'db error')
                 })
             } else {
                 callback(false, 'You don\'t have access to this feature')
@@ -224,7 +222,7 @@ module.exports = function(container) {
                     container.studentAdvertRepository.update(info).then(result => {
                         callback(true, result.id)
                     }).catch(error => {
-                        callback(false, error)
+                        callback(false, 'db error')
                     })
                 }
             } else {

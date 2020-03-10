@@ -388,7 +388,8 @@ export function deleteAdvert() {
     const params = query[1].split('&')
 
     if (params.length > 2 || params.length < 2) {
-        console.log('too few arguments or to many arguments')
+        errorMessage.classList.remove('hidden')
+        errorMessage.innerText = 'too few arguments or to many arguments'
     } else {
         const param1 = params[0].split('=')
         const param2 = params[1].split('=')
@@ -404,7 +405,8 @@ export function deleteAdvert() {
         }
 
         if (id == null || type == null || id == '' || type == '') {
-            console.log('something is null')
+            errorMessage.classList.remove('hidden')
+            errorMessage.innerText = 'id or type is not submitted'
         } else {
             const deleteAdvertUrl = url+'/adverts/'+id+''
             const request = new Request(deleteAdvertUrl, {
@@ -429,6 +431,156 @@ export function deleteAdvert() {
                 errorMessage.classList.remove('hidden')
                 errorMessage.innerText = 'Network error'
             })
+        }
+    }
+}
+
+export function updateAdvert() {
+    const errorMessage = document.getElementById('errorMessage')
+    errorMessage.classList.add('hidden')
+
+    const query = location.hash.split('?')
+    const params = query[1].split('&')
+
+    if (params.length > 2 || params.length < 2) {
+        errorMessage.classList.remove('hidden')
+        errorMessage.innerText = 'too few arguments or to many arguments'
+    } else {
+        const param1 = params[0].split('=')
+        const param2 = params[1].split('=')
+
+        var id
+        var type
+        if (param1[0] == 'id') {
+            id = param1[1]
+            type = param2[1]
+        } else {
+            id = param2[1]
+            type = param1[1]
+        }
+
+        if (id == null || type == null || id == '' || type == '') {
+            errorMessage.classList.remove('hidden')
+            errorMessage.innerText = 'id or type is not submitted'
+        } else {
+            if (sessionManager.getUserType() == 1) {
+                const updateAdvertUrl = url+'/adverts/'+id+'?type=student'
+
+                // get advert info
+                const title = document.getElementById('titleInput');
+                const body = document.getElementById('bodyInput');
+                const fieldOptions = document.getElementById('option')
+                const field = fieldOptions.options[fieldOptions.selectedIndex].value;
+                const contact = document.getElementById('contactInput')
+                const startdate = document.getElementById('startdateInput')
+                const enddate = document.getElementById('enddateInput')
+
+                //validate
+                if (title.value.length > 0 && body.value.length > 0 && contact.value.length > 0) {
+                    const request = new Request(updateAdvertUrl, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': 'Bearer '+sessionManager.getAuthToken()+'',
+                        },
+                        body: new URLSearchParams({
+                            'title': title.value,
+                            'body': body.value,
+                            'field': field,
+                            'contact': contact.value,
+                            'startdate': startdate.value,
+                            'enddate': enddate.value
+                        }), 
+                    });
+                    fetch(request)
+                    .then(response => {
+                        if (response.ok) {
+                            response.json().then(data => {
+                                window.location.replace('#/my/adverts')
+                            })
+                        } else {
+                            response.json().then(data => {
+                                if (response.status == 400) {
+                                    errorMessage.classList.remove('hidden')
+                                    errorMessage.innerText = data.message
+                                } else if (response.status == 500) {
+                                    errorMessage.classList.remove('hidden')
+                                    errorMessage.innerText = 'Server error'
+                                } else {
+                                    errorMessage.classList.remove('hidden')
+                                    errorMessage.innerText = 'Server error'
+                                }
+                            })
+                        }
+                    })
+                    .catch(error => {
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Network error'
+                    })
+                } else {
+                    errorMessage.classList.remove('hidden')
+                    errorMessage.innerText = 'everything must be supplied'
+                }
+            } else if (sessionManager.getUserType() == 2) {
+                const updateAdvertUrl = url+'/adverts/'+id+'?type=recruiter'
+                // get advert info
+                const title = document.getElementById('titleInput');
+                const body = document.getElementById('bodyInput');
+                const fieldOptions = document.getElementById('option')
+                const field = fieldOptions.options[fieldOptions.selectedIndex].value;
+                const contact = document.getElementById('contactInput')
+                const city = document.getElementById('cityInput')
+                const website = document.getElementById('websiteInput')
+                const positions = document.getElementById('positionsInput')
+                const deadlinedate = document.getElementById('deadlinedateInput')
+
+                //validate
+                if (title.value.length > 0 && body.value.length > 0 && contact.value.length > 0) {
+                    const request = new Request(updateAdvertUrl, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': 'Bearer '+sessionManager.getAuthToken()+'',
+                        },
+                        body: new URLSearchParams({
+                            'title': title.value,
+                            'body': body.value,
+                            'field': field,
+                            'city': city.value,
+                            'contact': contact.value,
+                            'website': website.value,
+                            'positions': positions.value,
+                            'deadlinedate': deadlinedate.value
+                        }), 
+                    });
+                    fetch(request)
+                    .then(response => {
+                        if (response.ok) {
+                            response.json().then(data => {
+                                window.location.replace('#/my/adverts')
+                            })
+                        } else {
+                            response.json().then(data => {
+                                if (response.status == 400) {
+                                    errorMessage.classList.remove('hidden')
+                                    errorMessage.innerText = data.message
+                                } else if (response.status == 500) {
+                                    errorMessage.classList.remove('hidden')
+                                    errorMessage.innerText = 'Server error'
+                                } else {
+                                    errorMessage.classList.remove('hidden')
+                                    errorMessage.innerText = 'Server error'
+                                }
+                            })
+                        }
+                    })
+                    .catch(error => {
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Network error'
+                    })
+                } else {
+                    errorMessage.classList.remove('hidden')
+                    errorMessage.innerText = 'everything must be supplied'
+                }
+            }
         }
     }
 }
