@@ -10,7 +10,6 @@ router.route('/users/info')
         next();
     })
     .get(function(request, response, next) {
-        //get user info
         const user = { 
             id: response.locals.uid,
             user_type: response.locals.userType
@@ -22,16 +21,23 @@ router.route('/users/info')
                     'info': errorOrInfo
                 })
             } else {
-                response.status(500).json({
-                    'error': 'true',
-                    'message': errorOrInfo,
-                    'code': 'APP_ERR'
-                })
+                if (errorOrInfo.includes('db error')) {
+                    response.status(500).json({
+                        'error': 'true',
+                        'message': errorOrInfo,
+                        'code': 'APP_2'
+                    })
+                } else {
+                    response.status(400).json({
+                        'error': 'true',
+                        'message': errorOrInfo,
+                        'code': 'APP_2'
+                    })
+                }
             }
         })
     })
     .post(function(request, response, next) {
-        //create user info
         if (response.locals.userType === 1) {
             const values = {
                 firstname: request.body.firstname, 
@@ -52,11 +58,19 @@ router.route('/users/info')
                         'message': 'created',
                     })
                 } else {
-                    response.status(500).json({
-                        'error': 'true',
-                        'message': error,
-                        'code': 'APP_ERR'
-                    })
+                    if (error.includes('db error')) {
+                        response.status(500).json({
+                            'error': 'true',
+                            'message': error,
+                            'code': 'APP_2'
+                        })
+                    } else {
+                        response.status(400).json({
+                            'error': 'true',
+                            'message': error,
+                            'code': 'APP_2'
+                        })
+                    }
                 }
             })
         } else if (response.locals.userType === 2) {
@@ -76,11 +90,19 @@ router.route('/users/info')
                         'message': 'created',
                     })
                 } else {
-                    response.status(500).json({
-                        'error': 'true',
-                        'message': error,
-                        'code': 'APP_ERR'
-                    })
+                    if (error.includes('db error')) {
+                        response.status(500).json({
+                            'error': 'true',
+                            'message': error,
+                            'code': 'APP_2'
+                        })
+                    } else {
+                        response.status(400).json({
+                            'error': 'true',
+                            'message': error,
+                            'code': 'APP_2'
+                        })
+                    }
                 }
             })
         } else {
@@ -90,10 +112,6 @@ router.route('/users/info')
                 'code': 'APP_ERR'
             })
         }
-    })
-    .put(function(request, response, next) {
-        // update user info
-        response.json({'test': 'fail'})
     })
 
 module.exports = router

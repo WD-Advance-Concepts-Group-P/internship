@@ -42,10 +42,14 @@ class Session {
 const HomeComponent = {
     render: () => {
         return `
-            <section>
-                <h1>Home</h1>
-                <p>This is just a test</p>
-            </section>
+            <div class="columns col-xl">
+                <div class="column col-3"></div>
+                <div class="column col-6 col-md-12">
+                    <h1>Home</h1>
+                    <p>Find interns or create internships adverts</p>
+                </div>
+                <div class="column col-3"></div>
+            </div>
         `;
     }
 } 
@@ -158,12 +162,18 @@ const RegisterComponent = {
 const ProfileComponent = {
     render: () => {
         return `
-            <h3>Hello dashboard</h3>
-            <ul>
-                <li><a href="#/create-advert">Create advert</a></li>
-                <li><a href="#/my/adverts">My adverts</a></li>
-                <li><a href="#/logout">logout</a></li>
-            </ul>
+        <div class="columns col-xl">
+            <div class="column col-3"></div>
+            <div class="column col-6 col-md-12">
+                <h3>Hello dashboard</h3>
+                <ul>
+                    <li><a href="#/create-advert">Create advert</a></li>
+                    <li><a href="#/my/adverts">My adverts</a></li>
+                    <li><a href="#/logout">logout</a></li>
+                </ul>
+            </div>
+            <div class="column col-3"></div>
+        </div>
         `;
     }
 } 
@@ -276,12 +286,15 @@ const PositionsComponent = {
     render: () => {
         return `
         <div class="columns col-xl">
-            <div class="column col-3"></div>
-            <div class="column col-6 col-md-12">
+            <div class="column col-1"></div>
+            <div class="column col-10 col-md-12">
                 <h3>View Recruiter adverts</h3>
+                <div class="hidden toast toast-error" id="errorMessage">
+                    test
+                </div>
                 <div id="advert-area"></div>
             </div>
-            <div class="column col-3"></div>
+            <div class="column col-1"></div>
         </div>
         `;
     }
@@ -291,12 +304,15 @@ const StudentAdvertsComponent = {
     render: () => {
         return `
         <div class="columns col-xl">
-            <div class="column col-3"></div>
-            <div class="column col-6 col-md-12">
+            <div class="column col-1"></div>
+            <div class="column col-10 col-md-12">
                 <h3>View student adverts</h3>
+                <div class="hidden toast toast-error" id="errorMessage">
+                    test
+                </div>
                 <div id="advert-area"></div>
             </div>
-            <div class="column col-3"></div>
+            <div class="column col-1"></div>
         </div>
         `;
     }
@@ -306,12 +322,15 @@ const AdvertComponent = {
     render: () => {
         return `
         <div class="columns col-xl">
-            <div class="column col-3"></div>
-            <div class="column col-6 col-md-12">
+            <div class="column col-1"></div>
+            <div class="column col-10 col-md-12">
                 <h3>View student adverts</h3>
+                <div class="hidden toast toast-error" id="errorMessage">
+                    test
+                </div>
                 <div id="advert-area"></div>
             </div>
-            <div class="column col-3"></div>
+            <div class="column col-1"></div>
         </div>
         `;
     }
@@ -321,12 +340,15 @@ const MyAdvertsComponent = {
     render: () => {
         return `
         <div class="columns col-xl">
-            <div class="column col-3"></div>
-            <div class="column col-6 col-md-12">
+            <div class="column col-1"></div>
+            <div class="column col-10 col-md-12">
                 <h3>View My adverts</h3>
+                <div class="hidden toast toast-error" id="errorMessage">
+                    test
+                </div>
                 <div id="advert-area"></div>
             </div>
-            <div class="column col-3"></div>
+            <div class="column col-1"></div>
         </div>
         `;
     }
@@ -336,11 +358,11 @@ const CreateAdvertComponent = {
     render: () => {
         return `
         <div class="columns col-xl">
-            <div class="column col-3"></div>
-            <div class="column col-6 col-md-12">
+            <div class="column col-1"></div>
+            <div class="column col-10 col-md-12">
                 <div id="advert-area"></div>
             </div>
-            <div class="column col-3"></div>
+            <div class="column col-1"></div>
         </div>
         `;
     }
@@ -372,28 +394,33 @@ const DeleteAdvertComponent = {
 const ErrorComponent = {
     render: () => {
         return `
-            <section>
-                <h1>Error</h1>
-                <p>This is just a test</p>
-            </section>
+            <div class="columns col-xl">
+                <div class="column col-3"></div>
+                <div class="column col-6 col-md-12">
+                    <h1>Error</h1>
+                    <p>This is just a test</p>
+                </div>
+                <div class="column col-3"></div>
+            </div>
         `;
     }
 }
    
 const routes = [
-    { path: '/', component: HomeComponent, },
-    { path: '/login', component: LoginComponent, },
-    { path: '/logout', component: LogoutComponent, },
-    { path: '/register', component: RegisterComponent, },
-    { path: '/profile', component: ProfileComponent, },
-    { path: '/profile/setup/student', component: ProfileSetupStudentComponent, },
-    { path: '/profile/setup/recruiter', component: ProfileSetupRecruiterComponent, },
-    { path: '/positions', component: PositionsComponent, },
-    { path: '/student-adverts', component: StudentAdvertsComponent, },
-    { path: '/advert', component: AdvertComponent},
-    { path: '/create-advert', component: CreateAdvertComponent},
-    { path: '/my/adverts', component: MyAdvertsComponent},
-    { path: '/delete', component: DeleteAdvertComponent},
+    { path: '/', component: HomeComponent },
+    { path: '/login', component: LoginComponent },
+    { path: '/logout', component: LogoutComponent },
+    { path: '/register', component: RegisterComponent },
+    { path: '/profile', component: ProfileComponent },
+    { path: '/profile/setup/student', component: ProfileSetupStudentComponent },
+    { path: '/profile/setup/recruiter', component: ProfileSetupRecruiterComponent },
+    { path: '/positions', component: PositionsComponent },
+    { path: '/student-adverts', component: StudentAdvertsComponent },
+    { path: '/advert', component: AdvertComponent },
+    { path: '/create-advert', component: CreateAdvertComponent },
+    { path: '/my/adverts', component: MyAdvertsComponent },
+    { path: '/delete', component: DeleteAdvertComponent },
+    { path: '/update', component: MyAdvertsComponent },
 ];
 
 const authRequiredRoutes = [
@@ -403,7 +430,8 @@ const authRequiredRoutes = [
     '/logout',
     '/my/adverts',
     '/create-advert',
-    '/delete'
+    '/delete',
+    '/update'
 ];
 
 const parseLocation = () => location.hash.slice(1).toLowerCase() || '/';
@@ -853,7 +881,8 @@ function deleteAdvert() {
     const params = query[1].split('&')
 
     if (params.length > 2 || params.length < 2) {
-        console.log('too few arguments or to many arguments')
+        errorMessage.classList.remove('hidden')
+        errorMessage.innerText = 'too few arguments or to many arguments'
     } else {
         const param1 = params[0].split('=')
         const param2 = params[1].split('=')
@@ -869,7 +898,8 @@ function deleteAdvert() {
         }
 
         if (id == null || type == null || id == '' || type == '') {
-            console.log('something is null')
+            errorMessage.classList.remove('hidden')
+            errorMessage.innerText = 'id or type is not submitted'
         } else {
             const deleteAdvertUrl = url+'/adverts/'+id+''
             const request = new Request(deleteAdvertUrl, {
@@ -894,6 +924,156 @@ function deleteAdvert() {
                 errorMessage.classList.remove('hidden')
                 errorMessage.innerText = 'Network error'
             })
+        }
+    }
+}
+
+function updateAdvert() {
+    const errorMessage = document.getElementById('errorMessage')
+    errorMessage.classList.add('hidden')
+
+    const query = location.hash.split('?')
+    const params = query[1].split('&')
+
+    if (params.length > 2 || params.length < 2) {
+        errorMessage.classList.remove('hidden')
+        errorMessage.innerText = 'too few arguments or to many arguments'
+    } else {
+        const param1 = params[0].split('=')
+        const param2 = params[1].split('=')
+
+        var id
+        var type
+        if (param1[0] == 'id') {
+            id = param1[1]
+            type = param2[1]
+        } else {
+            id = param2[1]
+            type = param1[1]
+        }
+
+        if (id == null || type == null || id == '' || type == '') {
+            errorMessage.classList.remove('hidden')
+            errorMessage.innerText = 'id or type is not submitted'
+        } else {
+            if (sessionManager.getUserType() == 1) {
+                const updateAdvertUrl = url+'/adverts/'+id+'?type=student'
+
+                // get advert info
+                const title = document.getElementById('titleInput');
+                const body = document.getElementById('bodyInput');
+                const fieldOptions = document.getElementById('option')
+                const field = fieldOptions.options[fieldOptions.selectedIndex].value;
+                const contact = document.getElementById('contactInput')
+                const startdate = document.getElementById('startdateInput')
+                const enddate = document.getElementById('enddateInput')
+
+                //validate
+                if (title.value.length > 0 && body.value.length > 0 && contact.value.length > 0) {
+                    const request = new Request(updateAdvertUrl, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': 'Bearer '+sessionManager.getAuthToken()+'',
+                        },
+                        body: new URLSearchParams({
+                            'title': title.value,
+                            'body': body.value,
+                            'field': field,
+                            'contact': contact.value,
+                            'startdate': startdate.value,
+                            'enddate': enddate.value
+                        }), 
+                    });
+                    fetch(request)
+                    .then(response => {
+                        if (response.ok) {
+                            response.json().then(data => {
+                                window.location.replace('#/my/adverts')
+                            })
+                        } else {
+                            response.json().then(data => {
+                                if (response.status == 400) {
+                                    errorMessage.classList.remove('hidden')
+                                    errorMessage.innerText = data.message
+                                } else if (response.status == 500) {
+                                    errorMessage.classList.remove('hidden')
+                                    errorMessage.innerText = 'Server error'
+                                } else {
+                                    errorMessage.classList.remove('hidden')
+                                    errorMessage.innerText = 'Server error'
+                                }
+                            })
+                        }
+                    })
+                    .catch(error => {
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Network error'
+                    })
+                } else {
+                    errorMessage.classList.remove('hidden')
+                    errorMessage.innerText = 'everything must be supplied'
+                }
+            } else if (sessionManager.getUserType() == 2) {
+                const updateAdvertUrl = url+'/adverts/'+id+'?type=recruiter'
+                // get advert info
+                const title = document.getElementById('titleInput');
+                const body = document.getElementById('bodyInput');
+                const fieldOptions = document.getElementById('option')
+                const field = fieldOptions.options[fieldOptions.selectedIndex].value;
+                const contact = document.getElementById('contactInput')
+                const city = document.getElementById('cityInput')
+                const website = document.getElementById('websiteInput')
+                const positions = document.getElementById('positionsInput')
+                const deadlinedate = document.getElementById('deadlinedateInput')
+
+                //validate
+                if (title.value.length > 0 && body.value.length > 0 && contact.value.length > 0) {
+                    const request = new Request(updateAdvertUrl, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': 'Bearer '+sessionManager.getAuthToken()+'',
+                        },
+                        body: new URLSearchParams({
+                            'title': title.value,
+                            'body': body.value,
+                            'field': field,
+                            'city': city.value,
+                            'contact': contact.value,
+                            'website': website.value,
+                            'positions': positions.value,
+                            'deadlinedate': deadlinedate.value
+                        }), 
+                    });
+                    fetch(request)
+                    .then(response => {
+                        if (response.ok) {
+                            response.json().then(data => {
+                                window.location.replace('#/my/adverts')
+                            })
+                        } else {
+                            response.json().then(data => {
+                                if (response.status == 400) {
+                                    errorMessage.classList.remove('hidden')
+                                    errorMessage.innerText = data.message
+                                } else if (response.status == 500) {
+                                    errorMessage.classList.remove('hidden')
+                                    errorMessage.innerText = 'Server error'
+                                } else {
+                                    errorMessage.classList.remove('hidden')
+                                    errorMessage.innerText = 'Server error'
+                                }
+                            })
+                        }
+                    })
+                    .catch(error => {
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Network error'
+                    })
+                } else {
+                    errorMessage.classList.remove('hidden')
+                    errorMessage.innerText = 'everything must be supplied'
+                }
+            }
         }
     }
 }
@@ -974,7 +1154,7 @@ function loadRecruiterAdverts() {
                     div.innerHTML = '<h3>No adverts</h3>'
                     advertArea.appendChild(div)
                 } else {
-                    for (i in data.advert) {
+                    for (var i in data.advert) {
                         const div = document.createElement('div');
                         div.innerHTML = `
                             <div class="card">
@@ -1025,7 +1205,8 @@ function loadAdvert() {
     const params = query[1].split('&')
 
     if (params.length > 2 || params.length < 2) {
-        console.log('too few arguments or to many arguments')
+        errorMessage.classList.remove('hidden')
+        errorMessage.innerText = 'too few arguments or to many arguments'
     } else {
         const param1 = params[0].split('=')
         const param2 = params[1].split('=')
@@ -1041,11 +1222,12 @@ function loadAdvert() {
         }
 
         if (id == null || type == null || id == '' || type == '') {
-            console.log('something is null')
+            errorMessage.classList.remove('hidden')
+            errorMessage.innerText = 'id or type is not submitted'
         } else {
-            const advertUrl = url+'/adverts/'+id+'?type='+type
+            const advertUrl = url+'/adverts/'+id+'?type='+type+''
             const request = new Request(advertUrl, {
-                method: 'GET',
+                method: 'GET'
             });
             fetch(request)
             .then(response => {
@@ -1113,15 +1295,14 @@ function loadAdvert() {
                     })
                 } else {
                     response.json().then(data => {
-                        //errorMessage.classList.remove('hidden')
-                        //errorMessage.innerText = 'Network error'
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Network error'
                     })
                 }
             })
             .catch(error => {
-                console.log(error)
-                //errorMessage.classList.remove('hidden')
-                //errorMessage.innerText = 'Network error'
+                errorMessage.classList.remove('hidden')
+                errorMessage.innerText = 'Network error'
             })
         }
     }
@@ -1152,8 +1333,9 @@ function loadMyAdverts() {
                                 <div class="card">
                                     <div class="columns">
                                         <div class="column col-1"></div>
-                                        <h2 class="comumn col-5">`+ data.advert[i].title +`</h2>
-                                        <h4 class="column col-5"><a href="#/delete?id=`+ data.advert[i].id +`&type=student">Delete</a></h4>
+                                        <h2 class="comumn col-4">`+ data.advert[i].title +`</h2>
+                                        <h4 class="column col-3"><a href="#/delete?id=`+ data.advert[i].id +`&type=student">Delete</a></h4>
+                                        <h4 class="column col-3"><a href="#/update?id=`+ data.advert[i].id +`&type=student">Update</a></h4>
                                         <div class="column col-1"></div>
                                     </div>
                                     <div class="columns">
@@ -1174,7 +1356,10 @@ function loadMyAdverts() {
                                 <div class="card">
                                     <div class="columns">
                                         <div class="column col-1"></div>
-                                        <h2 class="column col-7"><a href="#/advert?id=`+ data.advert[i].id +`&type=recruiter">`+ data.advert[i].title +`</a></h2>
+                                        <h2 class="comumn col-4">`+ data.advert[i].title +`</h2>
+                                        <h4 class="column col-3"><a href="#/delete?id=`+ data.advert[i].id +`&type=recruiter">Delete</a></h4>
+                                        <h4 class="column col-3"><a href="#/update?id=`+ data.advert[i].id +`&type=recruiter">Update</a></h4>
+                                        <div class="column col-1"></div>
                                     </div>
                                     <div class="columns">
                                         <div class="column col-1"></div>
@@ -1220,9 +1405,7 @@ function loadCreateAdvert() {
     const div = document.createElement('div');
     if (sessionManager.getUserType() == 1) {
         div.innerHTML = `
-        <div class="columns col-xl">
-            <div class="column col-3"></div>
-            <div class="column col-6 col-md-12">
+            <div class="column col-12 col-md-12">
                 <h3>Create student advert</h3>
                 <div class="hidden toast toast-error" id="errorMessage">
                     test
@@ -1263,15 +1446,11 @@ function loadCreateAdvert() {
                 </form>
                 <br>
             </div>
-            <div class="column col-3"></div>
-        </div>
         `
         advertArea.appendChild(div) 
     } else if (sessionManager.getUserType() == 2) {
         div.innerHTML = `
-        <div class="columns col-xl">
-            <div class="column col-3"></div>
-            <div class="column col-6 col-md-12">
+            <div class="column col-12 col-md-12">
                 <h3>create recruiter advert</h3>
                 <div class="hidden toast toast-error" id="errorMessage">
                     test
@@ -1320,10 +1499,162 @@ function loadCreateAdvert() {
                 </form>
                 <br>
             </div>
-            <div class="column col-3"></div>
-        </div>
         `
         advertArea.appendChild(div) 
+    }
+}
+
+function loadUpdateAdvert() {
+    const query = location.hash.split('?')
+    const params = query[1].split('&')
+
+    if (params.length > 2 || params.length < 2) {
+        errorMessage.classList.remove('hidden')
+        errorMessage.innerText = 'too few arguments or to many arguments'
+    } else {
+        const param1 = params[0].split('=')
+        const param2 = params[1].split('=')
+
+        var id
+        var type
+        if (param1[0] == 'id') {
+            id = param1[1]
+            type = param2[1]
+        } else {
+            id = param2[1]
+            type = param1[1]
+        }
+
+        if (id == null || type == null || id == '' || type == '') {
+            errorMessage.classList.remove('hidden')
+            errorMessage.innerText = 'id or type is not submitted'
+        } else {
+            const advertUrl = url+'/adverts/'+id+'?type='+type+''
+            const request = new Request(advertUrl, {
+                method: 'GET'
+            });
+            fetch(request)
+            .then(response => {
+                if (response.ok) {
+                    response.json().then(data => {
+                        const advertArea = document.getElementById('advert-area')
+                        if (data.error == 'true') {
+                            const div = document.createElement('div');
+                            div.innerHTML = '<h3>No adverts</h3>'
+                            advertArea.appendChild(div)
+                        } else {
+                            const div = document.createElement('div');
+                            if (type == 'student') {
+                                div.innerHTML = `
+                                <div class="column col-12 col-md-12">
+                                    <h3>Update student advert</h3>
+                                    <div class="hidden toast toast-error" id="errorMessage">
+                                        test
+                                    </div>
+                                    <form action="" method="POST">
+                                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                                        <div class="form-group">
+                                            <label class="form-label" for="titleInput">Title</label>
+                                            <input class="form-input {{css_class}}" id="titleInput" type="text" name="title" placeholder="Title" value="`+ data.advert.title +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="bodyInput">Body</label>
+                                            <textarea class="form-input {{css_class}}" id="bodyInput" name="body" placeholder="Textarea" rows="5">`+ data.advert.body +`</textarea required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="option">Field</label>
+                                            <select class="form-select {{css_class}}" id="option" name="field" value="`+ data.advert.field +`">
+                                                <option>Choose an option</option>
+                                                <option>Tech</option>
+                                                <option>All</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="contactInput">Contact</label>
+                                            <input class="form-input {{css_class}}" id="contactInput" type="text" name="contact" placeholder="Contact" value="`+ data.advert.contact +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="startdateInput">start date</label>
+                                            <input class="form-input {{css_class}}" id="startdateInput" type="date" name="startdate" value="`+ data.advert.start_date +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="enddateInput">End date</label>
+                                            <input class="form-input {{css_class}}" id="enddateInput" type="date" name="enddate" value="`+ data.advert.end_date +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-submit column col-12 btn" type="submit" placeholder="Update" value="Update">
+                                        </div>
+                                    </form>
+                                    <br>
+                                </div>
+                                `
+                            } else if (type == 'recruiter') {
+                                div.innerHTML = `
+                                <div class="column col-12 col-md-12">
+                                    <h3>Update recruiter advert</h3>
+                                    <div class="hidden toast toast-error" id="errorMessage">
+                                        test
+                                    </div>
+                                    <form action="" method="POST">
+                                        <div class="form-group">
+                                            <label class="form-label" for="titleInput">Title</label>
+                                            <input class="form-input {{css_class}}" id="titleInput" type="text" name="title" placeholder="Title" value="`+ data.advert.title +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="bodyInput">Body</label>
+                                            <textarea class="form-input {{css_class}}" id="bodyInput" name="body" placeholder="Textarea" rows="5">`+ data.advert.body +`</textarea required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="option">Field</label>
+                                            <select class="form-select {{css_class}}" id="option" name="field" value="`+ data.advert.field +`">
+                                                <option>Choose an option</option>
+                                                <option>Tech</option>
+                                                <option>All</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="cityInput">City</label>
+                                            <input class="form-input {{css_class}}" id="cityInput" type="text" name="city" placeholder="City" value="`+ data.advert.city +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="contactInput">Contact</label>
+                                            <input class="form-input {{css_class}}" id="contactInput" type="text" name="contact" placeholder="Contact" value="`+ data.advert.contact +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="websiteInput">Website</label>
+                                            <input class="form-input {{css_class}}" id="websiteInput" type="url" name="website" placeholder="Website" value="`+ data.advert.website +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="positionsInput">Number of positions</label>
+                                            <input class="form-input {{css_class}}" id="positionsInput" type="number" name="positions" placeholder="Number of positions" value="`+ data.advert.positions +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="deadlinedateInput">Deadline date</label>
+                                            <input class="form-input {{css_class}}" id="deadlinedateInput" type="date" name="deadline_date" value="`+ data.advert.deadline_date.slice(0, 10) +`" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-submit column col-12 btn" type="submit" placeholder="Update" value="Update">
+                                        </div>
+                                    </form>
+                                    <br>
+                                </div>
+                                `
+                            }
+                            advertArea.appendChild(div)
+                        }
+                    })
+                } else {
+                    response.json().then(data => {
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Network error'
+                    })
+                }
+            })
+            .catch(error => {
+                errorMessage.classList.remove('hidden')
+                errorMessage.innerText = 'Network error'
+            })
+        }
     }
 }
 
@@ -1347,9 +1678,9 @@ function handleLoad() {
         case '/create-advert':
             loadCreateAdvert()
             break;
-        /*case '/logout':
-            // code block
-            break;*/
+        case '/update':
+            loadUpdateAdvert();
+            break;
         default:
             // code block
     }
@@ -1380,6 +1711,9 @@ function handleSubmit() {
             break;
         case '/delete':
             deleteAdvert()
+            break;
+        case '/update':
+            updateAdvert()
             break;
         default:
             // code block

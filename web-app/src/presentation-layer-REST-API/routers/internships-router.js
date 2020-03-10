@@ -60,11 +60,19 @@ router.route('/adverts')
                                     'advert': errorOrAdverts
                                 })
                             } else {
-                                response.json({
-                                    'error': 'true',
-                                    'message': errorOrAdverts,
-                                    'code': 'APP_2'
-                                })
+                                if (errorOrAdverts.includes('db error')) {
+                                    response.status(500).json({
+                                        'error': 'true',
+                                        'message': errorOrAdverts,
+                                        'code': 'APP_2'
+                                    })
+                                } else {
+                                    response.status(400).json({
+                                        'error': 'true',
+                                        'message': errorOrAdverts,
+                                        'code': 'APP_2'
+                                    })
+                                }
                             }
                         })
                     }
@@ -176,44 +184,84 @@ router.route('/adverts/:id')
                     'advert': errorOrAdvert
                 })
             } else {
-                response.status(500).json({
-                    'error': 'true',
-                    'message': errorOrAdvert,
-                    'code': 'APP_ERR'
-                })
+                if (errorOrAdvert.includes("db error")) {
+                    response.status(500).json({
+                        'status': 'fail',
+                        'message': errorOrAdvert
+                    })
+                } else {
+                    response.status(400).json({
+                        'status': 'fail',
+                        'message': errorOrAdvert
+                    })
+                }
             }
         })
     })
-    .patch(authHelper.apiIsAuthenticated, function(request, response, next) {
+    .put(authHelper.apiIsAuthenticated, function(request, response, next) {
         //update advert
+        const user = {
+            user_type: response.locals.userType,
+            id: response.locals.uid
+        }
         if (request.query.type === 'student') {
-            internshipManager.updateStudentAdvert(request.session.user, request.query.id, request.body.title, request.body.body, request.body.field, request.body.contact, request.body.startdate, request.body.enddate, function(status, errorOrId) {
+            const values = {
+                title: request.body.title,
+                body: request.body.body,
+                field: request.body.field,
+                contact: request.body.contact,
+                start_date: request.body.startdate,
+                end_date: request.body.enddate,
+            }
+            internshipManager.updateStudentAdvert(user, request.params.id, values, function(status, errorOrId) {
                 if (status) {
                     response.json({
                         'error': 'false',
                         'message': 'success updating advert'
                     })
                 } else {
-                    response.status(500).json({
-                        'error': 'true',
-                        'message': errorOrId,
-                        'code': 'APP_2'
-                    })
+                    if (errorOrId.includes("db error")) {
+                        response.status(500).json({
+                            'status': 'fail',
+                            'message': errorOrId
+                        })
+                    } else {
+                        response.status(400).json({
+                            'status': 'fail',
+                            'message': errorOrId
+                        })
+                    }
                 }
             })
         } else if (request.query.type === 'recruiter') {
-            internshipManager.updateRecruiterAdvert(request.session.user, request.query.id, request.body.title, request.body.body, request.body.field, request.body.city, request.body.website, request.body.contact, request.body.positions, request.body.deadline_date, function(status, errorOrId) {
+            const values = {
+                title: request.body.title,
+                body: request.body.body,
+                field: request.body.field,
+                city: request.body.city,
+                contact: request.body.contact,
+                website: request.body.website,
+                positions: request.body.positions,
+                deadline_date: request.body.deadlinedate,
+            }
+            internshipManager.updateRecruiterAdvert(user, request.params.id, values, function(status, errorOrId) {
                 if (status) {
                     response.json({
                         'error': 'false',
                         'message': 'success updating advert'
                     })
                 } else {
-                    response.status(500).json({
-                        'error': 'true',
-                        'message': errorOrId,
-                        'code': 'APP_2'
-                    })
+                    if (errorOrId.includes("db error")) {
+                        response.status(500).json({
+                            'status': 'fail',
+                            'message': errorOrId
+                        })
+                    } else {
+                        response.status(400).json({
+                            'status': 'fail',
+                            'message': errorOrId
+                        })
+                    }
                 }
             })
         } else {
@@ -225,7 +273,6 @@ router.route('/adverts/:id')
         }
     })
     .delete(authHelper.apiIsAuthenticated, function(request, response, next) {
-        //delete advert
         const user = { 
             id: response.locals.uid,
             user_type: response.locals.userType
@@ -238,11 +285,19 @@ router.route('/adverts/:id')
                     'message': 'success deleting advert'
                 })
             } else {
-                response.status(500).json({
-                    'error': 'true',
-                    'message': error,
-                    'code': 'APP_2'
-                })
+                if (error.includes('db error')) {
+                    response.status(500).json({
+                        'error': 'true',
+                        'message': error,
+                        'code': 'APP_2'
+                    })
+                } else {
+                    response.status(400).json({
+                        'error': 'true',
+                        'message': error,
+                        'code': 'APP_2'
+                    })
+                }
             }
         })
     })

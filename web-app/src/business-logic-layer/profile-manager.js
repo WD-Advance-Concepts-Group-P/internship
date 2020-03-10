@@ -26,12 +26,10 @@ module.exports = function(container) {
                     container.accountRepository.updateSeenBefore(uid).then(resultSeen => {
                         callback(true, result.id)
                     }).catch(error => {
-                        console.log(error + ' test')
-                        callback(false, 'DB error')
+                        callback(false, 'db error')
                     })
                 }).catch(error => {
-                    console.log(error + ' yes')
-                    callback(false, 'DB error')
+                    callback(false, 'db error')
                 })
             }
         },
@@ -59,12 +57,10 @@ module.exports = function(container) {
                     container.accountRepository.updateSeenBefore(uid).then(resultSeen => {
                         callback(true, result.id)
                     }).catch(error => {
-                        console.log(error + 'yes')
-                        callback(false, 'DB error')
+                        callback(false, 'db error')
                     })
                 }).catch(error => {
-                    console.log(error + 'yes')
-                    callback(false, 'DB error')
+                    callback(false, 'db error')
                 })
             }
         },
@@ -93,8 +89,7 @@ module.exports = function(container) {
                 container.accountRepository.updateUserInfo(1, info).then(result => {
                     callback(true, result.id)
                 }).catch(error => {
-                    console.log(error + 'yes')
-                    callback(false, 'DB error')
+                    callback(false, 'db error')
                 })
             }
         },
@@ -121,23 +116,20 @@ module.exports = function(container) {
                 container.accountRepository.updateUserInfo(2, info).then(result => {
                     callback(true, result.id)
                 }).catch(error => {
-                    console.log(error + 'yes')
-                    callback(false, 'DB error')
+                    callback(false, 'db error')
                 })
             }
         },
         getUserInfo: function(user, callback) {
             if (user.user_type === 1 || user.user_type === 2) {
                 container.accountRepository.getUserInfo(user.id, user.user_type).then(info => {
-                    console.log(info)
                     if (info == null) {
                         callback(false, 'No Info')
                     } else {
                         callback(true, info)
                     }
                 }).catch(error => {
-                    console.log(error)
-                    callback(false, error)
+                    callback(false, 'db error')
                 })
             } else {
                 callback(false, 'You don\'t have access to this feature')

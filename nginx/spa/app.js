@@ -7,10 +7,11 @@ import { HomeComponent, LoginComponent, LogoutComponent,
     MyAdvertsComponent, DeleteAdvertComponent } from './components.js';
 
 import { loadStudentAdverts, loadRecruiterAdverts, 
-    loadAdvert, loadMyAdverts, loadCreateAdvert } from './loadFunctions.js';
+    loadAdvert, loadMyAdverts, loadCreateAdvert, 
+    loadUpdateAdvert } from './loadFunctions.js';
 
 import { login, logout, register, profileSetupStudent,
-    profileSetupRecruiter, createAdvert, deleteAdvert } from './submitFunctions.js';
+    profileSetupRecruiter, createAdvert, deleteAdvert, updateAdvert } from './submitFunctions.js';
 
 /*class Session {
     constructor() {}
@@ -396,19 +397,20 @@ const ErrorComponent = {
 }*/
    
 const routes = [
-    { path: '/', component: HomeComponent, },
-    { path: '/login', component: LoginComponent, },
-    { path: '/logout', component: LogoutComponent, },
-    { path: '/register', component: RegisterComponent, },
-    { path: '/profile', component: ProfileComponent, },
-    { path: '/profile/setup/student', component: ProfileSetupStudentComponent, },
-    { path: '/profile/setup/recruiter', component: ProfileSetupRecruiterComponent, },
-    { path: '/positions', component: PositionsComponent, },
-    { path: '/student-adverts', component: StudentAdvertsComponent, },
-    { path: '/advert', component: AdvertComponent},
-    { path: '/create-advert', component: CreateAdvertComponent},
-    { path: '/my/adverts', component: MyAdvertsComponent},
-    { path: '/delete', component: DeleteAdvertComponent},
+    { path: '/', component: HomeComponent },
+    { path: '/login', component: LoginComponent },
+    { path: '/logout', component: LogoutComponent },
+    { path: '/register', component: RegisterComponent },
+    { path: '/profile', component: ProfileComponent },
+    { path: '/profile/setup/student', component: ProfileSetupStudentComponent },
+    { path: '/profile/setup/recruiter', component: ProfileSetupRecruiterComponent },
+    { path: '/positions', component: PositionsComponent },
+    { path: '/student-adverts', component: StudentAdvertsComponent },
+    { path: '/advert', component: AdvertComponent },
+    { path: '/create-advert', component: CreateAdvertComponent },
+    { path: '/my/adverts', component: MyAdvertsComponent },
+    { path: '/delete', component: DeleteAdvertComponent },
+    { path: '/update', component: MyAdvertsComponent },
 ];
 
 const authRequiredRoutes = [
@@ -418,7 +420,8 @@ const authRequiredRoutes = [
     '/logout',
     '/my/adverts',
     '/create-advert',
-    '/delete'
+    '/delete',
+    '/update'
 ];
 
 const parseLocation = () => location.hash.slice(1).toLowerCase() || '/';
@@ -1365,9 +1368,9 @@ function handleLoad() {
         case '/create-advert':
             loadCreateAdvert()
             break;
-        /*case '/logout':
-            // code block
-            break;*/
+        case '/update':
+            loadUpdateAdvert();
+            break;
         default:
             // code block
     }
@@ -1398,6 +1401,9 @@ function handleSubmit() {
             break;
         case '/delete':
             deleteAdvert()
+            break;
+        case '/update':
+            updateAdvert()
             break;
         default:
             // code block
