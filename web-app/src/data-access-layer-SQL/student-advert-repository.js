@@ -111,7 +111,7 @@ class StudentAdvertRepository {
     }
 
     getAllByUser(id) {
-        const sql = `SELECT * FROM StudentAdverts WHERE posted_by = ? ORDER BY created_at DESC`
+        const sql = `SELECT * FROM StudentAdverts WHERE posted_by = ? ORDER BY id DESC`
 
         return this.dbh.all(sql, [id])
     }
@@ -121,7 +121,7 @@ class StudentAdvertRepository {
      * @returns {Promise} Promise that represent the 'results'
      */
     getAll() {
-        const sql = `SELECT * FROM StudentAdverts ORDER BY created_at DESC`
+        const sql = `SELECT * FROM StudentAdverts ORDER BY id DESC`
 
         return this.dbh.all(sql)
     }
