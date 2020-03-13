@@ -1,9 +1,9 @@
 const express = require('express')
 
 // DB Connection
-require("./data-access-layer-SQL/connection");
-require('./data-access-layer/connection')
-require('./data-access-layer/setup')
+const requireSeqelize= true
+requireSeqelize ? require('./data-access-layer/connection') : require("./data-access-layer-SQL/connection")  
+requireSeqelize ? require('./data-access-layer/setup') : null
 
 const normalRoutes = require('./presentation-layer/app')
 const apiRoutes = require('./presentation-layer-REST-API/app')
