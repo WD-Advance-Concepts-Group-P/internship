@@ -65,7 +65,6 @@ const LoginComponent = {
                         test
                     </div>
                     <form method="POST">
-                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
                         <div class="form-group">
                             <label class="form-label" for="usernameInput">Username</label>
                             <input class="form-input column col-12" id="usernameInput" type="text" name="username" placeholder="Username" required>
@@ -74,8 +73,8 @@ const LoginComponent = {
                             <label class="form-label" for="passwordInput">Password</label>
                             <input class="form-input column col-12" id="passwordInput" type="password" name="password" placeholder="Password" required>
                         </div>
-                        <div class="form-group">
-                            <input class="form-submit column col-12 btn" type="submit" placeholder="Login" value="Login">
+                        <div class="form-group" id="loginDiv">
+                            <input class="form-submit column col-12 btn" id="loginButton" type="submit" placeholder="Login" value="Login">
                         </div>
                     </form>
                     <br>
@@ -93,20 +92,17 @@ const LogoutComponent = {
     render: () => {
         return `
         <div class="columns col-xl">
-            <div class="column col-4"></div>
-            <div class="column col-4 col-md-12">
+            <div class="column col-3"></div>
+            <div class="column col-6 col-md-12">
                 <h1>Logout</h1>
                 <p>If you press the button below you will be signed out</p>
                 <form method="POST">
-                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-                    <div class="form-group">
-                        <div class="column col-2"></div>
-                        <input class="btn column col-8" type="submit" value="Logout">
-                        <div class="column col-2"></div>
+                    <div class="form-group" id="logoutDiv">
+                        <input class="btn column col-12" id="logoutButton" type="submit" value="Logout">
                     </div>
                 </form>
             </div>
-            <div class="column col-4"></div>
+            <div class="column col-3"></div>
         </div>
         `;
     }
@@ -123,7 +119,6 @@ const RegisterComponent = {
                     test
                 </div>
                 <form action="" method="POST">
-                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <div class="form-group">
                         <label class="form-label" for="usernameInput">Username</label>
                         <input class="form-input" id="usernameInput" type="text" name="username" placeholder="Username" required>
@@ -144,8 +139,8 @@ const RegisterComponent = {
                             <option>Recruiter</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <input class="form-submit column col-12 btn" type="submit" placeholder="Signup" value="Register">
+                    <div class="form-group" id="registerDiv">
+                        <input class="form-submit column col-12 btn" id="registerButton" type="submit" placeholder="Signup" value="Register">
                     </div>
                 </form>
                 <br>
@@ -189,14 +184,13 @@ const ProfileSetupStudentComponent = {
                     test
                 </div>
                 <form action="" method="POST">
-                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <div class="form-group">
                         <label class="form-label" for="firstnameInput">Firstname</label>
-                        <input class="form-input {{css_class}}" id="firstnameInput" type="text" name="firstname" placeholder="Firstname" required>
+                        <input class="form-input" id="firstnameInput" type="text" name="firstname" placeholder="Firstname" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="lastnameInput">Lastname</label>
-                        <input class="form-input {{css_class}}" id="lastnameInput" type="text" name="lastname" placeholder="Lastname" required>
+                        <input class="form-input" id="lastnameInput" type="text" name="lastname" placeholder="Lastname" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="birthdateInput">Birth date (optional)</label>
@@ -226,8 +220,8 @@ const ProfileSetupStudentComponent = {
                         <label class="form-label" for="profilepicInput">Profile picture url (optional)</label>
                         <input class="form-input" id="profilepicInput" type="url" name="profilepic" placeholder="Profile Picture Url">
                     </div>
-                    <div class="form-group">
-                        <input class="form-submit column col-12 btn" type="submit" placeholder="Send" value="Send">
+                    <div class="form-group" id="submitDiv">
+                        <input class="form-submit column col-12 btn" id="submitButton" type="submit" placeholder="Send" value="Send">
                     </div>
                 </form>
                 <br>
@@ -249,7 +243,6 @@ const ProfileSetupRecruiterComponent = {
                     test
                 </div>
                 <form action="" method="POST">
-                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <div class="form-group">
                         <label class="form-label" for="firstnameInput">Firstname</label>
                         <input class="form-input" id="firstnameInput" type="text" name="firstname" placeholder="Firstname" required>
@@ -270,8 +263,8 @@ const ProfileSetupRecruiterComponent = {
                         <label class="form-label" for="companylogoInput">Company logo url (optional)</label>
                         <input class="form-input" id="companylogoInput" type="url" name="companylogo" placeholder="https://test.com/logo.png">
                     </div>
-                    <div class="form-group">
-                        <input class="form-submit column col-12 btn" type="submit" placeholder="Send" value="Send">
+                    <div class="form-group" id="submitDiv">
+                        <input class="form-submit column col-12 btn" id="submitButton" type="submit" placeholder="Send" value="Send">
                     </div>
                 </form>
                 <br>
@@ -282,85 +275,17 @@ const ProfileSetupRecruiterComponent = {
     }
 }
 
-const PositionsComponent = {
+const GeneralComponent = {
     render: () => {
         return `
         <div class="columns col-xl">
             <div class="column col-1"></div>
             <div class="column col-10 col-md-12">
-                <h3>View Recruiter adverts</h3>
-                <div class="hidden toast toast-error" id="errorMessage">
-                    test
+                <div id="advert-area">
+                    <div class="hidden toast toast-error" id="errorMessage">
+                        test
+                    </div>
                 </div>
-                <div id="advert-area"></div>
-            </div>
-            <div class="column col-1"></div>
-        </div>
-        `;
-    }
-}
-
-const StudentAdvertsComponent = {
-    render: () => {
-        return `
-        <div class="columns col-xl">
-            <div class="column col-1"></div>
-            <div class="column col-10 col-md-12">
-                <h3>View student adverts</h3>
-                <div class="hidden toast toast-error" id="errorMessage">
-                    test
-                </div>
-                <div id="advert-area"></div>
-            </div>
-            <div class="column col-1"></div>
-        </div>
-        `;
-    }
-}
-
-const AdvertComponent = {
-    render: () => {
-        return `
-        <div class="columns col-xl">
-            <div class="column col-1"></div>
-            <div class="column col-10 col-md-12">
-                <h3>View student adverts</h3>
-                <div class="hidden toast toast-error" id="errorMessage">
-                    test
-                </div>
-                <div id="advert-area"></div>
-            </div>
-            <div class="column col-1"></div>
-        </div>
-        `;
-    }
-}
-
-const MyAdvertsComponent = {
-    render: () => {
-        return `
-        <div class="columns col-xl">
-            <div class="column col-1"></div>
-            <div class="column col-10 col-md-12">
-                <h3>View My adverts</h3>
-                <div class="hidden toast toast-error" id="errorMessage">
-                    test
-                </div>
-                <div id="advert-area"></div>
-            </div>
-            <div class="column col-1"></div>
-        </div>
-        `;
-    }
-}
-
-const CreateAdvertComponent = {
-    render: () => {
-        return `
-        <div class="columns col-xl">
-            <div class="column col-1"></div>
-            <div class="column col-10 col-md-12">
-                <div id="advert-area"></div>
             </div>
             <div class="column col-1"></div>
         </div>
@@ -379,8 +304,8 @@ const DeleteAdvertComponent = {
                     test
                 </div>
                 <form action="" method="POST">
-                    <div class="form-group">
-                        <input class="form-submit column col-12 btn" type="submit" placeholder="Delete" value="Delete">
+                    <div class="form-group" id="submitDiv">
+                        <input class="form-submit column col-12 btn" id="submitButton" type="submit" placeholder="Delete" value="Delete">
                     </div>
                 </form>
                 <br>
@@ -398,7 +323,7 @@ const ErrorComponent = {
                 <div class="column col-3"></div>
                 <div class="column col-6 col-md-12">
                     <h1>Error</h1>
-                    <p>This is just a test</p>
+                    <p>Error with application</p>
                 </div>
                 <div class="column col-3"></div>
             </div>
@@ -414,13 +339,13 @@ const routes = [
     { path: '/profile', component: ProfileComponent },
     { path: '/profile/setup/student', component: ProfileSetupStudentComponent },
     { path: '/profile/setup/recruiter', component: ProfileSetupRecruiterComponent },
-    { path: '/positions', component: PositionsComponent },
-    { path: '/student-adverts', component: StudentAdvertsComponent },
-    { path: '/advert', component: AdvertComponent },
-    { path: '/create-advert', component: CreateAdvertComponent },
-    { path: '/my/adverts', component: MyAdvertsComponent },
+    { path: '/positions', component: GeneralComponent },
+    { path: '/student-adverts', component: GeneralComponent },
+    { path: '/advert', component: GeneralComponent },
+    { path: '/create-advert', component: GeneralComponent },
+    { path: '/my/adverts', component: GeneralComponent },
     { path: '/delete', component: DeleteAdvertComponent },
-    { path: '/update', component: MyAdvertsComponent },
+    { path: '/update', component: GeneralComponent },
 ];
 
 const authRequiredRoutes = [
@@ -445,12 +370,29 @@ const router = () => {
     path = new_path[0]
 
     if (sessionManager.getAuthToken() == null) {
+        
+        const login = document.getElementById('loginLink')
+        const logout = document.getElementById('logoutLink')
+        const profile = document.getElementById('profileLink')
+
+        login.classList.remove('hidden')
+        logout.classList.add('hidden')
+        profile.classList.add('hidden')
+
         for (var i in authRequiredRoutes) {
             if (path == authRequiredRoutes[i]) {
                 window.location.replace('#/login')
             }
         }
     } else {
+
+        const login = document.getElementById('loginLink')
+        const logout = document.getElementById('logoutLink')
+        const profile = document.getElementById('profileLink')
+
+        login.classList.add('hidden')
+        logout.classList.remove('hidden')
+        profile.classList.remove('hidden')
 
         if (path == '/profile/setup/student' && sessionManager.getUserType() != 1) {
             window.location.replace('#/profile/setup/recruiter')
@@ -502,10 +444,17 @@ function login() {
     const errorMessage = document.getElementById('errorMessage')
     errorMessage.classList.add('hidden')
 
+    const loginDiv = document.getElementById('loginDiv')
+    const loginButton = document.getElementById('loginButton')
+
     const username = document.getElementById('usernameInput');
     const password = document.getElementById('passwordInput');
 
     if (password.value.length > 5 && username.value.length > 0) {
+
+        loginDiv.classList.add('loading')
+        loginButton.value = ""
+
         const loginUrl = url + '/token'
         // create request object
         const request = new Request(loginUrl, {
@@ -519,6 +468,9 @@ function login() {
 
         fetch(request)
         .then(response => {
+            loginDiv.classList.remove('loading')
+            loginButton.value = "Login"
+
             if (response.ok) {
                 response.json().then(data => {
                     if (data.error) {
@@ -561,6 +513,8 @@ function login() {
             }
         })
         .catch(error => {
+            loginDiv.classList.remove('loading')
+            loginButton.value = "Login"
             errorMessage.classList.remove('hidden')
             errorMessage.innerText = 'Network error'
         })
@@ -574,6 +528,9 @@ function register() {
     const errorMessage = document.getElementById('errorMessage')
     errorMessage.classList.add('hidden')
 
+    const registerDiv = document.getElementById('registerDiv')
+    const registerButton = document.getElementById('registerButton')
+
     const username = document.getElementById('usernameInput');
     const password = document.getElementById('passwordInput');
     const email = document.getElementById('emailInput')
@@ -581,6 +538,10 @@ function register() {
     const userType = optionUserType.options[optionUserType.selectedIndex].value;
 
     if (password.value.length > 5 && username.value.length > 0 && email.value.length > 5 && userType != 'Choose an option') {
+
+        registerDiv.classList.add('loading')
+        registerButton.value = ""
+
         const registerUrl = url + '/users'
         const request = new Request(registerUrl, {
             method: 'POST',
@@ -594,6 +555,8 @@ function register() {
         });
         fetch(request)
         .then(response => {
+            registerDiv.classList.remove('loading')
+            registerButton.value = "Register"
             if (response.ok) {
                 response.json().then(data => {
                     window.location.replace('#/login')
@@ -614,6 +577,8 @@ function register() {
             }
         })
         .catch(error => {
+            registerDiv.classList.remove('loading')
+            registerButton.value = "Register"
             errorMessage.classList.remove('hidden')
             errorMessage.innerText = 'Network error'
         })
@@ -624,6 +589,10 @@ function register() {
 }
 
 function logout() {
+    const logoutDiv = document.getElementById('logoutDiv')
+    const logoutButton = document.getElementById('logoutButton')
+    logoutDiv.classList.add('loading')
+    logoutButton.value = ""
     sessionManager.destroy()
     window.location.replace('#/');
 }
@@ -631,6 +600,9 @@ function logout() {
 function profileSetupStudent() {
     const errorMessage = document.getElementById('errorMessage')
     errorMessage.classList.add('hidden')
+
+    const submitDiv = document.getElementById('submitDiv')
+    const submitButton = document.getElementById('submitButton')
 
     const firstname = document.getElementById('firstnameInput');
     const lastname = document.getElementById('lastnameInput');
@@ -643,6 +615,9 @@ function profileSetupStudent() {
     const profilepic = document.getElementById('profilepicInput');
 
     if (firstname.value.length > 0 && lastname.value.length > 0) {
+        submitDiv.classList.add('loading')
+        submitButton.value = ""
+
         const profileSetupStudent = url + '/users/info'
         const request = new Request(profileSetupStudent, {
             method: 'POST',
@@ -664,6 +639,8 @@ function profileSetupStudent() {
         });
         fetch(request)
         .then(response => {
+            submitDiv.classList.remove('loading')
+            submitButton.value = "Submit"
             if (response.ok) {
                 response.json().then(data => {
                     sessionManager.setRegisterdInfoValue(true)
@@ -685,6 +662,8 @@ function profileSetupStudent() {
             }
         })
         .catch(error => {
+            submitDiv.classList.remove('loading')
+            submitButton.value = "Submit"
             errorMessage.classList.remove('hidden')
             errorMessage.innerText = 'Network error'
         })
@@ -697,6 +676,10 @@ function profileSetupStudent() {
 function profileSetupRecruiter() {
     const errorMessage = document.getElementById('errorMessage')
     errorMessage.classList.add('hidden')
+
+    const submitDiv = document.getElementById('submitDiv')
+    const submitButton = document.getElementById('submitButton')
+
     const firstname = document.getElementById('firstnameInput');
     const lastname = document.getElementById('lastnameInput');
     const companyname = document.getElementById('companynameInput')
@@ -704,6 +687,9 @@ function profileSetupRecruiter() {
     const companylogo = document.getElementById('companylogoInput')
 
     if (firstname.value.length > 0 && lastname.value.length > 0 && companyname.value.length > 0) {
+        submitDiv.classList.add('loading')
+        submitButton.value = ""
+
         const profileSetupRecruiter = url + '/users/info'
         const request = new Request(profileSetupRecruiter, {
             method: 'POST',
@@ -721,9 +707,10 @@ function profileSetupRecruiter() {
         });
         fetch(request)
         .then(response => {
+            submitDiv.classList.remove('loading')
+            submitButton.value = "Submit"
             if (response.ok) {
                 response.json().then(data => {
-                    console.log('setup '+data)
                     sessionManager.setRegisterdInfoValue(true)
                     window.location.replace('#/profile')
                 })
@@ -743,6 +730,8 @@ function profileSetupRecruiter() {
             }
         })
         .catch(error => {
+            submitDiv.classList.remove('loading')
+            submitButton.value = "Submit"
             errorMessage.classList.remove('hidden')
             errorMessage.innerText = 'Network error'
         })
@@ -755,6 +744,9 @@ function profileSetupRecruiter() {
 function createAdvert() {
     const errorMessage = document.getElementById('errorMessage')
     errorMessage.classList.add('hidden')
+
+    const submitDiv = document.getElementById('submitDiv')
+    const submitButton = document.getElementById('submitButton')
 
     const createAdvertUrl = url + '/adverts'
 
@@ -771,6 +763,10 @@ function createAdvert() {
 
         //validate
         if (title.value.length > 0 && body.value.length > 0 && contact.value.length > 0) {
+
+            submitDiv.classList.add('loading')
+            submitButton.value = ""
+
             const request = new Request(createAdvertUrl, {
                 method: 'POST',
                 headers: {
@@ -787,6 +783,8 @@ function createAdvert() {
             });
             fetch(request)
             .then(response => {
+                submitDiv.classList.remove('loading')
+                submitButton.value = "Create"
                 if (response.ok) {
                     response.json().then(data => {
                         window.location.replace('#/my/adverts')
@@ -807,6 +805,8 @@ function createAdvert() {
                 }
             })
             .catch(error => {
+                submitDiv.classList.remove('loading')
+                submitButton.value = "Create"
                 errorMessage.classList.remove('hidden')
                 errorMessage.innerText = 'Network error'
             })
@@ -828,6 +828,10 @@ function createAdvert() {
 
         //validate
         if (title.value.length > 0 && body.value.length > 0 && contact.value.length > 0) {
+
+            submitDiv.classList.add('loading')
+            submitButton.value = ""
+
             const request = new Request(createAdvertUrl, {
                 method: 'POST',
                 headers: {
@@ -846,6 +850,8 @@ function createAdvert() {
             });
             fetch(request)
             .then(response => {
+                submitDiv.classList.remove('loading')
+                submitButton.value = "Create"
                 if (response.ok) {
                     response.json().then(data => {
                         window.location.replace('#/my/adverts')
@@ -866,6 +872,8 @@ function createAdvert() {
                 }
             })
             .catch(error => {
+                submitDiv.classList.remove('loading')
+                submitButton.value = "Create"
                 errorMessage.classList.remove('hidden')
                 errorMessage.innerText = 'Network error'
             })
@@ -879,6 +887,9 @@ function createAdvert() {
 function deleteAdvert() {
     const query = location.hash.split('?')
     const params = query[1].split('&')
+
+    const submitDiv = document.getElementById('submitDiv')
+    const submitButton = document.getElementById('submitButton')
 
     if (params.length > 2 || params.length < 2) {
         errorMessage.classList.remove('hidden')
@@ -901,6 +912,9 @@ function deleteAdvert() {
             errorMessage.classList.remove('hidden')
             errorMessage.innerText = 'id or type is not submitted'
         } else {
+            submitDiv.classList.add('loading')
+            submitButton.value = ""
+
             const deleteAdvertUrl = url+'/adverts/'+id+''
             const request = new Request(deleteAdvertUrl, {
                 method: 'DELETE',
@@ -910,17 +924,22 @@ function deleteAdvert() {
             });
             fetch(request)
             .then(response => {
+                submitDiv.classList.remove('loading')
+                submitButton.value = "Delete"
                 if (response.ok) {
                     response.json().then(data => {
                         window.location.replace('#/my/adverts')
                     })
                 } else {
                     response.json().then(data => {
-                        console.log(data)
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Network error'
                     })
                 }
             })
             .catch(error => {
+                submitDiv.classList.remove('loading')
+                submitButton.value = "Delete"
                 errorMessage.classList.remove('hidden')
                 errorMessage.innerText = 'Network error'
             })
@@ -931,6 +950,9 @@ function deleteAdvert() {
 function updateAdvert() {
     const errorMessage = document.getElementById('errorMessage')
     errorMessage.classList.add('hidden')
+
+    const submitDiv = document.getElementById('submitDiv')
+    const submitButton = document.getElementById('submitButton')
 
     const query = location.hash.split('?')
     const params = query[1].split('&')
@@ -970,6 +992,10 @@ function updateAdvert() {
 
                 //validate
                 if (title.value.length > 0 && body.value.length > 0 && contact.value.length > 0) {
+
+                    submitDiv.classList.add('loading')
+                    submitButton.value = ""
+
                     const request = new Request(updateAdvertUrl, {
                         method: 'PUT',
                         headers: {
@@ -986,6 +1012,8 @@ function updateAdvert() {
                     });
                     fetch(request)
                     .then(response => {
+                        submitDiv.classList.remove('loading')
+                        submitButton.value = "Update"
                         if (response.ok) {
                             response.json().then(data => {
                                 window.location.replace('#/my/adverts')
@@ -1006,6 +1034,8 @@ function updateAdvert() {
                         }
                     })
                     .catch(error => {
+                        submitDiv.classList.remove('loading')
+                        submitButton.value = "Update"
                         errorMessage.classList.remove('hidden')
                         errorMessage.innerText = 'Network error'
                     })
@@ -1028,6 +1058,10 @@ function updateAdvert() {
 
                 //validate
                 if (title.value.length > 0 && body.value.length > 0 && contact.value.length > 0) {
+
+                    submitDiv.classList.add('loading')
+                    submitButton.value = ""
+
                     const request = new Request(updateAdvertUrl, {
                         method: 'PUT',
                         headers: {
@@ -1046,6 +1080,8 @@ function updateAdvert() {
                     });
                     fetch(request)
                     .then(response => {
+                        submitDiv.classList.remove('loading')
+                        submitButton.value = "Update"
                         if (response.ok) {
                             response.json().then(data => {
                                 window.location.replace('#/my/adverts')
@@ -1066,6 +1102,8 @@ function updateAdvert() {
                         }
                     })
                     .catch(error => {
+                        submitDiv.classList.remove('loading')
+                        submitButton.value = "Update"
                         errorMessage.classList.remove('hidden')
                         errorMessage.innerText = 'Network error'
                     })
@@ -1086,12 +1124,17 @@ function updateAdvert() {
 */
 
 function loadStudentAdverts() {
+    const loadDiv = document.getElementById('advert-area')
+
+    loadDiv.classList.add('loading')
+
     const studentAdvertsUrl = url + '/adverts?type=student'
     const request = new Request(studentAdvertsUrl, {
         method: 'GET',
     });
     fetch(request)
     .then(response => {
+        loadDiv.classList.remove('loading')
         if (response.ok) {
             response.json().then(data => {
                 const advertArea = document.getElementById('advert-area')
@@ -1134,18 +1177,24 @@ function loadStudentAdverts() {
         }
     })
     .catch(error => {
+        loadDiv.classList.remove('loading')
         errorMessage.classList.remove('hidden')
         errorMessage.innerText = 'Network error'
     })
 }
 
 function loadRecruiterAdverts() {
+    const loadDiv = document.getElementById('advert-area')
+
+    loadDiv.classList.add('loading')
+
     const recruiterAdvertsUrl = url + '/adverts?type=recruiter'
     const request = new Request(recruiterAdvertsUrl, {
         method: 'GET',
     });
     fetch(request)
     .then(response => {
+        loadDiv.classList.remove('loading')
         if (response.ok) {
             response.json().then(data => {
                 const advertArea = document.getElementById('advert-area')
@@ -1195,12 +1244,15 @@ function loadRecruiterAdverts() {
         }
     })
     .catch(error => {
+        loadDiv.classList.remove('loading')
         errorMessage.classList.remove('hidden')
         errorMessage.innerText = 'Network error'
     })
 }
 
 function loadAdvert() {
+    const loadDiv = document.getElementById('advert-area')
+
     const query = location.hash.split('?')
     const params = query[1].split('&')
 
@@ -1225,12 +1277,15 @@ function loadAdvert() {
             errorMessage.classList.remove('hidden')
             errorMessage.innerText = 'id or type is not submitted'
         } else {
+            loadDiv.classList.add('loading')
+
             const advertUrl = url+'/adverts/'+id+'?type='+type+''
             const request = new Request(advertUrl, {
                 method: 'GET'
             });
             fetch(request)
             .then(response => {
+                loadDiv.classList.remove('loading')
                 if (response.ok) {
                     response.json().then(data => {
                         const advertArea = document.getElementById('advert-area')
@@ -1301,6 +1356,7 @@ function loadAdvert() {
                 }
             })
             .catch(error => {
+                loadDiv.classList.remove('loading')
                 errorMessage.classList.remove('hidden')
                 errorMessage.innerText = 'Network error'
             })
@@ -1309,6 +1365,10 @@ function loadAdvert() {
 }
 
 function loadMyAdverts() {
+    const loadDiv = document.getElementById('advert-area')
+
+    loadDiv.classList.add('loading')
+
     const advertUrl = url+'/adverts'
     const request = new Request(advertUrl, {
         method: 'GET',
@@ -1318,10 +1378,11 @@ function loadMyAdverts() {
     });
     fetch(request)
     .then(response => {
+        loadDiv.classList.remove('loading')
         if (response.ok) {
             response.json().then(data => {
                 const advertArea = document.getElementById('advert-area')
-                if (data.error == 'true') {
+                if (data.error == 'true' || data.advert.length == 0) {
                     const div = document.createElement('div');
                     div.innerHTML = '<h3>No adverts</h3>'
                     advertArea.appendChild(div)
@@ -1395,6 +1456,7 @@ function loadMyAdverts() {
         }
     })
     .catch(error => {
+        loadDiv.classList.remove('loading')
         errorMessage.classList.remove('hidden')
         errorMessage.innerText = 'Network error'
     })    
@@ -1407,11 +1469,7 @@ function loadCreateAdvert() {
         div.innerHTML = `
             <div class="column col-12 col-md-12">
                 <h3>Create student advert</h3>
-                <div class="hidden toast toast-error" id="errorMessage">
-                    test
-                </div>
                 <form action="" method="POST">
-                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <div class="form-group">
                         <label class="form-label" for="titleInput">Title</label>
                         <input class="form-input" id="titleInput" type="text" name="title" placeholder="Title" required>
@@ -1440,8 +1498,8 @@ function loadCreateAdvert() {
                         <label class="form-label" for="enddateInput">End date</label>
                         <input class="form-input" id="enddateInput" type="date" name="enddate" required>
                     </div>
-                    <div class="form-group">
-                        <input class="form-submit column col-12 btn" type="submit" placeholder="Create" value="Create">
+                    <div class="form-group" id="submitDiv">
+                        <input class="form-submit column col-12 btn" id="submitButton" type="submit" placeholder="Create" value="Create">
                     </div>
                 </form>
                 <br>
@@ -1452,11 +1510,7 @@ function loadCreateAdvert() {
         div.innerHTML = `
             <div class="column col-12 col-md-12">
                 <h3>create recruiter advert</h3>
-                <div class="hidden toast toast-error" id="errorMessage">
-                    test
-                </div>
                 <form action="" method="POST">
-                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <div class="form-group">
                         <label class="form-label" for="titleInput">Title</label>
                         <input class="form-input" id="titleInput" type="text" name="title" placeholder="Title" value="" required>
@@ -1493,8 +1547,8 @@ function loadCreateAdvert() {
                         <label class="form-label" for="deadlinedateInput">Deadline date</label>
                         <input class="form-input" id="deadlinedateInput" type="date" name="deadline_date" required>
                     </div>
-                    <div class="form-group">
-                        <input class="form-submit column col-12 btn" type="submit" placeholder="Create" value="Create">
+                    <div class="form-group" id="submitDiv">
+                        <input class="form-submit column col-12 btn" id="submitButton" type="submit" placeholder="Create" value="Create">
                     </div>
                 </form>
                 <br>
@@ -1505,6 +1559,8 @@ function loadCreateAdvert() {
 }
 
 function loadUpdateAdvert() {
+    const loadDiv = document.getElementById('advert-area')
+
     const query = location.hash.split('?')
     const params = query[1].split('&')
 
@@ -1529,12 +1585,15 @@ function loadUpdateAdvert() {
             errorMessage.classList.remove('hidden')
             errorMessage.innerText = 'id or type is not submitted'
         } else {
+            loadDiv.classList.add('loading')
+
             const advertUrl = url+'/adverts/'+id+'?type='+type+''
             const request = new Request(advertUrl, {
                 method: 'GET'
             });
             fetch(request)
             .then(response => {
+                loadDiv.classList.remove('loading')
                 if (response.ok) {
                     response.json().then(data => {
                         const advertArea = document.getElementById('advert-area')
@@ -1548,22 +1607,18 @@ function loadUpdateAdvert() {
                                 div.innerHTML = `
                                 <div class="column col-12 col-md-12">
                                     <h3>Update student advert</h3>
-                                    <div class="hidden toast toast-error" id="errorMessage">
-                                        test
-                                    </div>
                                     <form action="" method="POST">
-                                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
                                         <div class="form-group">
                                             <label class="form-label" for="titleInput">Title</label>
-                                            <input class="form-input {{css_class}}" id="titleInput" type="text" name="title" placeholder="Title" value="`+ data.advert.title +`" required>
+                                            <input class="form-input" id="titleInput" type="text" name="title" placeholder="Title" value="`+ data.advert.title +`" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="bodyInput">Body</label>
-                                            <textarea class="form-input {{css_class}}" id="bodyInput" name="body" placeholder="Textarea" rows="5">`+ data.advert.body +`</textarea required>
+                                            <textarea class="form-input " id="bodyInput" name="body" placeholder="Textarea" rows="5">`+ data.advert.body +`</textarea required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="option">Field</label>
-                                            <select class="form-select {{css_class}}" id="option" name="field" value="`+ data.advert.field +`">
+                                            <select class="form-select" id="option" name="field" value="`+ data.advert.field +`">
                                                 <option>Choose an option</option>
                                                 <option>Tech</option>
                                                 <option>All</option>
@@ -1571,18 +1626,18 @@ function loadUpdateAdvert() {
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="contactInput">Contact</label>
-                                            <input class="form-input {{css_class}}" id="contactInput" type="text" name="contact" placeholder="Contact" value="`+ data.advert.contact +`" required>
+                                            <input class="form-input" id="contactInput" type="text" name="contact" placeholder="Contact" value="`+ data.advert.contact +`" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="startdateInput">start date</label>
-                                            <input class="form-input {{css_class}}" id="startdateInput" type="date" name="startdate" value="`+ data.advert.start_date +`" required>
+                                            <input class="form-input" id="startdateInput" type="date" name="startdate" value="`+ data.advert.start_date +`" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="enddateInput">End date</label>
-                                            <input class="form-input {{css_class}}" id="enddateInput" type="date" name="enddate" value="`+ data.advert.end_date +`" required>
+                                            <input class="form-input" id="enddateInput" type="date" name="enddate" value="`+ data.advert.end_date +`" required>
                                         </div>
-                                        <div class="form-group">
-                                            <input class="form-submit column col-12 btn" type="submit" placeholder="Update" value="Update">
+                                        <div class="form-group" id="submitDiv">
+                                            <input class="form-submit column col-12 btn" id="submitButton" type="submit" placeholder="Update" value="Update">
                                         </div>
                                     </form>
                                     <br>
@@ -1592,21 +1647,18 @@ function loadUpdateAdvert() {
                                 div.innerHTML = `
                                 <div class="column col-12 col-md-12">
                                     <h3>Update recruiter advert</h3>
-                                    <div class="hidden toast toast-error" id="errorMessage">
-                                        test
-                                    </div>
                                     <form action="" method="POST">
                                         <div class="form-group">
                                             <label class="form-label" for="titleInput">Title</label>
-                                            <input class="form-input {{css_class}}" id="titleInput" type="text" name="title" placeholder="Title" value="`+ data.advert.title +`" required>
+                                            <input class="form-input" id="titleInput" type="text" name="title" placeholder="Title" value="`+ data.advert.title +`" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="bodyInput">Body</label>
-                                            <textarea class="form-input {{css_class}}" id="bodyInput" name="body" placeholder="Textarea" rows="5">`+ data.advert.body +`</textarea required>
+                                            <textarea class="form-input" id="bodyInput" name="body" placeholder="Textarea" rows="5">`+ data.advert.body +`</textarea required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="option">Field</label>
-                                            <select class="form-select {{css_class}}" id="option" name="field" value="`+ data.advert.field +`">
+                                            <select class="form-select" id="option" name="field" value="`+ data.advert.field +`">
                                                 <option>Choose an option</option>
                                                 <option>Tech</option>
                                                 <option>All</option>
@@ -1614,26 +1666,26 @@ function loadUpdateAdvert() {
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="cityInput">City</label>
-                                            <input class="form-input {{css_class}}" id="cityInput" type="text" name="city" placeholder="City" value="`+ data.advert.city +`" required>
+                                            <input class="form-input" id="cityInput" type="text" name="city" placeholder="City" value="`+ data.advert.city +`" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="contactInput">Contact</label>
-                                            <input class="form-input {{css_class}}" id="contactInput" type="text" name="contact" placeholder="Contact" value="`+ data.advert.contact +`" required>
+                                            <input class="form-input" id="contactInput" type="text" name="contact" placeholder="Contact" value="`+ data.advert.contact +`" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="websiteInput">Website</label>
-                                            <input class="form-input {{css_class}}" id="websiteInput" type="url" name="website" placeholder="Website" value="`+ data.advert.website +`" required>
+                                            <input class="form-input " id="websiteInput" type="url" name="website" placeholder="Website" value="`+ data.advert.website +`" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="positionsInput">Number of positions</label>
-                                            <input class="form-input {{css_class}}" id="positionsInput" type="number" name="positions" placeholder="Number of positions" value="`+ data.advert.positions +`" required>
+                                            <input class="form-input " id="positionsInput" type="number" name="positions" placeholder="Number of positions" value="`+ data.advert.positions +`" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="deadlinedateInput">Deadline date</label>
-                                            <input class="form-input {{css_class}}" id="deadlinedateInput" type="date" name="deadline_date" value="`+ data.advert.deadline_date.slice(0, 10) +`" required>
+                                            <input class="form-input " id="deadlinedateInput" type="date" name="deadline_date" value="`+ data.advert.deadline_date.slice(0, 10) +`" required>
                                         </div>
-                                        <div class="form-group">
-                                            <input class="form-submit column col-12 btn" type="submit" placeholder="Update" value="Update">
+                                        <div class="form-group" id="submitDiv">
+                                            <input class="form-submit column col-12 btn" id="submitButton" type="submit" placeholder="Update" value="Update">
                                         </div>
                                     </form>
                                     <br>
@@ -1651,6 +1703,7 @@ function loadUpdateAdvert() {
                 }
             })
             .catch(error => {
+                loadDiv.classList.remove('loading')
                 errorMessage.classList.remove('hidden')
                 errorMessage.innerText = 'Network error'
             })

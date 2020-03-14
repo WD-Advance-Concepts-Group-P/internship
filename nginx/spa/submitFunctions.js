@@ -9,10 +9,17 @@ export function login() {
     const errorMessage = document.getElementById('errorMessage')
     errorMessage.classList.add('hidden')
 
+    const loginDiv = document.getElementById('loginDiv')
+    const loginButton = document.getElementById('loginButton')
+
     const username = document.getElementById('usernameInput');
     const password = document.getElementById('passwordInput');
 
     if (password.value.length > 5 && username.value.length > 0) {
+
+        loginDiv.classList.add('loading')
+        loginButton.value = ""
+
         const loginUrl = url + '/token'
         // create request object
         const request = new Request(loginUrl, {
@@ -26,6 +33,9 @@ export function login() {
 
         fetch(request)
         .then(response => {
+            loginDiv.classList.remove('loading')
+            loginButton.value = "Login"
+
             if (response.ok) {
                 response.json().then(data => {
                     if (data.error) {
@@ -68,6 +78,8 @@ export function login() {
             }
         })
         .catch(error => {
+            loginDiv.classList.remove('loading')
+            loginButton.value = "Login"
             errorMessage.classList.remove('hidden')
             errorMessage.innerText = 'Network error'
         })
@@ -81,6 +93,9 @@ export function register() {
     const errorMessage = document.getElementById('errorMessage')
     errorMessage.classList.add('hidden')
 
+    const registerDiv = document.getElementById('registerDiv')
+    const registerButton = document.getElementById('registerButton')
+
     const username = document.getElementById('usernameInput');
     const password = document.getElementById('passwordInput');
     const email = document.getElementById('emailInput')
@@ -88,6 +103,10 @@ export function register() {
     const userType = optionUserType.options[optionUserType.selectedIndex].value;
 
     if (password.value.length > 5 && username.value.length > 0 && email.value.length > 5 && userType != 'Choose an option') {
+
+        registerDiv.classList.add('loading')
+        registerButton.value = ""
+
         const registerUrl = url + '/users'
         const request = new Request(registerUrl, {
             method: 'POST',
@@ -101,6 +120,8 @@ export function register() {
         });
         fetch(request)
         .then(response => {
+            registerDiv.classList.remove('loading')
+            registerButton.value = "Register"
             if (response.ok) {
                 response.json().then(data => {
                     window.location.replace('#/login')
@@ -121,6 +142,8 @@ export function register() {
             }
         })
         .catch(error => {
+            registerDiv.classList.remove('loading')
+            registerButton.value = "Register"
             errorMessage.classList.remove('hidden')
             errorMessage.innerText = 'Network error'
         })
@@ -131,6 +154,10 @@ export function register() {
 }
 
 export function logout() {
+    const logoutDiv = document.getElementById('logoutDiv')
+    const logoutButton = document.getElementById('logoutButton')
+    logoutDiv.classList.add('loading')
+    logoutButton.value = ""
     sessionManager.destroy()
     window.location.replace('#/');
 }
@@ -138,6 +165,9 @@ export function logout() {
 export function profileSetupStudent() {
     const errorMessage = document.getElementById('errorMessage')
     errorMessage.classList.add('hidden')
+
+    const submitDiv = document.getElementById('submitDiv')
+    const submitButton = document.getElementById('submitButton')
 
     const firstname = document.getElementById('firstnameInput');
     const lastname = document.getElementById('lastnameInput');
@@ -150,6 +180,9 @@ export function profileSetupStudent() {
     const profilepic = document.getElementById('profilepicInput');
 
     if (firstname.value.length > 0 && lastname.value.length > 0) {
+        submitDiv.classList.add('loading')
+        submitButton.value = ""
+
         const profileSetupStudent = url + '/users/info'
         const request = new Request(profileSetupStudent, {
             method: 'POST',
@@ -171,6 +204,8 @@ export function profileSetupStudent() {
         });
         fetch(request)
         .then(response => {
+            submitDiv.classList.remove('loading')
+            submitButton.value = "Submit"
             if (response.ok) {
                 response.json().then(data => {
                     sessionManager.setRegisterdInfoValue(true)
@@ -192,6 +227,8 @@ export function profileSetupStudent() {
             }
         })
         .catch(error => {
+            submitDiv.classList.remove('loading')
+            submitButton.value = "Submit"
             errorMessage.classList.remove('hidden')
             errorMessage.innerText = 'Network error'
         })
@@ -204,6 +241,10 @@ export function profileSetupStudent() {
 export function profileSetupRecruiter() {
     const errorMessage = document.getElementById('errorMessage')
     errorMessage.classList.add('hidden')
+
+    const submitDiv = document.getElementById('submitDiv')
+    const submitButton = document.getElementById('submitButton')
+
     const firstname = document.getElementById('firstnameInput');
     const lastname = document.getElementById('lastnameInput');
     const companyname = document.getElementById('companynameInput')
@@ -211,6 +252,9 @@ export function profileSetupRecruiter() {
     const companylogo = document.getElementById('companylogoInput')
 
     if (firstname.value.length > 0 && lastname.value.length > 0 && companyname.value.length > 0) {
+        submitDiv.classList.add('loading')
+        submitButton.value = ""
+
         const profileSetupRecruiter = url + '/users/info'
         const request = new Request(profileSetupRecruiter, {
             method: 'POST',
@@ -228,9 +272,10 @@ export function profileSetupRecruiter() {
         });
         fetch(request)
         .then(response => {
+            submitDiv.classList.remove('loading')
+            submitButton.value = "Submit"
             if (response.ok) {
                 response.json().then(data => {
-                    console.log('setup '+data)
                     sessionManager.setRegisterdInfoValue(true)
                     window.location.replace('#/profile')
                 })
@@ -250,6 +295,8 @@ export function profileSetupRecruiter() {
             }
         })
         .catch(error => {
+            submitDiv.classList.remove('loading')
+            submitButton.value = "Submit"
             errorMessage.classList.remove('hidden')
             errorMessage.innerText = 'Network error'
         })
@@ -262,6 +309,9 @@ export function profileSetupRecruiter() {
 export function createAdvert() {
     const errorMessage = document.getElementById('errorMessage')
     errorMessage.classList.add('hidden')
+
+    const submitDiv = document.getElementById('submitDiv')
+    const submitButton = document.getElementById('submitButton')
 
     const createAdvertUrl = url + '/adverts'
 
@@ -278,6 +328,10 @@ export function createAdvert() {
 
         //validate
         if (title.value.length > 0 && body.value.length > 0 && contact.value.length > 0) {
+
+            submitDiv.classList.add('loading')
+            submitButton.value = ""
+
             const request = new Request(createAdvertUrl, {
                 method: 'POST',
                 headers: {
@@ -294,6 +348,8 @@ export function createAdvert() {
             });
             fetch(request)
             .then(response => {
+                submitDiv.classList.remove('loading')
+                submitButton.value = "Create"
                 if (response.ok) {
                     response.json().then(data => {
                         window.location.replace('#/my/adverts')
@@ -314,6 +370,8 @@ export function createAdvert() {
                 }
             })
             .catch(error => {
+                submitDiv.classList.remove('loading')
+                submitButton.value = "Create"
                 errorMessage.classList.remove('hidden')
                 errorMessage.innerText = 'Network error'
             })
@@ -335,6 +393,10 @@ export function createAdvert() {
 
         //validate
         if (title.value.length > 0 && body.value.length > 0 && contact.value.length > 0) {
+
+            submitDiv.classList.add('loading')
+            submitButton.value = ""
+
             const request = new Request(createAdvertUrl, {
                 method: 'POST',
                 headers: {
@@ -353,6 +415,8 @@ export function createAdvert() {
             });
             fetch(request)
             .then(response => {
+                submitDiv.classList.remove('loading')
+                submitButton.value = "Create"
                 if (response.ok) {
                     response.json().then(data => {
                         window.location.replace('#/my/adverts')
@@ -373,6 +437,8 @@ export function createAdvert() {
                 }
             })
             .catch(error => {
+                submitDiv.classList.remove('loading')
+                submitButton.value = "Create"
                 errorMessage.classList.remove('hidden')
                 errorMessage.innerText = 'Network error'
             })
@@ -386,6 +452,9 @@ export function createAdvert() {
 export function deleteAdvert() {
     const query = location.hash.split('?')
     const params = query[1].split('&')
+
+    const submitDiv = document.getElementById('submitDiv')
+    const submitButton = document.getElementById('submitButton')
 
     if (params.length > 2 || params.length < 2) {
         errorMessage.classList.remove('hidden')
@@ -408,6 +477,9 @@ export function deleteAdvert() {
             errorMessage.classList.remove('hidden')
             errorMessage.innerText = 'id or type is not submitted'
         } else {
+            submitDiv.classList.add('loading')
+            submitButton.value = ""
+
             const deleteAdvertUrl = url+'/adverts/'+id+''
             const request = new Request(deleteAdvertUrl, {
                 method: 'DELETE',
@@ -417,17 +489,22 @@ export function deleteAdvert() {
             });
             fetch(request)
             .then(response => {
+                submitDiv.classList.remove('loading')
+                submitButton.value = "Delete"
                 if (response.ok) {
                     response.json().then(data => {
                         window.location.replace('#/my/adverts')
                     })
                 } else {
                     response.json().then(data => {
-                        console.log(data)
+                        errorMessage.classList.remove('hidden')
+                        errorMessage.innerText = 'Network error'
                     })
                 }
             })
             .catch(error => {
+                submitDiv.classList.remove('loading')
+                submitButton.value = "Delete"
                 errorMessage.classList.remove('hidden')
                 errorMessage.innerText = 'Network error'
             })
@@ -438,6 +515,9 @@ export function deleteAdvert() {
 export function updateAdvert() {
     const errorMessage = document.getElementById('errorMessage')
     errorMessage.classList.add('hidden')
+
+    const submitDiv = document.getElementById('submitDiv')
+    const submitButton = document.getElementById('submitButton')
 
     const query = location.hash.split('?')
     const params = query[1].split('&')
@@ -477,6 +557,9 @@ export function updateAdvert() {
 
                 //validate
                 if (title.value.length > 0 && body.value.length > 0 && contact.value.length > 0) {
+                    submitDiv.classList.add('loading')
+                    submitButton.value = ""
+
                     const request = new Request(updateAdvertUrl, {
                         method: 'PUT',
                         headers: {
@@ -493,6 +576,8 @@ export function updateAdvert() {
                     });
                     fetch(request)
                     .then(response => {
+                        submitDiv.classList.remove('loading')
+                        submitButton.value = "Update"
                         if (response.ok) {
                             response.json().then(data => {
                                 window.location.replace('#/my/adverts')
@@ -513,6 +598,8 @@ export function updateAdvert() {
                         }
                     })
                     .catch(error => {
+                        submitDiv.classList.remove('loading')
+                        submitButton.value = "Update"
                         errorMessage.classList.remove('hidden')
                         errorMessage.innerText = 'Network error'
                     })
@@ -535,6 +622,9 @@ export function updateAdvert() {
 
                 //validate
                 if (title.value.length > 0 && body.value.length > 0 && contact.value.length > 0) {
+                    submitDiv.classList.add('loading')
+                    submitButton.value = ""
+
                     const request = new Request(updateAdvertUrl, {
                         method: 'PUT',
                         headers: {
@@ -553,6 +643,8 @@ export function updateAdvert() {
                     });
                     fetch(request)
                     .then(response => {
+                        submitDiv.classList.remove('loading')
+                        submitButton.value = "Update"
                         if (response.ok) {
                             response.json().then(data => {
                                 window.location.replace('#/my/adverts')
@@ -573,6 +665,8 @@ export function updateAdvert() {
                         }
                     })
                     .catch(error => {
+                        submitDiv.classList.remove('loading')
+                        submitButton.value = "Update"
                         errorMessage.classList.remove('hidden')
                         errorMessage.innerText = 'Network error'
                     })

@@ -24,7 +24,6 @@ export const LoginComponent = {
                         test
                     </div>
                     <form method="POST">
-                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
                         <div class="form-group">
                             <label class="form-label" for="usernameInput">Username</label>
                             <input class="form-input column col-12" id="usernameInput" type="text" name="username" placeholder="Username" required>
@@ -33,8 +32,8 @@ export const LoginComponent = {
                             <label class="form-label" for="passwordInput">Password</label>
                             <input class="form-input column col-12" id="passwordInput" type="password" name="password" placeholder="Password" required>
                         </div>
-                        <div class="form-group">
-                            <input class="form-submit column col-12 btn" type="submit" placeholder="Login" value="Login">
+                        <div class="form-group" id="loginDiv">
+                            <input class="form-submit column col-12 btn" id="loginButton" type="submit" placeholder="Login" value="Login">
                         </div>
                     </form>
                     <br>
@@ -52,20 +51,17 @@ export const LogoutComponent = {
     render: () => {
         return `
         <div class="columns col-xl">
-            <div class="column col-4"></div>
-            <div class="column col-4 col-md-12">
+            <div class="column col-3"></div>
+            <div class="column col-6 col-md-12">
                 <h1>Logout</h1>
                 <p>If you press the button below you will be signed out</p>
                 <form method="POST">
-                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-                    <div class="form-group">
-                        <div class="column col-2"></div>
-                        <input class="btn column col-8" type="submit" value="Logout">
-                        <div class="column col-2"></div>
+                    <div class="form-group" id="logoutDiv">
+                        <input class="btn column col-12" id="logoutButton" type="submit" value="Logout">
                     </div>
                 </form>
             </div>
-            <div class="column col-4"></div>
+            <div class="column col-3"></div>
         </div>
         `;
     }
@@ -82,7 +78,6 @@ export const RegisterComponent = {
                     test
                 </div>
                 <form action="" method="POST">
-                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <div class="form-group">
                         <label class="form-label" for="usernameInput">Username</label>
                         <input class="form-input" id="usernameInput" type="text" name="username" placeholder="Username" required>
@@ -103,8 +98,8 @@ export const RegisterComponent = {
                             <option>Recruiter</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <input class="form-submit column col-12 btn" type="submit" placeholder="Signup" value="Register">
+                    <div class="form-group" id="registerDiv">
+                        <input class="form-submit column col-12 btn" id="registerButton" type="submit" placeholder="Signup" value="Register">
                     </div>
                 </form>
                 <br>
@@ -148,7 +143,6 @@ export const ProfileSetupStudentComponent = {
                     test
                 </div>
                 <form action="" method="POST">
-                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <div class="form-group">
                         <label class="form-label" for="firstnameInput">Firstname</label>
                         <input class="form-input {{css_class}}" id="firstnameInput" type="text" name="firstname" placeholder="Firstname" required>
@@ -185,8 +179,8 @@ export const ProfileSetupStudentComponent = {
                         <label class="form-label" for="profilepicInput">Profile picture url (optional)</label>
                         <input class="form-input" id="profilepicInput" type="url" name="profilepic" placeholder="Profile Picture Url">
                     </div>
-                    <div class="form-group">
-                        <input class="form-submit column col-12 btn" type="submit" placeholder="Send" value="Send">
+                    <div class="form-group" id="submitDiv">
+                        <input class="form-submit column col-12 btn" id="submitButton" type="submit" placeholder="Send" value="Send">
                     </div>
                 </form>
                 <br>
@@ -208,7 +202,6 @@ export const ProfileSetupRecruiterComponent = {
                     test
                 </div>
                 <form action="" method="POST">
-                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <div class="form-group">
                         <label class="form-label" for="firstnameInput">Firstname</label>
                         <input class="form-input" id="firstnameInput" type="text" name="firstname" placeholder="Firstname" required>
@@ -229,8 +222,8 @@ export const ProfileSetupRecruiterComponent = {
                         <label class="form-label" for="companylogoInput">Company logo url (optional)</label>
                         <input class="form-input" id="companylogoInput" type="url" name="companylogo" placeholder="https://test.com/logo.png">
                     </div>
-                    <div class="form-group">
-                        <input class="form-submit column col-12 btn" type="submit" placeholder="Send" value="Send">
+                    <div class="form-group" id="submitDiv">
+                        <input class="form-submit column col-12 btn" id="submitButton" type="submit" placeholder="Send" value="Send">
                     </div>
                 </form>
                 <br>
@@ -241,85 +234,17 @@ export const ProfileSetupRecruiterComponent = {
     }
 }
 
-export const PositionsComponent = {
+export const GeneralComponent = {
     render: () => {
         return `
         <div class="columns col-xl">
             <div class="column col-1"></div>
             <div class="column col-10 col-md-12">
-                <h3>View Recruiter adverts</h3>
-                <div class="hidden toast toast-error" id="errorMessage">
-                    test
+                <div id="advert-area">
+                    <div class="hidden toast toast-error" id="errorMessage">
+                        test
+                    </div>
                 </div>
-                <div id="advert-area"></div>
-            </div>
-            <div class="column col-1"></div>
-        </div>
-        `;
-    }
-}
-
-export const StudentAdvertsComponent = {
-    render: () => {
-        return `
-        <div class="columns col-xl">
-            <div class="column col-1"></div>
-            <div class="column col-10 col-md-12">
-                <h3>View student adverts</h3>
-                <div class="hidden toast toast-error" id="errorMessage">
-                    test
-                </div>
-                <div id="advert-area"></div>
-            </div>
-            <div class="column col-1"></div>
-        </div>
-        `;
-    }
-}
-
-export const AdvertComponent = {
-    render: () => {
-        return `
-        <div class="columns col-xl">
-            <div class="column col-1"></div>
-            <div class="column col-10 col-md-12">
-                <h3>View student adverts</h3>
-                <div class="hidden toast toast-error" id="errorMessage">
-                    test
-                </div>
-                <div id="advert-area"></div>
-            </div>
-            <div class="column col-1"></div>
-        </div>
-        `;
-    }
-}
-
-export const MyAdvertsComponent = {
-    render: () => {
-        return `
-        <div class="columns col-xl">
-            <div class="column col-1"></div>
-            <div class="column col-10 col-md-12">
-                <h3>View My adverts</h3>
-                <div class="hidden toast toast-error" id="errorMessage">
-                    test
-                </div>
-                <div id="advert-area"></div>
-            </div>
-            <div class="column col-1"></div>
-        </div>
-        `;
-    }
-}
-
-export const CreateAdvertComponent = {
-    render: () => {
-        return `
-        <div class="columns col-xl">
-            <div class="column col-1"></div>
-            <div class="column col-10 col-md-12">
-                <div id="advert-area"></div>
             </div>
             <div class="column col-1"></div>
         </div>
@@ -338,8 +263,8 @@ export const DeleteAdvertComponent = {
                     test
                 </div>
                 <form action="" method="POST">
-                    <div class="form-group">
-                        <input class="form-submit column col-12 btn" type="submit" placeholder="Delete" value="Delete">
+                    <div class="form-group" id="submitDiv">
+                        <input class="form-submit column col-12 btn" id="submitButton" type="submit" placeholder="Delete" value="Delete">
                     </div>
                 </form>
                 <br>
@@ -357,7 +282,7 @@ export const ErrorComponent = {
                 <div class="column col-3"></div>
                 <div class="column col-6 col-md-12">
                     <h1>Error</h1>
-                    <p>This is just a test</p>
+                    <p>Error with application</p>
                 </div>
                 <div class="column col-3"></div>
             </div>
