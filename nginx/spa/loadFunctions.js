@@ -9,12 +9,17 @@ import { sessionManager } from './session.js';
 const url = 'http://localhost:8080/api/v1';
 
 export function loadStudentAdverts() {
+    const loadDiv = document.getElementById('advert-area')
+
+    loadDiv.classList.add('loading')
+
     const studentAdvertsUrl = url + '/adverts?type=student'
     const request = new Request(studentAdvertsUrl, {
         method: 'GET',
     });
     fetch(request)
     .then(response => {
+        loadDiv.classList.remove('loading')
         if (response.ok) {
             response.json().then(data => {
                 const advertArea = document.getElementById('advert-area')
@@ -57,18 +62,24 @@ export function loadStudentAdverts() {
         }
     })
     .catch(error => {
+        loadDiv.classList.remove('loading')
         errorMessage.classList.remove('hidden')
         errorMessage.innerText = 'Network error'
     })
 }
 
 export function loadRecruiterAdverts() {
+    const loadDiv = document.getElementById('advert-area')
+
+    loadDiv.classList.add('loading')
+
     const recruiterAdvertsUrl = url + '/adverts?type=recruiter'
     const request = new Request(recruiterAdvertsUrl, {
         method: 'GET',
     });
     fetch(request)
     .then(response => {
+        loadDiv.classList.remove('loading')
         if (response.ok) {
             response.json().then(data => {
                 const advertArea = document.getElementById('advert-area')
@@ -118,12 +129,15 @@ export function loadRecruiterAdverts() {
         }
     })
     .catch(error => {
+        loadDiv.classList.remove('loading')
         errorMessage.classList.remove('hidden')
         errorMessage.innerText = 'Network error'
     })
 }
 
 export function loadAdvert() {
+    const loadDiv = document.getElementById('advert-area')
+
     const query = location.hash.split('?')
     const params = query[1].split('&')
 
@@ -148,12 +162,15 @@ export function loadAdvert() {
             errorMessage.classList.remove('hidden')
             errorMessage.innerText = 'id or type is not submitted'
         } else {
+            loadDiv.classList.add('loading')
+
             const advertUrl = url+'/adverts/'+id+'?type='+type+''
             const request = new Request(advertUrl, {
                 method: 'GET'
             });
             fetch(request)
             .then(response => {
+                loadDiv.classList.remove('loading')
                 if (response.ok) {
                     response.json().then(data => {
                         const advertArea = document.getElementById('advert-area')
@@ -224,6 +241,7 @@ export function loadAdvert() {
                 }
             })
             .catch(error => {
+                loadDiv.classList.remove('loading')
                 errorMessage.classList.remove('hidden')
                 errorMessage.innerText = 'Network error'
             })
@@ -232,6 +250,10 @@ export function loadAdvert() {
 }
 
 export function loadMyAdverts() {
+    const loadDiv = document.getElementById('advert-area')
+
+    loadDiv.classList.add('loading')
+
     const advertUrl = url+'/adverts'
     const request = new Request(advertUrl, {
         method: 'GET',
@@ -241,10 +263,11 @@ export function loadMyAdverts() {
     });
     fetch(request)
     .then(response => {
+        loadDiv.classList.remove('loading')
         if (response.ok) {
             response.json().then(data => {
                 const advertArea = document.getElementById('advert-area')
-                if (data.error == 'true') {
+                if (data.error == 'true' || data.advert.length == 0) {
                     const div = document.createElement('div');
                     div.innerHTML = '<h3>No adverts</h3>'
                     advertArea.appendChild(div)
@@ -318,6 +341,7 @@ export function loadMyAdverts() {
         }
     })
     .catch(error => {
+        loadDiv.classList.remove('loading')
         errorMessage.classList.remove('hidden')
         errorMessage.innerText = 'Network error'
     })    
@@ -330,9 +354,6 @@ export function loadCreateAdvert() {
         div.innerHTML = `
             <div class="column col-12 col-md-12">
                 <h3>Create student advert</h3>
-                <div class="hidden toast toast-error" id="errorMessage">
-                    test
-                </div>
                 <form action="" method="POST">
                     <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <div class="form-group">
@@ -363,8 +384,8 @@ export function loadCreateAdvert() {
                         <label class="form-label" for="enddateInput">End date</label>
                         <input class="form-input" id="enddateInput" type="date" name="enddate" required>
                     </div>
-                    <div class="form-group">
-                        <input class="form-submit column col-12 btn" type="submit" placeholder="Create" value="Create">
+                    <div class="form-group" id="submitDiv">
+                        <input class="form-submit column col-12 btn" id="submitButton" type="submit" placeholder="Create" value="Create">
                     </div>
                 </form>
                 <br>
@@ -375,9 +396,6 @@ export function loadCreateAdvert() {
         div.innerHTML = `
             <div class="column col-12 col-md-12">
                 <h3>create recruiter advert</h3>
-                <div class="hidden toast toast-error" id="errorMessage">
-                    test
-                </div>
                 <form action="" method="POST">
                     <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <div class="form-group">
@@ -416,8 +434,8 @@ export function loadCreateAdvert() {
                         <label class="form-label" for="deadlinedateInput">Deadline date</label>
                         <input class="form-input" id="deadlinedateInput" type="date" name="deadline_date" required>
                     </div>
-                    <div class="form-group">
-                        <input class="form-submit column col-12 btn" type="submit" placeholder="Create" value="Create">
+                    <div class="form-group" id="submitDiv">
+                        <input class="form-submit column col-12 btn" id="submitButton" type="submit" placeholder="Create" value="Create">
                     </div>
                 </form>
                 <br>
@@ -428,6 +446,8 @@ export function loadCreateAdvert() {
 }
 
 export function loadUpdateAdvert() {
+    const loadDiv = document.getElementById('advert-area')
+
     const query = location.hash.split('?')
     const params = query[1].split('&')
 
@@ -452,12 +472,15 @@ export function loadUpdateAdvert() {
             errorMessage.classList.remove('hidden')
             errorMessage.innerText = 'id or type is not submitted'
         } else {
+            loadDiv.classList.add('loading')
+
             const advertUrl = url+'/adverts/'+id+'?type='+type+''
             const request = new Request(advertUrl, {
                 method: 'GET'
             });
             fetch(request)
             .then(response => {
+                loadDiv.classList.remove('loading')
                 if (response.ok) {
                     response.json().then(data => {
                         const advertArea = document.getElementById('advert-area')
@@ -471,22 +494,19 @@ export function loadUpdateAdvert() {
                                 div.innerHTML = `
                                 <div class="column col-12 col-md-12">
                                     <h3>Update student advert</h3>
-                                    <div class="hidden toast toast-error" id="errorMessage">
-                                        test
-                                    </div>
                                     <form action="" method="POST">
                                         <input type="hidden" name="_csrf" value="{{csrfToken}}">
                                         <div class="form-group">
                                             <label class="form-label" for="titleInput">Title</label>
-                                            <input class="form-input {{css_class}}" id="titleInput" type="text" name="title" placeholder="Title" value="`+ data.advert.title +`" required>
+                                            <input class="form-input" id="titleInput" type="text" name="title" placeholder="Title" value="`+ data.advert.title +`" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="bodyInput">Body</label>
-                                            <textarea class="form-input {{css_class}}" id="bodyInput" name="body" placeholder="Textarea" rows="5">`+ data.advert.body +`</textarea required>
+                                            <textarea class="form-input " id="bodyInput" name="body" placeholder="Textarea" rows="5">`+ data.advert.body +`</textarea required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="option">Field</label>
-                                            <select class="form-select {{css_class}}" id="option" name="field" value="`+ data.advert.field +`">
+                                            <select class="form-select" id="option" name="field" value="`+ data.advert.field +`">
                                                 <option>Choose an option</option>
                                                 <option>Tech</option>
                                                 <option>All</option>
@@ -494,18 +514,18 @@ export function loadUpdateAdvert() {
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="contactInput">Contact</label>
-                                            <input class="form-input {{css_class}}" id="contactInput" type="text" name="contact" placeholder="Contact" value="`+ data.advert.contact +`" required>
+                                            <input class="form-input" id="contactInput" type="text" name="contact" placeholder="Contact" value="`+ data.advert.contact +`" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="startdateInput">start date</label>
-                                            <input class="form-input {{css_class}}" id="startdateInput" type="date" name="startdate" value="`+ data.advert.start_date +`" required>
+                                            <input class="form-input" id="startdateInput" type="date" name="startdate" value="`+ data.advert.start_date +`" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="enddateInput">End date</label>
-                                            <input class="form-input {{css_class}}" id="enddateInput" type="date" name="enddate" value="`+ data.advert.end_date +`" required>
+                                            <input class="form-input" id="enddateInput" type="date" name="enddate" value="`+ data.advert.end_date +`" required>
                                         </div>
-                                        <div class="form-group">
-                                            <input class="form-submit column col-12 btn" type="submit" placeholder="Update" value="Update">
+                                        <div class="form-group" id="submitDiv">
+                                            <input class="form-submit column col-12 btn" id="submitButton" type="submit" placeholder="Update" value="Update">
                                         </div>
                                     </form>
                                     <br>
@@ -515,21 +535,18 @@ export function loadUpdateAdvert() {
                                 div.innerHTML = `
                                 <div class="column col-12 col-md-12">
                                     <h3>Update recruiter advert</h3>
-                                    <div class="hidden toast toast-error" id="errorMessage">
-                                        test
-                                    </div>
                                     <form action="" method="POST">
                                         <div class="form-group">
                                             <label class="form-label" for="titleInput">Title</label>
-                                            <input class="form-input {{css_class}}" id="titleInput" type="text" name="title" placeholder="Title" value="`+ data.advert.title +`" required>
+                                            <input class="form-input" id="titleInput" type="text" name="title" placeholder="Title" value="`+ data.advert.title +`" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="bodyInput">Body</label>
-                                            <textarea class="form-input {{css_class}}" id="bodyInput" name="body" placeholder="Textarea" rows="5">`+ data.advert.body +`</textarea required>
+                                            <textarea class="form-input" id="bodyInput" name="body" placeholder="Textarea" rows="5">`+ data.advert.body +`</textarea required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="option">Field</label>
-                                            <select class="form-select {{css_class}}" id="option" name="field" value="`+ data.advert.field +`">
+                                            <select class="form-select" id="option" name="field" value="`+ data.advert.field +`">
                                                 <option>Choose an option</option>
                                                 <option>Tech</option>
                                                 <option>All</option>
@@ -537,26 +554,26 @@ export function loadUpdateAdvert() {
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="cityInput">City</label>
-                                            <input class="form-input {{css_class}}" id="cityInput" type="text" name="city" placeholder="City" value="`+ data.advert.city +`" required>
+                                            <input class="form-input" id="cityInput" type="text" name="city" placeholder="City" value="`+ data.advert.city +`" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="contactInput">Contact</label>
-                                            <input class="form-input {{css_class}}" id="contactInput" type="text" name="contact" placeholder="Contact" value="`+ data.advert.contact +`" required>
+                                            <input class="form-input" id="contactInput" type="text" name="contact" placeholder="Contact" value="`+ data.advert.contact +`" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="websiteInput">Website</label>
-                                            <input class="form-input {{css_class}}" id="websiteInput" type="url" name="website" placeholder="Website" value="`+ data.advert.website +`" required>
+                                            <input class="form-input " id="websiteInput" type="url" name="website" placeholder="Website" value="`+ data.advert.website +`" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="positionsInput">Number of positions</label>
-                                            <input class="form-input {{css_class}}" id="positionsInput" type="number" name="positions" placeholder="Number of positions" value="`+ data.advert.positions +`" required>
+                                            <input class="form-input " id="positionsInput" type="number" name="positions" placeholder="Number of positions" value="`+ data.advert.positions +`" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="deadlinedateInput">Deadline date</label>
-                                            <input class="form-input {{css_class}}" id="deadlinedateInput" type="date" name="deadline_date" value="`+ data.advert.deadline_date.slice(0, 10) +`" required>
+                                            <input class="form-input " id="deadlinedateInput" type="date" name="deadline_date" value="`+ data.advert.deadline_date.slice(0, 10) +`" required>
                                         </div>
-                                        <div class="form-group">
-                                            <input class="form-submit column col-12 btn" type="submit" placeholder="Update" value="Update">
+                                        <div class="form-group" id="submitDiv">
+                                            <input class="form-submit column col-12 btn" id="submitButton" type="submit" placeholder="Update" value="Update">
                                         </div>
                                     </form>
                                     <br>
@@ -574,6 +591,7 @@ export function loadUpdateAdvert() {
                 }
             })
             .catch(error => {
+                loadDiv.classList.remove('loading')
                 errorMessage.classList.remove('hidden')
                 errorMessage.innerText = 'Network error'
             })
