@@ -77,8 +77,6 @@ module.exports = function(container) {
                 container.accountRepository.getById(result.id).then(account => {
                     callback(null, account)
                 }).catch(error => {
-                    console.log('nu 1')
-                    console.log(error)
                     callback('db error', null)
                 })
             }).catch(error => {
@@ -86,13 +84,9 @@ module.exports = function(container) {
                     container.accountRepository.getByEmail(account.email).then(account => { 
                         callback(null, account)
                     }).catch(error => {
-                        console.log('nu 2')
-                        console.log(error)
                         callback('db error', null)
                     })
                 } else {
-                    console.log('nu 3')
-                    console.log(error)
                     callback('db error', null)
                 }
             })

@@ -21,7 +21,6 @@ exports.apiIsAuthenticated = function (request, response, next) {
 	    const token = authHeader.substr("Bearer ".length)
         jwt.verify(token, '&/yde465hw3dk.fwjbq84fv34763t6', function(error, decoded) {
             if (error) {
-                console.log(error)
                 return response.status(401).json({
                     'error': 'your not logged in',
                     'code': 'AUTH_1'

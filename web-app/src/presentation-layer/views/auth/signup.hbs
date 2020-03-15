@@ -49,7 +49,12 @@
         </form>
         <br>
         <div class="divider text-center" data-content="OR"></div>
-        <br>
+        {{#if googleUrlStudent}}
+        <a href="{{googleUrlStudent}}" class="column col-12 btn mb-2">Create Account with Google login Student</a>
+        {{/if}}
+        {{#if googleUrlRecruiter}}
+        <a href="{{googleUrlRecruiter}}" class="column col-12 btn mb-2">Create Account with Google login Recruiter</a>
+        {{/if}}
         <a href="/login" class="btn column col-12">Login to your Account</a>
     </div>
     <div class="column col-4"></div>

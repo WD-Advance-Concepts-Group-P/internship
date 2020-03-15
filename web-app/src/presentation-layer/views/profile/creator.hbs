@@ -15,7 +15,9 @@
         <ul>
 
             {{#if info.profile_pic_url}}
-            <img src="{{info.profile_pic_url}}">
+            <figure class="figure">
+                <img class="img-responsive" width="400px" src="{{info.profile_pic_url}}" alt="Profile picture">
+            </figure>
             {{/if}}
 
             {{#if info.first_name}}
@@ -37,14 +39,15 @@
             <li>Graduation year: {{info.graduation_year}}</li>
             {{/if}}
             {{#if info.resume_url}}
-            <li>Resume: {{info.resume_url}}</li>
+            <li>Resume: <a href="{{info.resume_url}}">{{info.resume_url}}</a></li>
             {{/if}}
         </ul>
         {{else}}
         <ul>
-
             {{#if info.company_logo_url}}
-            <img src="{{info.company_logo_url}}">
+            <figure class="figure">
+                <img class="img-responsive" width="400px" src="{{info.company_logo_url}}" alt="Company logo picture">
+            </figure>
             {{/if}}
 
             {{#if info.first_name}}

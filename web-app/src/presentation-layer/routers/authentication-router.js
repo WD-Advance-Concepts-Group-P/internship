@@ -71,7 +71,9 @@ router.get('/signup', function(request, response) {
 router.route('/sign-up')
     .all(authHelper.alreadyAuthenticated)
     .get(csrfProtection, function(request, response, next) {
-        response.render('auth/signup.hbs', {csrfToken: request.csrfToken()})
+        const urlStudent = authManager.generateGoogleLogin(1)
+        const urlRecruiter = authManager.generateGoogleLogin(2)
+        response.render('auth/signup.hbs', {csrfToken: request.csrfToken(), googleUrlStudent: urlStudent, googleUrlRecruiter: urlRecruiter})
     })
     .post(csrfProtection, function(request, response, next) {
 
