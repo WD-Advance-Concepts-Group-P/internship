@@ -34,23 +34,26 @@ export function loadStudentAdverts() {
                             <div class="card">
                                 <div class="columns">
                                     <div class="column col-1"></div>
-                                    <h2 class="column col-8"><a href="#/advert?id=`+ data.advert[i].id +`&type=student">`+ data.advert[i].title +`</a></h2>
+                                    <h2 class="column col-8"><a href="#/advert?id=`+ data.advert[i].id +`&type=student" id="link"></a></h2>
                                     <div class="column col-3"></div>
                                 </div>
                                 <div class="columns">
                                     <div class="colum col-1"></div>
-                                    <p class="column col-2">Field: `+ data.advert[i].field +`</p>
-                                    <p class="column col-3">Contact: `+ data.advert[i].contact +`</p>
-                                    <div class="column col-6">Dates: `+ data.advert[i].start_date.slice(0, 10) +` - `+ data.advert[i].end_date.slice(0, 10) +`</div>
+                                    <p class="column col-2" id="field"></p>
+                                    <p class="column col-3" id="contact"></p>
+                                    <div class="column col-6" id="dates"></div>
                                 </div>
                                 <div class="card-body" id="card-content">
-                                    <p>Description:</p>
-                                    `+ data.advert[i].body +`
                                 </div>
                             </div>
                             <br>
                         `
                         advertArea.appendChild(div)
+                        document.getElementById('link').innerText = data.advert[i].title
+                        document.getElementById('field').innerText = "Field: "+ data.advert[i].field
+                        document.getElementById('contact').innerText = "Contact: "+ data.advert[i].contact
+                        document.getElementById('dates').innerText = "Dates: "+ data.advert[i].start_date.slice(0, 10) +" - "+ data.advert[i].end_date.slice(0, 10)
+                        document.getElementById('card-content').innerText = "Description: \n" + data.advert[i].body
                     }  
                 }  
             })
@@ -94,30 +97,36 @@ export function loadRecruiterAdverts() {
                             <div class="card">
                                 <div class="columns">
                                     <div class="column col-1"></div>
-                                    <h2 class="column col-7"><a href="#/advert?id=`+ data.advert[i].id +`&type=recruiter">`+ data.advert[i].title +`</a></h2>
+                                    <h2 class="column col-7"><a href="#/advert?id=`+ data.advert[i].id +`&type=recruiter" id="link"></a></h2>
                                 </div>
                                 <div class="columns">
                                     <div class="column col-1"></div>
-                                    <p class="column col-3">Field: `+ data.advert[i].field +`</p>
-                                    <p class="column col-4">Contact: `+ data.advert[i].contact +`</p>
-                                    <p class="column col-3 col-xs-6"><a href="`+ data.advert[i].website +`">`+ data.advert[i].website +`</a></p>
+                                    <p class="column col-3" id="field"></p>
+                                    <p class="column col-4" id="contact"></p>
+                                    <p class="column col-3 col-xs-6"><a href="`+ data.advert[i].website +`" id="websiteLink"></a></p>
                                     <div class="column col-1"></div>
                                 </div>
                                 <div class="columns">
                                     <div class="column col-1"></div>
-                                    <p class="column col-3 col-xs-6"> Location: `+ data.advert[i].city +`</p>
-                                    <p class="column col-3 col-xs-6">postitions: `+ data.advert[i].positions +`</p>
-                                    <p class="column col-4 col-xs-6">Last day to apply: `+ data.advert[i].deadline_date.slice(0, 10) +`</p>
+                                    <p class="column col-3 col-xs-6" id="location"></p>
+                                    <p class="column col-3 col-xs-6" id="positions"></p>
+                                    <p class="column col-4 col-xs-6" id="date"></p>
                                     <div class="column col-1"></div>
                                 </div>
                                 <div class="card-body" id="card-content">
-                                    <p>Description:</p>
-                                    `+ data.advert[i].body +`
                                 </div>
                             </div>
                             <br>
                         `
                         advertArea.appendChild(div)
+                        document.getElementById('link').innerText = data.advert[i].title
+                        document.getElementById('field').innerText = "Field: "+ data.advert[i].field
+                        document.getElementById('contact').innerText = "Contact: "+ data.advert[i].contact
+                        document.getElementById('websiteLink').innerText = data.advert[i].website
+                        document.getElementById('location').innerText = "Location: "+ data.advert[i].city
+                        document.getElementById('positions').innerText = "postitions: "+ data.advert[i].positions
+                        document.getElementById('date').innerText = "Last day to apply: "+ data.advert[i].deadline_date.slice(0, 10)
+                        document.getElementById('card-content').innerText = "Description: \n" + data.advert[i].body
                     }
                 }
             })
@@ -185,52 +194,63 @@ export function loadAdvert() {
                                     <div class="card">
                                         <div class="columns">
                                             <div class="column col-1"></div>
-                                            <h2 class="column col-8">`+ data.advert.title +`</h2>
+                                            <h2 class="column col-8" id="title"></h2>
                                             <div class="column col-3"></div>
                                         </div>
                                         <div class="columns">
                                             <div class="colum col-1"></div>
-                                            <p class="column col-2">Field: `+ data.advert.field +`</p>
-                                            <p class="column col-3">Contact: `+ data.advert.contact +`</p>
-                                            <div class="column col-6">Dates: `+ data.advert.start_date.slice(0, 10) +` - `+ data.advert.end_date.slice(0, 10) +`</div>
+                                            <p class="column col-2" id="field"></p>
+                                            <p class="column col-3" id="contact"></p>
+                                            <div class="column col-6 id="dates"></div>
                                         </div>
                                         <div class="card-body" id="card-content">
-                                            <p>Description:</p>
-                                            `+ data.advert.body +`
                                         </div>
                                     </div>
                                     <br>
                                 `
+                                advertArea.appendChild(div)
+                                document.getElementById('title').innerText = data.advert.title
+                                document.getElementById('field').innerText = "Field: "+ data.advert.field
+                                document.getElementById('contact').innerText = "Contact: "+ data.advert.contact
+                                document.getElementById('dates').innerText = "Dates: "+ data.advert.start_date.slice(0, 10) +" - "+ data.advert.end_date.slice(0, 10)
+                                document.getElementById('card-content').innerText = "Description: \n" + data.advert.body
+
                             } else if (type == 'recruiter') {
                                 div.innerHTML = `
                                     <div class="card">
                                         <div class="columns">
                                             <div class="column col-1"></div>
-                                            <h2 class="column col-7">`+ data.advert.title +`</h2>
+                                            <h2 class="column col-7" id="title"></h2>
                                         </div>
                                         <div class="columns">
                                             <div class="column col-1"></div>
-                                            <p class="column col-3">Field: `+ data.advert.field +`</p>
-                                            <p class="column col-4">Contact: `+ data.advert.contact +`</p>
-                                            <p class="column col-3 col-xs-6"><a href="`+ data.advert.website +`">`+ data.advert.website +`</a></p>
+                                            <p class="column col-3" id="field"></p>
+                                            <p class="column col-4" id="contact"></p>
+                                            <p class="column col-3 col-xs-6"><a href="`+ data.advert.website +`" id="websiteLink"></a></p>
                                             <div class="column col-1"></div>
                                         </div>
                                         <div class="columns">
                                             <div class="column col-1"></div>
-                                            <p class="column col-3 col-xs-6"> Location: `+ data.advert.city +`</p>
-                                            <p class="column col-3 col-xs-6">postitions: `+ data.advert.positions +`</p>
-                                            <p class="column col-4 col-xs-6">Last day to apply: `+ data.advert.deadline_date.slice(0, 10) +`</p>
+                                            <p class="column col-3 col-xs-6" id="location"></p>
+                                            <p class="column col-3 col-xs-6" id="positions"></p>
+                                            <p class="column col-4 col-xs-6" id="dates"></p>
                                             <div class="column col-1"></div>
                                         </div>
                                         <div class="card-body" id="card-content">
-                                            <p>Description:</p>
-                                            `+ data.advert.body +`
                                         </div>
                                     </div>
                                     <br>
                                 `
+                                advertArea.appendChild(div)
+                                document.getElementById('title').innerText = data.advert.title
+                                document.getElementById('field').innerText = "Field: "+ data.advert.field
+                                document.getElementById('contact').innerText = "Contact: "+ data.advert.contact
+                                document.getElementById('websiteLink').innerText = data.advert.website
+                                document.getElementById('location').innerText = "Location: "+ data.advert.city
+                                document.getElementById('positions').innerText = "postitions: "+ data.advert.positions
+                                document.getElementById('date').innerText = "Last day to apply: "+ data.advert.deadline_date.slice(0, 10)
+                                document.getElementById('card-content').innerText = "Description: \n" + data.advert.body
                             }
-                            advertArea.appendChild(div)
                         }
                     })
                 } else {
@@ -279,57 +299,68 @@ export function loadMyAdverts() {
                                 <div class="card">
                                     <div class="columns">
                                         <div class="column col-1"></div>
-                                        <h2 class="comumn col-4">`+ data.advert[i].title +`</h2>
+                                        <h2 class="comumn col-4" id="title"></h2>
                                         <h4 class="column col-3"><a href="#/delete?id=`+ data.advert[i].id +`&type=student">Delete</a></h4>
                                         <h4 class="column col-3"><a href="#/update?id=`+ data.advert[i].id +`&type=student">Update</a></h4>
                                         <div class="column col-1"></div>
                                     </div>
                                     <div class="columns">
                                         <div class="colum col-1"></div>
-                                        <p class="column col-2">Field: `+ data.advert[i].field +`</p>
-                                        <p class="column col-3">Contact: `+ data.advert[i].contact +`</p>
-                                        <div class="column col-6">Dates: `+ data.advert[i].start_date.slice(0, 10) +` - `+ data.advert[i].end_date.slice(0, 10) +`</div>
+                                        <p class="column col-2" id="field"></p>
+                                        <p class="column col-3" id="contact"></p>
+                                        <div class="column col-6" id="dates"></div>
                                     </div>
                                     <div class="card-body" id="card-content">
-                                        <p>Description:</p>
-                                        `+ data.advert[i].body +`
                                     </div>
                                 </div>
                                 <br>
                             `
+                            advertArea.appendChild(div)
+                            document.getElementById('title').innerText = data.advert[i].title
+                            document.getElementById('field').innerText = "Field: "+ data.advert[i].field
+                            document.getElementById('contact').innerText = "Contact: "+ data.advert[i].contact
+                            document.getElementById('dates').innerText = "Dates: "+ data.advert[i].start_date.slice(0, 10) +" - "+ data.advert[i].end_date.slice(0, 10)
+                            document.getElementById('card-content').innerText = "Description: \n" + data.advert[i].body
+
                         } else if (sessionManager.getUserType() == 2) {
                             div.innerHTML = `
                                 <div class="card">
                                     <div class="columns">
                                         <div class="column col-1"></div>
-                                        <h2 class="comumn col-4">`+ data.advert[i].title +`</h2>
+                                        <h2 class="comumn col-4" id="title"></h2>
                                         <h4 class="column col-3"><a href="#/delete?id=`+ data.advert[i].id +`&type=recruiter">Delete</a></h4>
                                         <h4 class="column col-3"><a href="#/update?id=`+ data.advert[i].id +`&type=recruiter">Update</a></h4>
                                         <div class="column col-1"></div>
                                     </div>
                                     <div class="columns">
                                         <div class="column col-1"></div>
-                                        <p class="column col-3">Field: `+ data.advert[i].field +`</p>
-                                        <p class="column col-4">Contact: `+ data.advert[i].contact +`</p>
-                                        <p class="column col-3 col-xs-6"><a href="`+ data.advert[i].website +`">`+ data.advert[i].website +`</a></p>
+                                        <p class="column col-3" id="field"></p>
+                                        <p class="column col-4" id="contact"></p>
+                                        <p class="column col-3 col-xs-6"><a href="`+ data.advert[i].website +`" id="websiteLink"></a></p>
                                         <div class="column col-1"></div>
                                     </div>
                                     <div class="columns">
                                         <div class="column col-1"></div>
-                                        <p class="column col-3 col-xs-6"> Location: `+ data.advert[i].city +`</p>
-                                        <p class="column col-3 col-xs-6">postitions: `+ data.advert[i].positions +`</p>
-                                        <p class="column col-4 col-xs-6">Last day to apply: `+ data.advert[i].deadline_date.slice(0, 10) +`</p>
+                                        <p class="column col-3 col-xs-6" id="location"></p>
+                                        <p class="column col-3 col-xs-6" id="positions"></p>
+                                        <p class="column col-4 col-xs-6" id="date"></p>
                                         <div class="column col-1"></div>
                                     </div>
                                     <div class="card-body" id="card-content">
-                                        <p>Description:</p>
-                                        `+ data.advert[i].body +`
                                     </div>
                                 </div>
                                 <br>
                             `
-                        }
-                        advertArea.appendChild(div)       
+                            advertArea.appendChild(div)
+                            document.getElementById('title').innerText = data.advert[i].title
+                            document.getElementById('field').innerText = "Field: "+ data.advert[i].field
+                            document.getElementById('contact').innerText = "Contact: "+ data.advert[i].contact
+                            document.getElementById('websiteLink').innerText = data.advert[i].website
+                            document.getElementById('location').innerText = "Location: "+ data.advert[i].city
+                            document.getElementById('positions').innerText = "postitions: "+ data.advert[i].positions
+                            document.getElementById('date').innerText = "Last day to apply: "+ data.advert[i].deadline_date.slice(0, 10)
+                            document.getElementById('card-content').innerText = "Description: \n" + data.advert[i].body
+                        }       
                     }
                 }
             })
