@@ -16,7 +16,7 @@ router.route('/create-advert')
         } else if (request.session.user.user_type === 2) {
             response.render('internship/create-advert-recruiter.hbs', {csrfToken: request.csrfToken(), website: 'https://'})
         } else {
-            response.render('errors/error.hbs')
+            response.render('errors/error.hbs', {validationErrors: 'Application error'})
         }
     })
     .post(function(request, response, next) {
@@ -29,8 +29,6 @@ router.route('/create-advert')
                 start_date: request.body.startdate, 
                 end_date: request.body.enddate
             }
-
-            console.log(values)
 
             internshipManager.createStudentAdvert(request.session.user, values, function(status, errorOrId) {
                 if (status) {
@@ -82,7 +80,7 @@ router.route('/create-advert')
             })
 
         } else {
-            response.render('errors/error.hbs')
+            response.render('errors/error.hbs', {validationErrors: 'Application error'})
         } 
     })
 
@@ -96,7 +94,7 @@ router.get('/student-adverts', function(request, response) {
     
             response.render("internship/student-adverts.hbs", model)
         } else {
-            response.render('errors/error.hbs')
+            response.render('errors/error.hbs', {validationErrors: 'Application error'})
         }
     })
 })
@@ -111,7 +109,7 @@ router.get('/positions', function(request, response) {
     
             response.render("internship/recruiter-adverts.hbs", model)
         } else {
-            response.render('errors/error.hbs')
+            response.render('errors/error.hbs', {validationErrors: 'Application error'})
         }
     })
 })
@@ -132,10 +130,10 @@ router.get('/my/adverts', authHelper.isAuthenticated, csrfProtection, function(r
             } else if (request.session.user.user_type === 2) {
                 response.render("internship/recruiter-adverts.hbs", model)
             } else {
-                response.render('errors/error.hbs')
+                response.render('errors/error.hbs', {validationErrors: 'Application error'})
             }
         } else {
-            response.render('errors/error.hbs')
+            response.render('errors/error.hbs', {validationErrors: 'Application error'})
         }
     })
 })
@@ -148,7 +146,6 @@ router.route('/advert/:id')
         if (request.query.type == 'student' || request.query.type == 'recruiter') {
             internshipManager.getAdvertById(request.params.id, request.query.type, function(status, advertsOrError) {
                 if (status) {
-                    console.log(advertsOrError)
                     if (advertsOrError == null) {
                         response.render('errors/error.hbs', {validationErrors: 'Could not find any advert'})
                     } else {
@@ -170,7 +167,7 @@ router.route('/advert/:id')
                         } else if (request.query.type == 'recruiter') {
                             response.render("internship/recruiter-advert.hbs", model)
                         } else {
-                            response.render('errors/error.hbs')
+                            response.render('errors/error.hbs', {validationErrors: 'Application error'})
                         }
                     }
                 } else {
@@ -318,7 +315,6 @@ router.get('/creator/:id', function(request, response) {
                     student: true,
                     info: infoOrError 
                 }
-                console.log(infoOrError)
                 response.render('profile/creator.hbs', model)
             } else if (user_type == 2) {
                 const model = {
@@ -329,7 +325,6 @@ router.get('/creator/:id', function(request, response) {
                 response.render('profile/creator.hbs', model)
             }
         } else {
-            console.log(infoOrError)
             response.render('errors/error.hbs', {validationErrors: 'No user info'})
         }
     })

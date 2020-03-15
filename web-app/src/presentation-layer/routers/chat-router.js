@@ -11,7 +11,6 @@ router.get('/chats', authHelper.isAuthenticated, function(request, response) {
 
     chatManager.getAllMyChats(request.session.user.id, function(status, chatsOrError) {
         if (status) {
-            console.log(chatsOrError)
             var model = {
                 Chats: chatsOrError,
             }
@@ -35,8 +34,7 @@ router.route('/chat/:id')
         
                 response.render("chat/chat-messages.hbs", model)
             } else {
-                console.log(errorOrMessages)
-                response.send('error')
+                response.render('errors/error.hbs', {validationErrors: 'Application error'})
             }
         })
     })
@@ -44,9 +42,8 @@ router.route('/chat/:id')
         chatManager.sendMessage(request.session.user.id, parseInt(request.params.id), request.body.message, function(status, errorOrId) {
             if (status) {
                 response.redirect('/chat/'+request.params.id)
-                response.send('yes' + errorOrId)
             } else {
-                response.send('no ' + errorOrId)
+                response.render('errors/error.hbs', {validationErrors: 'Application error'})
             }
         })
     })
@@ -62,7 +59,7 @@ router.route('/send/chat/:receiver_id')
             if (status) {
                 response.redirect('/chat/'+request.params.receiver_id)
             } else {
-                response.send('no ' + errorOrId)
+                response.render('errors/error.hbs', {validationErrors: 'Application error'})
             }
         })
     })

@@ -173,9 +173,17 @@ class AccountRepository {
      * @returns {Promise} Promise that represent the 'results'
      */
     getById(id) {
-        const sql = `SELECT * FROM Accounts WHERE id = ?`
-
-        return this.dbh.get(sql, [id])
+        return new Promise((resolve, reject) => {
+            Accounts.findOne({ raw: true, where: {id: id} }).then((info) => {
+                if (info === null) {
+                    reject('no account')
+                } else {
+                    resolve(info)
+                }
+            }).catch((_) => {
+                reject("DB error")
+            })
+        })
 	}
     
     /**
@@ -195,7 +203,21 @@ class AccountRepository {
                 reject("DB error")
             })
         })
-	}
+    }
+    
+    getByEmail(email) {
+        return new Promise((resolve, reject) => {
+            Accounts.findOne({ raw: true, where: {email: email} }).then((info) => {
+                if (info === null) {
+                    reject('no account')
+                } else {
+                    resolve(info)
+                }
+            }).catch((_) => {
+                reject("DB error")
+            })
+        })
+    }
 }
 
 module.exports = AccountRepository

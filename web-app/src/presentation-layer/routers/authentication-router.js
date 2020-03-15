@@ -11,7 +11,9 @@ const authManager = container.resolve('authManager')
 router.route('/login')
     .all(authHelper.alreadyAuthenticated)
     .get(csrfProtection, function(request, response, next) {
-        response.render('auth/login.hbs', {csrfToken: request.csrfToken()})
+        const urlStudent = authManager.generateGoogleLogin(1)
+        const urlRecruiter = authManager.generateGoogleLogin(2)
+        response.render('auth/login.hbs', {csrfToken: request.csrfToken(), googleUrlStudent: urlStudent, googleUrlRecruiter: urlRecruiter})
     })
     .post(csrfProtection, function(request, response, next) {
         const username = request.body.username
@@ -42,6 +44,26 @@ router.route('/login')
         })
     })
 
+router.get('/oauth2callback', function(request, response, next) {
+    authManager.getUser(request.query.code, function(user) {
+        user.userType = request.query.state
+        authManager.setupGoogleUser(user, function(error, user) {
+            if (error) {
+                response.render('errors/error.hbs', {validationErrors: 'Application error'})
+            } else {
+                request.session.authenticated = true
+                request.session.user = user
+
+                if (request.session.user.seen === 1) {
+                    response.redirect('/profile')
+                } else {
+                    response.redirect('/profile/setup')
+                }
+            }
+        })
+    })
+})
+
 router.get('/signup', function(request, response) {
     response.redirect('/sign-up')
 })
@@ -49,7 +71,9 @@ router.get('/signup', function(request, response) {
 router.route('/sign-up')
     .all(authHelper.alreadyAuthenticated)
     .get(csrfProtection, function(request, response, next) {
-        response.render('auth/signup.hbs', {csrfToken: request.csrfToken()})
+        const urlStudent = authManager.generateGoogleLogin(1)
+        const urlRecruiter = authManager.generateGoogleLogin(2)
+        response.render('auth/signup.hbs', {csrfToken: request.csrfToken(), googleUrlStudent: urlStudent, googleUrlRecruiter: urlRecruiter})
     })
     .post(csrfProtection, function(request, response, next) {
 

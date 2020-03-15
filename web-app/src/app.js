@@ -1,7 +1,7 @@
 const express = require('express')
 
 // DB Connection
-const requireSeqelize= true
+const requireSeqelize = true
 requireSeqelize ? require('./data-access-layer/connection') : require("./data-access-layer-SQL/connection")  
 requireSeqelize ? require('./data-access-layer/setup') : null
 

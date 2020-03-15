@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const { google } = require('googleapis')
 
 module.exports = function(container) {
     return {
@@ -31,6 +32,64 @@ module.exports = function(container) {
                     })
                 }
             }
+        },
+        getUser: async function(authCode, callback) {
+            const client = new google.auth.OAuth2(
+                process.env.GOOGLE_CLIENT_ID,
+                process.env.GOOGLE_CLIENT_SECRET,
+                'http://localhost:8080/oauth2callback'
+            )
+
+            const {tokens} = await client.getToken(authCode)
+            client.credentials = tokens
+
+            const people = google.people({
+                version: 'v1',
+                auth: client
+            })
+
+            const response = await people.people.get({
+                resourceName: 'people/me',
+                personFields: 'emailAddresses,names'
+            })
+
+            const user = {
+                'id': response.data.names[0].metadata.source.id,
+                'email': response.data.emailAddresses[0].value,
+                'username': response.data.names[0].displayName,
+                'hash': 'g00gl3'
+            }
+            callback(user)
+        },
+        generateGoogleLogin: function(userType) {
+            const client = new google.auth.OAuth2(
+                process.env.GOOGLE_CLIENT_ID,
+                process.env.GOOGLE_CLIENT_SECRET,
+                'http://localhost:8080/oauth2callback'
+            )
+            return client.generateAuthUrl({ 
+                scope: ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'],
+                state: [userType]
+            })
+        },
+        setupGoogleUser: function(account, callback) {
+            container.accountRepository.create(account).then(result => {
+                container.accountRepository.getById(result.id).then(account => {
+                    callback(null, account)
+                }).catch(error => {
+                    callback('db error', null)
+                })
+            }).catch(error => {
+                if (error.type == 'unique violation') {
+                    container.accountRepository.getByEmail(account.email).then(account => { 
+                        callback(null, account)
+                    }).catch(error => {
+                        callback('db error', null)
+                    })
+                } else {
+                    callback('db error', null)
+                }
+            })
         },
         register: function(username, email, password, level, callback){
 

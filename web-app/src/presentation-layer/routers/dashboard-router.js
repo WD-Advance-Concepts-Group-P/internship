@@ -49,10 +49,11 @@ router.route('/setup')
                     request.session.user.seen = 1
                     response.redirect('/profile')
                 } else {
-                    response.send('no')
+                    response.render('errors/error.hbs', {validationErrors: 'Application error'})
                 }
             })
         } else if (request.session.user.user_type === 2) {
+            console.log(request.body.companylogo)
             const values = {
                 firstname: request.body.firstname, 
                 lastname: request.body.lastname, 
@@ -65,11 +66,11 @@ router.route('/setup')
                     request.session.user.seen = 1
                     response.redirect('/profile')
                 } else {
-                    response.send('no')
+                    response.render('errors/error.hbs', {validationErrors: 'Application error'})
                 }
             })
         } else {
-            response.render('errors/error.hbs')
+            response.render('errors/error.hbs', {validationErrors: 'Application error'})
         } 
     })
 
@@ -107,10 +108,10 @@ router.route('/update')
                     }
                     response.render('profile/recruiter-info.hbs', model)
                 } else {
-                    response.send('server error')
+                    response.render('errors/error.hbs', {validationErrors: 'Application error'})
                 }  
             } else {
-                response.render('errors/error.hbs')
+                response.render('errors/error.hbs', {validationErrors: 'Application error'})
             }
         })
     })
@@ -121,7 +122,7 @@ router.route('/update')
                     request.session.user.seen = 1
                     response.redirect('/profile')
                 } else {
-                    response.send('no')
+                    response.render('errors/error.hbs', {validationErrors: 'Application error'})
                 }
             })
         } else if (request.session.user.user_type === 2) {
@@ -130,11 +131,11 @@ router.route('/update')
                     request.session.user.seen = 1
                     response.redirect('/profile')
                 } else {
-                    response.send('no')
+                    response.render('errors/error.hbs', {validationErrors: 'Application error'})
                 }
             })
         } else {
-            response.render('errors/error.hbs')
+            response.render('errors/error.hbs', {validationErrors: 'Application error'})
         }
     })
 
