@@ -214,7 +214,13 @@ class AccountRepository {
 		const sql = `SELECT * FROM Accounts WHERE username = ?`
 
 		return this.dbh.get(sql, [username])
-	}
+    }
+    
+    getByEmail(email) {
+        const sql = `SELECT * FROM Accounts WHERE email = ?`
+
+		return this.dbh.get(sql, [email])
+    }
      
     /**
      * Get all of the accounts in the repository

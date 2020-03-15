@@ -28,9 +28,11 @@
                 <input class="form-submit column col-12 btn" type="submit" placeholder="Login" value="Login">
             </div>
         </form>
-        <br>
         <div class="divider text-center" data-content="OR"></div>
-        <br>
+        {{#if googleUrlStudent}}
+        <a href="{{googleUrlStudent}}" class="column col-12 btn mb-2">Google login Student</a>
+        <a href="{{googleUrlRecruiter}}" class="column col-12 btn mb-2">Google login Recruiter</a>
+        {{/if}}
         <a href="/sign-up" class="btn column col-12">Create an Account</a>
     </div>
     <div class="column col-4"></div>
