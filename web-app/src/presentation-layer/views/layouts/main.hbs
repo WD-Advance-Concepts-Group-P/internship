@@ -3,14 +3,53 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
 	<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
 	<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+	<link rel="stylesheet" href="/stylesheets/main.css">
+	<link rel="stylesheet" href="/stylesheets/spectre-extension.css">
 	<title>Website</title>
 </head>
 <body>
-	<div class="container mt-2">
+</body>
+	<section id="page-wrapper">
+		<header>
+			<img src="/resources/images/logo.png" id="logo">
+			<ul class="nav nav-left">
+				<li class="nav-item">
+					<a href="/">Home</a>
+				</li>
+				<li class="nav-item active">
+					<a href="#">Adverts</a>
+				</li>
+				<li class="nav-item">
+					<a href="#">About</a>
+				</li>
+				<li class="nav-item">
+					<a href="#">Contact</a>
+				</li>
+			</ul>
+
+			<ul class="nav nav-right">
+				<li class="nav-item">
+					<a href="/sign-up">Sign up</a>
+				</li>
+				<li class="nav-item">
+					<a href="/login">Login</a>
+				</li>
+			</ul>
+
+		</header>
+
+		<main>
 		{{{body}}}
-	</div>
+		</main>
+				
+		<footer>
+			<p class="text-center">Copyright © 2019 <span class="text-bold">Internshiply.com</span> | Made by <span class="text-bold">Johan Törnqvist and Fredrik Karlsson</span></p>
+		</footer>
+	</section>
+
 </body>
 </html>
