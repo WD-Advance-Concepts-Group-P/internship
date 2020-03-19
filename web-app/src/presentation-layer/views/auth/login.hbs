@@ -1,13 +1,19 @@
-<div class="columns col-xl">
-    <div class="column col-4"></div>
-    <div class="column col-4 col-md-12">
+
+<section class="columns">
+
+    <div class="auth-container column col-4 col-mx-auto">
         <h1>Login</h1>
+
         {{#if validationErrors.length}}
         <div class="toast toast-error">
             {{validationErrors}}
         </div>
         {{/if}}
+
+		<div class="divider"></div>
+
         <form action="" method="POST">
+
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
             {{#if username.length}}
             <div class="form-group">
@@ -20,22 +26,28 @@
                 <input class="form-input" id="usernameInput" type="text" name="username" placeholder="Username" required>
             </div>
             {{/if}}
+
             <div class="form-group">
                 <label class="form-label" for="passwordInput">Password</label>
                 <input class="form-input" id="passwordInput" type="password" name="password" placeholder="Password" required>
             </div>
+
             <div class="form-group">
                 <input class="form-submit column col-12 btn" type="submit" placeholder="Login" value="Login">
             </div>
+
+            <div class="divider text-center" data-content="OR"></div>
+
+            {{#if googleUrlStudent}}
+                <a href="{{googleUrlStudent}}" class="column col-12 btn mb-2">Google login Student</a>
+            {{/if}}
+            {{#if googleUrlRecruiter}}
+                <a href="{{googleUrlRecruiter}}" class="column col-12 btn mb-2">Google login Recruiter</a>
+            {{/if}}
+            <a href="/sign-up" class="btn column col-12">Create an Account</a>
+            
+            <div class="divider"></div>
         </form>
-        <div class="divider text-center" data-content="OR"></div>
-        {{#if googleUrlStudent}}
-        <a href="{{googleUrlStudent}}" class="column col-12 btn mb-2">Google login Student</a>
-        {{/if}}
-        {{#if googleUrlRecruiter}}
-        <a href="{{googleUrlRecruiter}}" class="column col-12 btn mb-2">Google login Recruiter</a>
-        {{/if}}
-        <a href="/sign-up" class="btn column col-12">Create an Account</a>
     </div>
-    <div class="column col-4"></div>
-</div>
+
+</section>

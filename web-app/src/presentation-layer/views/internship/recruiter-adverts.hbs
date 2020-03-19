@@ -1,3 +1,46 @@
+
+<section class="adverts-wrapper">
+
+    <h1>Recruiter advertisments</h1>
+
+    <form action="/search" method="GET">
+            <div class="input-group">
+                <input class="form-input" type="text" placeholder="Search..." name="q">
+                <button class="btn btn-primary btn-search input-group-btn">Search</button>
+            </div>
+    </form>
+
+    <div class="divider"></div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Description</th>
+            <th>Field</th>
+            <th>Start date</th>
+            <th>End date</th>
+        </tr>
+        </thead>
+
+        {{#if Posts.length}}
+            {{#each Posts}}
+                <tbody>
+                    <tr>
+                    <td><a href="/advert/{{this.id}}?type=student">{{this.title}}</a></td>
+                    <td>{{this.field}}</td>
+                    <td>{{this.start_date}}</td>
+                    <td>{{this.end_date}}</td>
+                    </tr>
+                </tbody>
+            {{/each}}
+        {{/if}}
+    </table>
+
+</section>
+
+
+
+
 {{#if searchBarHidden}}
 <br>
 {{else}}

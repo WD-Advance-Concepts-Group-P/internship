@@ -1,0 +1,13 @@
+.btn-primary {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.btn-search {
+    padding: 0 30px;
+    background-image: linear-gradient(to top, #4292ff, #388cff, #2e86ff, #2380ff, #177aff) !important;
+}
+
+.form-input-search {
+    height: 100px;
+}

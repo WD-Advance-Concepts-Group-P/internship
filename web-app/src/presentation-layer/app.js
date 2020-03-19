@@ -11,8 +11,10 @@ const authenticationRouter = require('./routers/authentication-router')
 const dashboardRouter = require('./routers/dashboard-router')
 const internshipsRouter = require('./routers/internships-router')
 const chatRouter = require('./routers/chat-router')
-
+const path = require('path');
 const app = express()
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 const redisClient = redis.createClient({
 	host: 'db_redis',

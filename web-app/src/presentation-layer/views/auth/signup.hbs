@@ -1,12 +1,17 @@
-<div class="columns col-xl">
-    <div class="column col-4"></div>
-    <div class="column col-4 col-md-12">
-        <h1>Register</h1>
+
+<section class="columns">
+
+    <div class="auth-container column col-4 col-mx-auto">
+        <h1>Sign up</h1>
+
         {{#if validationErrors.length}}
         <div class="toast toast-error">
             {{validationErrors}}
         </div>
         {{/if}}
+
+		<div class="divider"></div>
+
         <form action="" method="POST">
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
             {{#if username.length}}
@@ -57,5 +62,5 @@
         {{/if}}
         <a href="/login" class="btn column col-12">Login to your Account</a>
     </div>
-    <div class="column col-4"></div>
-</div>
+
+</section>

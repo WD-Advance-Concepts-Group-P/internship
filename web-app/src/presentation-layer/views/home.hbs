@@ -1,48 +1,42 @@
-<header class="navbar columns">
-    <section class="navbar-section column col-2">
-        <div class="column col-3"></div>
-        <a href="" class="btn btn-link">Home</a>
-    </section>
-    <section class="navbar-center column col-6">
-        <form action="/search" method="GET" class="column">
-        <div class="input-group input-inline column col-12">
-            <input class="form-input" type="text" placeholder="search" name="q">
-            <button class="btn btn-primary input-group-btn">Search</button>
+<section id="hero-banner">
+
+    <div id="hero-inner">
+
+        <div class="hero-left-wrapper">
+
+            <h1>Finding your dream internship is only a search away!</h1>
+            <h2>Psst... you can also find the dream intern for your own company</h2>
+
+		    <div class="divider"></div>
+
+            <form action="/search" method="GET">
+                <div class="input-group">
+                    <select class="form-select" id="option" name="type" style="flex: none;">
+                        <option>Student</option>
+                        <option>Recruiter</option>
+                    </select>
+                    <input class="form-input" type="text" placeholder="Search for internships..." name="q">
+                    <button class="btn btn-primary btn-search input-group-btn">Search</button>
+                </div>
+            </form>
+
+		    <div class="divider"></div>
+            
+            <a href="/student-adverts" class="btn btn-primary">List of student adverts</a>
+            <a href="/positions" class="btn btn-primary">List of company adverts</a>
+
         </div>
-        </form>
-    </section>
-    <section class="navbar-section column col-2">
-        {{#if signedIn}}
-        <a href="/profile" class="btn btn-link">Profile</a>
-        <a href="/logout" class="btn btn-link">Logout</a>
-        <div class="column col-2"></div>
-        {{else}}
-        <a href="/login" class="btn btn-link">Login</a>
-        <div class="column col-3"></div>
-        {{/if}}
-    </section>
-</header>
-<br>
 
-<div class="columns col-xl">
-    <div class="column col-3 col-md-2"></div>
-    <div class="column col-6 col-md-8">
-        <h2>Find interns or create internships adverts</h2>
+        <div class="hero-right-wrapper">
+            <h1>Upload own advert</h1>
+
+            <div class="divider"></div>
+
+            <a href="#" class="btn btn-primary">Create advert</a>
+
+        </div>
+
     </div>
-     <div class="column col-3 col-md-2"></div>
-</div>
-<br>
-<br>
+    
 
-<footer class="navbar columns-fixed">
-    <section class="navbar-section column col-2 col-md-0"></section>
-	<section class="navbar-center">
-        <a href="/sign-up" class="btn btn-link">Sign up</a>
-        <a href="/login" class="btn btn-link">Login</a>
-		<a href="/student-adverts" class="btn btn-link">Student adverts</a>
-		<a href="/positions" class="btn btn-link">Internship positions</a>
-	</section>
-	<section class="navbar-section column col-2 col-md-0">
-	</section>
-</footer>
-<br>
+</section>
