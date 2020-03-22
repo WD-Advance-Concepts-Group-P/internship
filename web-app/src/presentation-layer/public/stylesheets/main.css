@@ -1,0 +1,228 @@
+html, body {
+    height:100%;
+    font-family: 'Quicksand', sans-serif;
+    background-image: url("../resources/images/background.png");
+    background-repeat: repeat;
+}
+
+/* --- Header --- */
+
+header {
+    position:relative;
+    padding: 0 5%;
+    height: 75px;
+    background-color: white;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+#logo {
+    height: 100%;
+}
+
+.nav {
+    display: inline-block;
+    height: 100%;
+    margin: 0;
+    margin-left: 20px;
+}
+
+.nav-item {
+    margin: 0px;
+    padding: 0 10px;
+}
+
+.nav li {
+    float: left;
+    line-height: 75px;
+}
+
+.nav-right {
+    float: right;
+}
+
+/* --- Main --- */
+
+#page-wrapper {
+    min-height: 100%;
+    position: relative;
+}
+
+main {
+    padding-bottom: 40px;
+}
+
+/* --- Footer --- */
+
+footer {
+    font-size: smaller;
+    background: white;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+footer p {
+    margin: 0;
+}
+
+/* --- Home --- */
+
+#hero-banner {
+    width: 100%;
+    height: 400px;
+    padding: 50px 5%;
+    background-image: url("../resources/images/temporary.jpg")
+}
+
+#hero-inner {
+    width: 100%;
+    height: 100%;
+}
+
+.hero-left-wrapper, .hero-right-wrapper {
+    height: 100%;
+    padding: 20px;
+    float: left;
+    box-sizing: border-box;
+}
+
+.hero-left-wrapper {
+    width: 70%;
+    background: #FFF;
+    box-shadow: 0 2px 14px 0 rgba(0,0,0,0.1);
+    border-radius: 5px 0px 0px 5px;
+}
+
+.hero-left-wrapper h1 {
+    width: 100%;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.hero-left-wrapper h2 {
+    width: 100%;
+    font-size: medium;
+    font-style: italic;
+}
+
+.hero-right-wrapper {
+    width: 30%;
+    color: white;
+    background: rgba(0,0,0,0.6);
+    box-shadow: 0 2px 14px 0 rgba(0,0,0,0.1);
+    border-radius: 0px 5px 5px 0px;
+}
+
+
+
+/* --- Auth --- */
+
+.auth-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05), 0 20px 48px rgba(0,0,0,0.05), 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* --- Advert --- */
+
+.advert-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05), 0 20px 48px rgba(0,0,0,0.05), 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* --- Advert list --- */
+
+.adverts-wrapper {
+    margin: 0 5%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05), 0 20px 48px rgba(0,0,0,0.05), 0 1px 4px rgba(0,0,0,0.1);
+}
+
+
+/* --- Advert --- */
+
+.advert-wrapper {
+    margin: 0 5%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05), 0 20px 48px rgba(0,0,0,0.05), 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.advert-wrapper .columns {
+    margin-top: 10px;
+}
+
+.advert-image-container {
+    width: 100%;
+    height: 100px;
+    border: 1px solid black;
+    line-height: 100px;
+}
+
+
+/* --- Dashboard --- */
+
+.dashboard-wrapper {
+    margin: 0 5%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.dashboard-inner {
+    padding: 20px;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05), 0 20px 48px rgba(0,0,0,0.05), 0 1px 4px rgba(0,0,0,0.1);
+}
+
+
+/* --- Chat --- */
+
+.chats-wrapper, .chat-messages-wrapper {
+    margin: 0 5%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.chat-message-inner {
+    padding: 20px;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05), 0 20px 48px rgba(0,0,0,0.05), 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.chats-wrapper {
+    padding: 20px;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05), 0 20px 48px rgba(0,0,0,0.05), 0 1px 4px rgba(0,0,0,0.1);
+}
+
+
+/* --- Information --- */
+
+.information-wrapper {
+    margin: 0 5%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

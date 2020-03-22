@@ -1,0 +1,47 @@
+
+<section class="adverts-wrapper">
+
+    <h1>My advertisments</h1>
+
+    <div class="divider"></div>
+
+    <table class="table">
+
+        {{#if adverts.length}}
+
+            <thead>
+            <tr>
+                <th>Description</th>
+                <th>Field</th>
+                <th>Start date</th>
+                <th>End date</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+
+            {{#each adverts}}
+                <tbody>
+                    <tr>
+                    <td><a href="/internships/advert/{{this.id}}?type=student">{{this.title}}</a></td>
+                    <td>{{this.field}}</td>
+                    <td>{{this.start_date}}</td>
+                    <td>{{this.end_date}}</td>
+                    <td><a href="/internships/advert/{{this.id}}/edit?type=student">Edit</a></td>
+                    <td>
+                        <form action="/internships/advert/delete" method="POST">
+                            <input type="hidden" name="_csrf" value="{{../csrfToken}}">
+                            <input type="hidden" name="id" value="{{this.id}}">
+
+                            <input type="submit" class="btn btn-link" value="Delete" />
+                        </form>
+                    </a>
+                    </tr>
+                </tbody>
+            {{/each}}
+        {{else}}
+            <h2>No adverts found.</h2>
+        {{/if}}
+    </table>
+
+</section>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+        <title>SPA - Website</title>
+        <script src="app.js" type="module"></script>
+        <script nomodule src="fallback.js"></script>
+        <style>
+            .hidden {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container mt-2">
+            <header class="navbar columns">
+                <section class="navbar-section column col-2">
+                    <div class="column col-3"></div>
+                    <a href="#" class="btn btn-link">Home</a>
+                </section>
+                <section class="navbar-center column col-6">
+                </section>
+                <section class="navbar-section column col-2">
+                    <a href="#/profile" class="btn btn-link" id="profileLink">Profile</a>
+                    <a href="#/logout" class="btn btn-link" id="logoutLink">Logout</a>
+                    <a href="#/login" class="btn btn-link" id="loginLink">Login</a>
+                    <div class="column col-2"></div>
+                </section>
+            </header>
+            <br>
+            <div class="columns col-xl">
+                <div class="column col-12 col-md-12 col-xs-12" id="app"></div>
+            </div>
+            <br>
+            <br>
+            <footer class="navbar columns-fixed">
+                <section class="navbar-section column col-2 col-md-0"></section>
+                <section class="navbar-center">
+                    <a href="#/register" class="btn btn-link">Sign up</a>
+                    <a href="#/login" class="btn btn-link">Login</a>
+                    <a href="#/student-adverts" class="btn btn-link">Student adverts</a>
+                    <a href="#/positions" class="btn btn-link">Internship positions</a>
+                </section>
+                <section class="navbar-section column col-2 col-md-0">
+                </section>
+            </footer>
+            <br>
+        </div>
+    </body>
+</html>

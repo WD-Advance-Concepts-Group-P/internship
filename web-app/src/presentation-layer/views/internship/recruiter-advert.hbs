@@ -1,0 +1,50 @@
+
+<section class="advert-wrapper">
+    {{#if advert}}
+        <h1>{{advert.title}}</h1>
+    
+        <div class="advert-image-container">
+            <p class="text-center">Image container</p>
+        </div>
+
+        <div class="columns">
+            <div class="advert-left column col-8">
+                <h2>Description</h2>
+                <p>{{advert.body}}</p>
+            </div>
+
+            <div class="divider-vert column col-1"></div>
+
+            <div class="advert-right column col-3">
+                <h2>Details</h2>
+
+                <h3>Field</h3>
+                <span>{{advert.field}}</span>
+
+                <h3>Positions</h3>
+                <span>{{advert.positions}}</span>
+
+                <h3>City:</h3>
+                <span>{{advert.city}}</span>
+
+                <h3>Website:</h3>
+                <a href="{{advert.website}}">{{advert.website}}</a>        
+
+                <h3>Contact</h3>
+                <span>{{advert.contact}}</span>
+
+                <h3>Deadline date:</h3>
+                <span>{{advert.deadline_date}}</span>
+
+                <h3>Other</h3>
+                <a href="/internships/creator/{{advert.posted_by}}?type=recruiter">Creator</a></h2><br>
+                <a href="/dashboard/chat/send/{{advert.posted_by}}">Send message</a>
+            </div>
+        </div>
+
+    {{else}}
+        <h1>Advert doesnt exists</h1>
+    {{/if}}
+
+    
+</section>

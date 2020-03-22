@@ -1,0 +1,66 @@
+<section class="columns">
+
+    <div class="advert-container column col-6 col-mx-auto">
+        <h1>Create advert</h1>
+
+        {{#if validationErrors.length}}
+        <div class="toast toast-error">
+            {{validationErrors}}
+        </div>
+        {{/if}}
+
+        <div class="divider"></div>
+
+        <form action="/internships/create-recruiter-advert" method="POST">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            
+            <div class="form-group">
+                <label class="form-label" for="titleInput">Title</label>
+                <input class="form-input" id="titleInput" type="text" name="title" placeholder="Title" value="{{title}}" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="bodyInput">Body</label>
+                <textarea class="form-input" id="bodyInput" name="body" placeholder="Textarea" rows="5" required>{{body}}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="option">Field</label>
+                <select class="form-select" id="option" name="field" value='{{field}}'>
+                    <option>Tech</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="cityInput">City</label>
+                <input class="form-input" id="cityInput" type="text" name="city" placeholder="City" value="{{city}}" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="contactInput">Contact</label>
+                <input class="form-input" id="contactInput" type="text" name="contact" placeholder="Contact" value="{{contact}}" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="websiteInput">Website</label>
+                <input class="form-input" id="websiteInput" type="url" name="website" placeholder="Website" value="{{website}}" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="positionsInput">Number of positions</label>
+                <input class="form-input" id="positionsInput" type="number" name="positions" placeholder="Number of positions" value="{{positions}}" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="deadlinedateInput">Deadline date</label>
+                <input class="form-input" id="deadlinedateInput" type="date" name="deadline_date" value="{{deadline_date}}" required>
+            </div>
+
+            <div class="form-group">
+                <input class="form-submit column col-12 btn" type="submit" placeholder="Create" value="Create">
+            </div>
+        </form>
+    </div>
+
+</section>

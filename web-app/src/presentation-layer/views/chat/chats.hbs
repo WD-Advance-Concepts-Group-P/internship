@@ -1,0 +1,17 @@
+<section class="chats-wrapper">
+    <table class="table">
+    <thead>
+        <tr>
+        <th>Username</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#if chats.length}}
+            {{#each chats}}
+                <td><a href="/dashboard/chat/{{this.sender_id}}">{{this.username}}</a></td>
+                </tr>
+            {{/each}}
+        {{/if}}
+    </tbody>
+    </table>
+</section>

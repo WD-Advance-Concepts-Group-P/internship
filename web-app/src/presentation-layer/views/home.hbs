@@ -1,0 +1,43 @@
+<section id="hero-banner">
+
+    <div id="hero-inner">
+
+        <div class="hero-left-wrapper">
+
+            <h1>Finding your dream internship is only a search away!</h1>
+            <h2>Psst... you can also find the dream intern for your own company</h2>
+
+		    <div class="divider"></div>
+
+            <form action="/search" method="GET">
+                <div class="input-group">
+                    <select class="form-select" id="option" name="type" style="flex: none;">
+                        <option>Student</option>
+                        <option>Recruiter</option>
+                    </select>
+
+                    <input class="form-input" type="text" placeholder="Search for internships..." name="q">
+                    <button class="btn btn-primary btn-search input-group-btn">Search</button>
+                </div>
+            </form>
+
+		    <div class="divider"></div>
+            
+            <a href="/internships/student-adverts" class="btn btn-primary">List of student adverts</a>
+            <a href="/internships/recruiter-adverts" class="btn btn-primary">List of company adverts</a>
+
+        </div>
+
+        <div class="hero-right-wrapper">
+            <h1>Upload own advert</h1>
+
+            <div class="divider"></div>
+
+            <a href="/internships/create-advert" class="btn btn-primary">Create advert</a>
+
+        </div>
+
+    </div>
+    
+
+</section>

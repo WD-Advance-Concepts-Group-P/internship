@@ -1,0 +1,66 @@
+<div class="columns col-xl">
+    <div class="column col-3"></div>
+    <div class="column col-6 col-md-12">
+        {{#if title}}
+        <h1>{{title}}</h1>
+        {{else}}
+        <h1>Creator Information</h1>
+        {{/if}}   
+        {{#if validationErrors.length}}
+        <div class="toast toast-error">
+            {{validationErrors}}
+        </div>
+        {{/if}}
+        {{#if student}}
+        <ul>
+
+            {{#if info.profile_pic_url}}
+            <figure class="figure">
+                <img class="img-responsive" width="400px" src="{{info.profile_pic_url}}" alt="Profile picture">
+            </figure>
+            {{/if}}
+
+            {{#if info.first_name}}
+            <li>Name: {{info.first_name}} {{info.last_name}}</li>
+            {{/if}}
+            {{#if info.birth_date}}
+            <li>birthdate: {{info.birth_date}}</li>
+            {{/if}}
+            {{#if info.biography_text}}
+            <li>Bio: {{info.biography_text}}</li>
+            {{/if}}
+            {{#if info.school}}
+            <li>School: {{info.school}}</li>
+            {{/if}}
+            {{#if info.program}}
+            <li>Program: {{info.program}}</li>
+            {{/if}}
+            {{#if info.graduation_year}}
+            <li>Graduation year: {{info.graduation_year}}</li>
+            {{/if}}
+            {{#if info.resume_url}}
+            <li>Resume: <a href="{{info.resume_url}}">{{info.resume_url}}</a></li>
+            {{/if}}
+        </ul>
+        {{else}}
+        <ul>
+            {{#if info.company_logo_url}}
+            <figure class="figure">
+                <img class="img-responsive" width="400px" src="{{info.company_logo_url}}" alt="Company logo picture">
+            </figure>
+            {{/if}}
+
+            {{#if info.first_name}}
+            <li>Name: {{info.first_name}} {{info.last_name}}</li>
+            {{/if}}
+            {{#if info.phone_number}}
+            <li>Phonenumber: {{info.phone_number}}</li>
+            {{/if}}
+            {{#if info.company_name}}
+            <li>Company: {{info.company_name}}</li>
+            {{/if}}
+        </ul>
+        {{/if}}
+    </div>
+    <div class="column col-3"></div>
+</div>
