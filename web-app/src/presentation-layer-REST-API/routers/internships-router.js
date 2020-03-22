@@ -5,6 +5,9 @@ const authHelper = require('../../util/auth-helper')
 const internshipManager = container.resolve('internshipManager')
 const jwt = require('jsonwebtoken');
 
+const USER_TYPE_STUDENT = 1
+const USER_TYPE_RECRUITER = 2
+
 router.route('/adverts')
     .all(function(request, response, next) {
         next();
@@ -12,35 +15,33 @@ router.route('/adverts')
     .get(function(request, response, next) {
         //get all adverts or logged in user adverts
         if (request.query.type == 'student') {
-            internshipManager.getALlStudentAdverts(function(status, errorOrAdvert) {
-                if (status) {
+            internshipManager.getAllAdverts(USER_TYPE_STUDENT)
+                .then(adverts => {
                     response.json({
                         'error': 'false',
-                        'advert': errorOrAdvert
+                        'advert': adverts
                     })
-                } else {
+                })
+                .catch(error => {
                     response.status(500).json({
                         'error': 'true',
-                        'message': errorOrAdvert,
-                        'code': 'APP_ERR'
+                        'message': 'Server error',
                     })
-                }
-            })
+                })
         } else if (request.query.type == 'recruiter') {
-            internshipManager.getALlRecruiterAdverts(function(status, errorOrAdvert) {
-                if (status) {
+            internshipManager.getAllAdverts(USER_TYPE_RECRUITER)
+                .then(adverts => {
                     response.json({
                         'error': 'false',
-                        'advert': errorOrAdvert
+                        'advert': adverts
                     })
-                } else {
+                })
+                .catch(error => {
                     response.status(500).json({
                         'error': 'true',
-                        'message': errorOrAdvert,
-                        'code': 'APP_ERR'
+                        'message': 'Server error',
                     })
-                }
-            })
+                })
         } else {
             // get all adverts for the logged in user
             if (request.header('Authorization')) {
@@ -50,31 +51,35 @@ router.route('/adverts')
                     if (error) {
                         return response.status(401).json({
                             'error': 'your not logged in',
-                            'code': 'AUTH_1'
                         })
                     } else {
-                        internshipManager.getAllAdvertsByUser(decoded.uid, decoded.userType, function(status, errorOrAdverts) {
-                            if (status) {
+
+                        const user = { 
+                            id: decoded.uid,
+                            user_type: decoded.userType
+                        }
+
+                        internshipManager.getAllAdvertsByUser(user)
+                            .then(adverts => {
+                                console.log(adverts)
                                 response.json({
                                     'error': 'false',
-                                    'advert': errorOrAdverts
+                                    'advert': adverts
                                 })
-                            } else {
-                                if (errorOrAdverts.includes('db error')) {
+                            })
+                            .catch(error => {
+                                if (error.includes('db error')) {
                                     response.status(500).json({
                                         'error': 'true',
-                                        'message': errorOrAdverts,
-                                        'code': 'APP_2'
+                                        'message': 'Server error',
                                     })
                                 } else {
                                     response.status(400).json({
                                         'error': 'true',
-                                        'message': errorOrAdverts,
-                                        'code': 'APP_2'
+                                        'message': error,
                                     })
                                 }
-                            }
-                        })
+                            })
                     }
                 })
             } else {
@@ -89,8 +94,8 @@ router.route('/adverts')
         //create advert
         if (response.locals.userType === 1) {  
             const user = {
-                'user_type': response.locals.userType,
-                'id': response.locals.uid
+                user_type: response.locals.userType,
+                id: response.locals.uid
             }
 
             const values = {
@@ -101,34 +106,29 @@ router.route('/adverts')
                 start_date: request.body.startdate,
                 end_date: request.body.enddate,
             }
-
-            internshipManager.createStudentAdvert(user, values, function(status, errorOrId) {
-                if (status) {
-                    response.json({
-                        'error': 'false',
-                        'message': errorOrId
-                    })
-                } else {
-                    if (errorOrId.includes('db error')) {
+        
+            internshipManager.createAdvert(values, user)
+                .then(() => {
+                    response.status(201).json()
+                })
+                .catch(error => {
+                    if (error.includes('db error')) {
                         response.status(500).json({
                             'error': 'true',
-                            'message': errorOrId,
-                            'code': 'APP_2'
+                            'message': 'Server error',
                         })
                     } else {
                         response.status(400).json({
                             'error': 'true',
                             'message': errorOrId,
-                            'code': 'APP_2'
                         })
                     }
-                }
-            })
+                })
 
         } else if (response.locals.userType === 2) {
             const user = {
-                'user_type': response.locals.userType,
-                'id': response.locals.uid
+                user_type: response.locals.userType,
+                id: response.locals.uid
             }
 
             const values = {
@@ -141,28 +141,24 @@ router.route('/adverts')
                 positions: request.body.positions,
                 deadline_date: request.body.deadlinedate,
             }
-
-            internshipManager.createRecruiterAdvert(user, values, function(status, errorOrId) {
-                if (status) {
-                    response.json({
-                        'error': 'false',
-                        'message': errorOrId
-                    })
-                } else {
-                    if (errorOrId.includes('db error')) {
+        
+            internshipManager.createAdvert(values, user)
+                .then(() => {
+                    response.status(201).json()
+                })
+                .catch(error => {
+                    if (error.includes('db error')) {
                         response.status(500).json({
                             'error': 'true',
-                            'message': errorOrId
+                            'message': 'Server error',
                         })
                     } else {
                         response.status(400).json({
                             'error': 'true',
-                            'message': errorOrId
+                            'message': errorOrId,
                         })
                     }
-                }
-            })
-
+                })
         } else {
             response.status(400).json({
                 'error': 'true',
@@ -177,26 +173,27 @@ router.route('/adverts/:id')
     })
     .get(function(request, response, next) {
         //get advert
-        internshipManager.getAdvertById(request.params.id, request.query.type, function(status, errorOrAdvert) {
-            if (status) {
+
+        internshipManager.getAdvertById(request.params.id, request.query.type)
+            .then(advert => {
                 response.json({
                     'error': 'false',
-                    'advert': errorOrAdvert
+                    'advert': advert
                 })
-            } else {
+            })
+            .catch(error => {
                 if (errorOrAdvert.includes("db error")) {
                     response.status(500).json({
                         'status': 'fail',
-                        'message': errorOrAdvert
+                        'message': 'Server error'
                     })
                 } else {
                     response.status(400).json({
                         'status': 'fail',
-                        'message': errorOrAdvert
+                        'message': error
                     })
                 }
-            }
-        })
+            })
     })
     .put(authHelper.apiIsAuthenticated, function(request, response, next) {
         //update advert
@@ -213,17 +210,16 @@ router.route('/adverts/:id')
                 start_date: request.body.startdate,
                 end_date: request.body.enddate,
             }
-            internshipManager.updateStudentAdvert(user, request.params.id, values, function(status, errorOrId) {
-                if (status) {
-                    response.json({
-                        'error': 'false',
-                        'message': 'success updating advert'
-                    })
-                } else {
-                    if (errorOrId.includes("db error")) {
+        
+            internshipManager.updateAdvert(user, values, request.params.id)
+                .then(() => {
+                    response.status(201).json()
+                })
+                .catch(error => {
+                    if (error.includes("db error")) {
                         response.status(500).json({
                             'status': 'fail',
-                            'message': errorOrId
+                            'message': 'Server error'
                         })
                     } else {
                         response.status(400).json({
@@ -231,8 +227,8 @@ router.route('/adverts/:id')
                             'message': errorOrId
                         })
                     }
-                }
-            })
+                })
+
         } else if (request.query.type === 'recruiter') {
             const values = {
                 title: request.body.title,
@@ -244,31 +240,28 @@ router.route('/adverts/:id')
                 positions: request.body.positions,
                 deadline_date: request.body.deadlinedate,
             }
-            internshipManager.updateRecruiterAdvert(user, request.params.id, values, function(status, errorOrId) {
-                if (status) {
-                    response.json({
-                        'error': 'false',
-                        'message': 'success updating advert'
-                    })
-                } else {
-                    if (errorOrId.includes("db error")) {
+
+            internshipManager.updateAdvert(request.session.user, values, request.body.id)
+                .then(() => {
+                    response.status(201).json()
+                })
+                .catch(error => {
+                    if (error.includes("db error")) {
                         response.status(500).json({
                             'status': 'fail',
-                            'message': errorOrId
+                            'message': 'Server error'
                         })
                     } else {
                         response.status(400).json({
                             'status': 'fail',
-                            'message': errorOrId
+                            'message': error
                         })
                     }
-                }
-            })
+                })
         } else {
             response.status(400).json({
                 'error': 'true',
                 'message': 'invalid type submitted (student or recruiter are valid)',
-                'code': 'TYPE_1'
             })
         }
     })
@@ -278,28 +271,23 @@ router.route('/adverts/:id')
             user_type: response.locals.userType
         }
 
-        internshipManager.deleteAdvert(request.params.id, user, function(status, error) {
-            if (status) {
-                response.json({
-                    'error': 'false',
-                    'message': 'success deleting advert'
-                })
-            } else {
+        internshipManager.deleteAdvert(request.params.id, user)
+            .then(() => {
+                response.status(201).json()
+            })
+            .catch(error => {
                 if (error.includes('db error')) {
                     response.status(500).json({
                         'error': 'true',
-                        'message': error,
-                        'code': 'APP_2'
+                        'message': 'server error',
                     })
                 } else {
                     response.status(400).json({
                         'error': 'true',
                         'message': error,
-                        'code': 'APP_2'
                     })
                 }
-            }
-        })
+            })
     })
     
 module.exports = router

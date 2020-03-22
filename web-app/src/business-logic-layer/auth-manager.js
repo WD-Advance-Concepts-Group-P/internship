@@ -59,6 +59,13 @@ function register(username, email, password, accountType) {
                     .then(result => {
                         resolve(result.id)
                     })
+                    .catch(error => {
+                        if (error.type == 'unique violation') {
+                            reject(error.message)
+                        } else {
+                            reject('db error')
+                        }
+                    })
             })
     })
 }

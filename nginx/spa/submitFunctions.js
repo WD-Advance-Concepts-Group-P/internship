@@ -207,10 +207,8 @@ export function profileSetupStudent() {
             submitDiv.classList.remove('loading')
             submitButton.value = "Submit"
             if (response.ok) {
-                response.json().then(data => {
-                    sessionManager.setRegisterdInfoValue(true)
-                    window.location.replace('#/profile')
-                })
+                sessionManager.setRegisterdInfoValue(true)
+                window.location.replace('#/profile')
             } else {
                 response.json().then(data => {
                     if (response.status == 400) {
@@ -351,9 +349,7 @@ export function createAdvert() {
                 submitDiv.classList.remove('loading')
                 submitButton.value = "Create"
                 if (response.ok) {
-                    response.json().then(data => {
-                        window.location.replace('#/my/adverts')
-                    })
+                    window.location.replace('#/my/adverts')
                 } else {
                     response.json().then(data => {
                         if (response.status == 400) {
@@ -418,9 +414,7 @@ export function createAdvert() {
                 submitDiv.classList.remove('loading')
                 submitButton.value = "Create"
                 if (response.ok) {
-                    response.json().then(data => {
-                        window.location.replace('#/my/adverts')
-                    })
+                    window.location.replace('#/my/adverts')
                 } else {
                     response.json().then(data => {
                         if (response.status == 400) {
@@ -492,9 +486,7 @@ export function deleteAdvert() {
                 submitDiv.classList.remove('loading')
                 submitButton.value = "Delete"
                 if (response.ok) {
-                    response.json().then(data => {
-                        window.location.replace('#/my/adverts')
-                    })
+                    window.location.replace('#/my/adverts')
                 } else {
                     response.json().then(data => {
                         errorMessage.classList.remove('hidden')
@@ -579,9 +571,7 @@ export function updateAdvert() {
                         submitDiv.classList.remove('loading')
                         submitButton.value = "Update"
                         if (response.ok) {
-                            response.json().then(data => {
-                                window.location.replace('#/my/adverts')
-                            })
+                            window.location.replace('#/my/adverts')
                         } else {
                             response.json().then(data => {
                                 if (response.status == 400) {
@@ -646,9 +636,7 @@ export function updateAdvert() {
                         submitDiv.classList.remove('loading')
                         submitButton.value = "Update"
                         if (response.ok) {
-                            response.json().then(data => {
-                                window.location.replace('#/my/adverts')
-                            })
+                            window.location.replace('#/my/adverts')
                         } else {
                             response.json().then(data => {
                                 if (response.status == 400) {

@@ -362,7 +362,22 @@ router.get('/creator/:id', function(request, response) {
 
     profileManager.getUserInformation(user)
         .then(information => {
-
+            if (user_type == 1) {
+                const model = {
+                    student: true,
+                    info: information 
+                }
+                response.render('profile/creator.hbs', model)
+            } else if (user_type == 2) {
+                const model = {
+                    student: false,
+                    info: information 
+                }
+                response.render('profile/creator.hbs', model)
+            }
+        })
+        .catch(error => {
+            response.render('errors/error.hbs')
         })
 /*
     profileManager.getUserInfo(user, function(status, infoOrError) {

@@ -49,11 +49,11 @@ export function loadStudentAdverts() {
                             <br>
                         `
                         advertArea.appendChild(div)
-                        document.getElementById('link').innerText = data.advert[i].title
-                        document.getElementById('field').innerText = "Field: "+ data.advert[i].field
-                        document.getElementById('contact').innerText = "Contact: "+ data.advert[i].contact
-                        document.getElementById('dates').innerText = "Dates: "+ data.advert[i].start_date.slice(0, 10) +" - "+ data.advert[i].end_date.slice(0, 10)
-                        document.getElementById('card-content').innerText = "Description: \n" + data.advert[i].body
+                        div.querySelector('#link').innerText = data.advert[i].title
+                        div.querySelector('#field').innerText = "Field: "+ data.advert[i].field
+                        div.querySelector('#contact').innerText = "Contact: "+ data.advert[i].contact
+                        div.querySelector('#dates').innerText = "Dates: "+ data.advert[i].start_date.slice(0, 10) +" - "+ data.advert[i].end_date.slice(0, 10)
+                        div.querySelector('#card-content').innerText = "Description: \n" + data.advert[i].body
                     }  
                 }  
             })
@@ -119,14 +119,14 @@ export function loadRecruiterAdverts() {
                             <br>
                         `
                         advertArea.appendChild(div)
-                        document.getElementById('link').innerText = data.advert[i].title
-                        document.getElementById('field').innerText = "Field: "+ data.advert[i].field
-                        document.getElementById('contact').innerText = "Contact: "+ data.advert[i].contact
-                        document.getElementById('websiteLink').innerText = data.advert[i].website
-                        document.getElementById('location').innerText = "Location: "+ data.advert[i].city
-                        document.getElementById('positions').innerText = "postitions: "+ data.advert[i].positions
-                        document.getElementById('date').innerText = "Last day to apply: "+ data.advert[i].deadline_date.slice(0, 10)
-                        document.getElementById('card-content').innerText = "Description: \n" + data.advert[i].body
+                        div.querySelector('#link').innerText = data.advert[i].title
+                        div.querySelector('#field').innerText = "Field: "+ data.advert[i].field
+                        div.querySelector('#contact').innerText = "Contact: "+ data.advert[i].contact
+                        div.querySelector('#websiteLink').innerText = data.advert[i].website
+                        div.querySelector('#location').innerText = "Location: "+ data.advert[i].city
+                        div.querySelector('#positions').innerText = "postitions: "+ data.advert[i].positions
+                        div.querySelector('#date').innerText = "Last day to apply: "+ data.advert[i].deadline_date.slice(0, 10)
+                        div.querySelector('#card-content').innerText = "Description: \n" + data.advert[i].body
                     }
                 }
             })
@@ -201,13 +201,13 @@ export function loadAdvert() {
                                             <div class="colum col-1"></div>
                                             <p class="column col-2" id="field"></p>
                                             <p class="column col-3" id="contact"></p>
-                                            <div class="column col-6 id="dates"></div>
+                                            <div class="column col-6" id="dates"></div>
                                         </div>
                                         <div class="card-body" id="card-content">
                                         </div>
                                     </div>
                                     <br>
-                                `
+                                `;
                                 advertArea.appendChild(div)
                                 document.getElementById('title').innerText = data.advert.title
                                 document.getElementById('field').innerText = "Field: "+ data.advert.field
@@ -240,7 +240,7 @@ export function loadAdvert() {
                                         </div>
                                     </div>
                                     <br>
-                                `
+                                `;
                                 advertArea.appendChild(div)
                                 document.getElementById('title').innerText = data.advert.title
                                 document.getElementById('field').innerText = "Field: "+ data.advert.field
@@ -248,7 +248,7 @@ export function loadAdvert() {
                                 document.getElementById('websiteLink').innerText = data.advert.website
                                 document.getElementById('location').innerText = "Location: "+ data.advert.city
                                 document.getElementById('positions').innerText = "postitions: "+ data.advert.positions
-                                document.getElementById('date').innerText = "Last day to apply: "+ data.advert.deadline_date.slice(0, 10)
+                                document.getElementById('dates').innerText = "Last day to apply: "+ data.advert.deadline_date.slice(0, 10)
                                 document.getElementById('card-content').innerText = "Description: \n" + data.advert.body
                             }
                         }
@@ -314,13 +314,13 @@ export function loadMyAdverts() {
                                     </div>
                                 </div>
                                 <br>
-                            `
+                            `;
                             advertArea.appendChild(div)
-                            document.getElementById('title').innerText = data.advert[i].title
-                            document.getElementById('field').innerText = "Field: "+ data.advert[i].field
-                            document.getElementById('contact').innerText = "Contact: "+ data.advert[i].contact
-                            document.getElementById('dates').innerText = "Dates: "+ data.advert[i].start_date.slice(0, 10) +" - "+ data.advert[i].end_date.slice(0, 10)
-                            document.getElementById('card-content').innerText = "Description: \n" + data.advert[i].body
+                            div.querySelector('#title').innerText = data.advert[i].title
+                            div.querySelector('#field').innerText = "Field: "+ data.advert[i].field
+                            div.querySelector('#contact').innerText = "Contact: "+ data.advert[i].contact
+                            div.querySelector('#dates').innerText = "Dates: "+ data.advert[i].start_date.slice(0, 10) +" - "+ data.advert[i].end_date.slice(0, 10)
+                            div.querySelector('#card-content').innerText = "Description: \n" + data.advert[i].body
 
                         } else if (sessionManager.getUserType() == 2) {
                             div.innerHTML = `
@@ -343,23 +343,23 @@ export function loadMyAdverts() {
                                         <div class="column col-1"></div>
                                         <p class="column col-3 col-xs-6" id="location"></p>
                                         <p class="column col-3 col-xs-6" id="positions"></p>
-                                        <p class="column col-4 col-xs-6" id="date"></p>
+                                        <p class="column col-4 col-xs-6" id="dates"></p>
                                         <div class="column col-1"></div>
                                     </div>
                                     <div class="card-body" id="card-content">
                                     </div>
                                 </div>
                                 <br>
-                            `
+                            `;
                             advertArea.appendChild(div)
-                            document.getElementById('title').innerText = data.advert[i].title
-                            document.getElementById('field').innerText = "Field: "+ data.advert[i].field
-                            document.getElementById('contact').innerText = "Contact: "+ data.advert[i].contact
-                            document.getElementById('websiteLink').innerText = data.advert[i].website
-                            document.getElementById('location').innerText = "Location: "+ data.advert[i].city
-                            document.getElementById('positions').innerText = "postitions: "+ data.advert[i].positions
-                            document.getElementById('date').innerText = "Last day to apply: "+ data.advert[i].deadline_date.slice(0, 10)
-                            document.getElementById('card-content').innerText = "Description: \n" + data.advert[i].body
+                            div.querySelector('#title').innerText = data.advert[i].title
+                            div.querySelector('#field').innerText = "Field: "+ data.advert[i].field
+                            div.querySelector('#contact').innerText = "Contact: "+ data.advert[i].contact
+                            div.querySelector('#websiteLink').innerText = data.advert[i].website
+                            div.querySelector('#location').innerText = "Location: "+ data.advert[i].city
+                            div.querySelector('#positions').innerText = "postitions: "+ data.advert[i].positions
+                            div.querySelector('#dates').innerText = "Last day to apply: "+ data.advert[i].deadline_date.slice(0, 10)
+                            div.querySelector('#card-content').innerText = "Description: \n" + data.advert[i].body
                         }       
                     }
                 }
