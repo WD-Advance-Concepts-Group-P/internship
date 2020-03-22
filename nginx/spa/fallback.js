@@ -1641,7 +1641,7 @@ function loadUpdateAdvert() {
                                             <select class="form-select" id="option" name="field" value="`+ data.advert.field +`">
                                                 <option>Choose an option</option>
                                                 <option>Tech</option>
-                                                <option>All</option>
+                                                <option>Other</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -1681,7 +1681,7 @@ function loadUpdateAdvert() {
                                             <select class="form-select" id="option" name="field" value="`+ data.advert.field +`">
                                                 <option>Choose an option</option>
                                                 <option>Tech</option>
-                                                <option>All</option>
+                                                <option>Other</option>
                                             </select>
                                         </div>
                                         <div class="form-group">

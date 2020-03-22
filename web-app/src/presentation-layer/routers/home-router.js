@@ -42,7 +42,7 @@ router.get('/search', (request, response) => {
     internshipManager.searchAdverts(request.query.type, request.query.q)
         .then(posts => {
             const model = {
-                posts: posts,
+                adverts: posts,
                 search: request.query.q
             }
             switch(request.query.type) {
