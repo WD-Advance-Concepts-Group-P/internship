@@ -1,7 +1,7 @@
 <section class="columns">
 
     <div class="advert-container column col-6 col-mx-auto">
-        <h1>Create advert</h1>
+        <h1>Edit advert</h1>
 
         {{#if validationErrors.length}}
         <div class="toast toast-error">
@@ -11,8 +11,9 @@
 
         <div class="divider"></div>
 
-        <form action="/internships/create-recruiter-advert" method="POST">
+        <form action="/internships/edit-student-advert" method="POST">
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <input type="hidden" name="id" value="{{id}}">
             
             <div class="form-group">
                 <label class="form-label" for="titleInput">Title</label>
@@ -34,34 +35,24 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="cityInput">City</label>
-                <input class="form-input" id="cityInput" type="text" name="city" placeholder="City" value="{{city}}" required>
-            </div>
-
-            <div class="form-group">
                 <label class="form-label" for="contactInput">Contact</label>
                 <input class="form-input" id="contactInput" type="text" name="contact" placeholder="Contact" value="{{contact}}" required>
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="websiteInput">Website</label>
-                <input class="form-input" id="websiteInput" type="url" name="website" placeholder="Website" value="{{website}}" required>
+                <label class="form-label" for="startdateInput">start date</label>
+                <input class="form-input" id="startdateInput" type="date" name="startdate" value="{{startdate}}" required>
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="positionsInput">Number of positions</label>
-                <input class="form-input" id="positionsInput" type="number" name="positions" placeholder="Number of positions" value="{{positions}}" required>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label" for="deadlinedateInput">Deadline date</label>
-                <input class="form-input" id="deadlinedateInput" type="date" name="deadline_date" value="{{deadline_date}}" required>
+                <label class="form-label" for="enddateInput">End date</label>
+                <input class="form-input" id="enddateInput" type="date" name="enddate" value="{{enddate}}" required>
             </div>
 
             <div class="form-group">
                 <input class="form-submit column col-12 btn" type="submit" placeholder="Create" value="Create">
             </div>
-        </form>
+    </form>
     </div>
 
 </section>

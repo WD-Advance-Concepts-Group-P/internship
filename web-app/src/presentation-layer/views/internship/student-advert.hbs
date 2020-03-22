@@ -1,53 +1,37 @@
-<div class="columns col-xl">
-    <div class="column col-1"></div>
-    <div class="column col-10 col-md-12">
-        <h3>View student advert</h3>
-        {{#if validationErrors.length}}
-        <div class="toast toast-error">
-            {{validationErrors}}
+<section class="advert-wrapper">
+    {{#if advert}}
+        <h1>{{advert.title}}</h1>
+    
+        <div class="advert-image-container">
+            <p class="text-center">Image container</p>
         </div>
-        {{/if}}
-        {{#if Post}}
-            <div class="card">
-                <div class="columns">
-                    <div class="column col-1"></div>
-                    <h2 class="column col-7"><a href="/creator/{{Post.posted_by}}?type=student">{{Post.title}}</a></h2>
-                    <div class="column col-4">
-                        {{#if ../deleteOrUpdate}}
-                            <form action="/delete/advert" method="POST">
-                                <input type="hidden" name="_csrf" value="{{../csrfToken}}">
-                                <input type="hidden" name="id" value="{{Post.id}}">
-                                <div class="form-group">
-                                    <input class="form-submit" type="submit" placeholder="Delete" value="Delete">
-                                </div>
-                            </form>
-                            <a href="/update/advert?type=student&id={{Post.id}}">Update</a>
-                        {{/if}}
-                    </div>
-                </div>
-                <div class="columns">
-                    <div class="column col-1"></div>
-                    <p class="column col-3">Field: {{Post.field}}</p>
-                    <p class="column col-4">Contact: {{Post.contact}}</p>
-                    {{#if ../sendMessageHidden}}
-                    {{else}}
-                    <p class="column col-3">Ask something: <a href="/send/chat/{{Post.posted_by}}">Chat</a></p>
-                    {{/if}}
-                    <div class="column col-1"></div>
-                </div>
-                <div class="columns">
-                    <div class="column col-1"></div>
-                    <div class="column col-10">Dates: {{Post.start_date}} - {{Post.end_date}}</div>
-                    <div class="column col-1"></div>
-                </div>
-                <div class="card-body" id="card-content">
-                    <p>Description:</p>
-                    {{Post.body}}
-                </div>
+
+        <div class="columns">
+            <div class="advert-left column col-8">
+                <h2>Description</h2>
+                <p>{{advert.body}}</p>
             </div>
-        {{else}}
-        <h1>No advert</h1>
-        {{/if}}
-    </div>
-    <div class="column col-1"></div>
-</div>
+
+            <div class="divider-vert column col-1"></div>
+
+            <div class="advert-right column col-3">
+                <h2>Details</h2>
+
+                <h3>Start date:</h3>
+                <span>{{advert.start_date}}</span>
+
+                <h3>End date:</h3>
+                <span>{{advert.end_date}}</span>
+
+                <h3>Other</h3>
+                <a href="/creator/{{advert.posted_by}}?type=student">Creator</a></h2><br>
+                <a href="/dashboard/chat/send/{{advert.posted_by}}">Send message</a>
+            </div>
+        </div>
+
+    {{else}}
+        <h1>Advert doesnt exists</h1>
+    {{/if}}
+
+    
+</section>

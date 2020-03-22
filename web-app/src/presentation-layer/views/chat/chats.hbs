@@ -1,17 +1,17 @@
-<div class="column">
-    <div class="column col-11 col-sm-12">
-        {{#if message}}
-            <h3>{{message}}</h3>
-        {{/if}}
-        {{#if Chats.length}}
-            {{#each Chats}}
-                <div class="card">
-                    <a href="/chat/{{this.sender_id}}">{{this.username}}</a>
-                    <!-- mysql <a href="/chat/{{this.sender_id}}">{{this.username}}</a> -->
-                </div>
+<section class="chats-wrapper">
+    <table class="table">
+    <thead>
+        <tr>
+        <th>Username</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#if chats.length}}
+            {{#each chats}}
+                <td><a href="/dashboard/chat/{{this.sender_id}}">{{this.username}}</a></td>
+                </tr>
             {{/each}}
-        {{else}}
-        <h1>No chat groups yet</h1>
         {{/if}}
-    </div>
-</div>
+    </tbody>
+    </table>
+</section>

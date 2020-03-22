@@ -1,16 +1,20 @@
-<div class="columns col-xl">
-    <div class="column col-4"></div>
-    <div class="column col-4 col-md-12">
+
+<section class="columns">
+
+    <div class="auth-container column col-4 col-mx-auto">
         <h1>Logout</h1>
-        <p>If you press the button below you will be signed out</p>
+        <p>Do you really want to logout?</p>
+
+        <div class="divider"></div>
+        
         <form action="" method="POST">
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
             <div class="form-group">
                 <div class="column col-2"></div>
-                <input class="btn column col-8" type="submit" value="Logout">
+                <input class="btn column col-12" type="submit" value="Logout">
                 <div class="column col-2"></div>
             </div>
         </form>
     </div>
-    <div class="column col-4"></div>
-</div>
+
+</section>

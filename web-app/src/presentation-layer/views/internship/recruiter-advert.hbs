@@ -1,55 +1,50 @@
-<div class="columns col-xl">
-    <div class="column col-1"></div>
-    <div class="column col-10 col-md-12">
-        <h3>View recruiter advert</h3>
-        {{#if validationErrors.length}}
-        <div class="toast toast-error">
-            {{validationErrors}}
+
+<section class="advert-wrapper">
+    {{#if advert}}
+        <h1>{{advert.title}}</h1>
+    
+        <div class="advert-image-container">
+            <p class="text-center">Image container</p>
         </div>
-        {{/if}}
-        {{#if Post}}
-            <div class="card">
-                <div class="columns">
-                    <div class="column col-1"></div>
-                    <h2 class="column col-7"><a href="/creator/{{Post.posted_by}}?type=recruiter">{{Post.title}}</a></h2>
-                    <div class="column col-4">
-                        {{#if ../deleteOrUpdate}}
-                            <form action="/delete/advert" method="POST">
-                                <input type="hidden" name="_csrf" value="{{../csrfToken}}">
-                                <input type="hidden" name="id" value="{{Post.id}}">
-                                <div class="form-group">
-                                    <input class="form-submit" type="submit" placeholder="Delete" value="Delete">
-                                </div>
-                            </form>
-                            <a href="/update/advert?type=recruiter&id={{Post.id}}">Update</a>
-                        {{/if}}
-                    </div>
-                </div>
-                <div class="columns">
-                    <div class="column col-1"></div>
-                    <p class="column col-3">Field: {{Post.field}}</p>
-                    <p class="column col-4">Contact: {{Post.contact}}</p>
-                    {{#if ../sendMessageHidden}}
-                    {{else}}
-                    <p class="column col-3">Ask something: <a href="/send/chat/{{Post.posted_by}}">Chat</a></p>
-                    {{/if}}
-                    <div class="column col-1"></div>
-                </div>
-                <div class="columns">
-                    <p class="column col-3 col-xs-6"> Location: {{Post.city}}</p>
-                    <p class="column col-3 col-xs-6"><a href="{{Post.website}}">{{Post.website}}</a></p>
-                    <p class="column col-3 col-xs-6">postitions: {{Post.positions}}</p>
-                    <p class="column col-3 col-xs-6">Last day to apply: {{Post.deadline_date}}</p>
-                </div>
-                <div class="card-body" id="card-content">
-                    <p>Description:</p>
-                    {{Post.body}}
-                </div>
-                <br>
+
+        <div class="columns">
+            <div class="advert-left column col-8">
+                <h2>Description</h2>
+                <p>{{advert.body}}</p>
             </div>
-        {{else}}
-            <h1>No advert</h1>
-        {{/if}}
-    </div>
-    <div class="column col-1"></div>
-</div>
+
+            <div class="divider-vert column col-1"></div>
+
+            <div class="advert-right column col-3">
+                <h2>Details</h2>
+
+                <h3>Field</h3>
+                <span>{{advert.field}}</span>
+
+                <h3>Positions</h3>
+                <span>{{advert.positions}}</span>
+
+                <h3>City:</h3>
+                <span>{{advert.city}}</span>
+
+                <h3>Website:</h3>
+                <a href="{{advert.website}}">{{advert.website}}</a>        
+
+                <h3>Contact</h3>
+                <span>{{advert.contact}}</span>
+
+                <h3>Deadline date:</h3>
+                <span>{{advert.deadline_date}}</span>
+
+                <h3>Other</h3>
+                <a href="/creator/{{advert.posted_by}}?type=recruiter">Creator</a></h2><br>
+                <a href="/dashboard/chat/send/{{advert.posted_by}}">Send message</a>
+            </div>
+        </div>
+
+    {{else}}
+        <h1>Advert doesnt exists</h1>
+    {{/if}}
+
+    
+</section>

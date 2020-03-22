@@ -1,33 +1,24 @@
 
 <section class="adverts-wrapper">
 
-    {{#if title}}
-        <h1>{{title}}</h1>
-    {{else}}
-        <h1>Recruiter advertisments</h1>
-    {{/if}}
-
-    <form action="/search" method="GET">
-            <div class="input-group">
-                <input class="form-input" type="text" placeholder="Search..." name="q">
-                <input type="hidden" name="type" value="Recruiter">
-                
-                <button class="btn btn-primary btn-search input-group-btn">Search</button>
-            </div>
-    </form>
+    <h1>My advertisments</h1>
 
     <div class="divider"></div>
 
     <table class="table">
 
         {{#if adverts.length}}
+
             <thead>
             <tr>
                 <th>Description</th>
                 <th>Field</th>
                 <th>Deadline date</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
             </thead>
+
 
             {{#each adverts}}
                 <tbody>
@@ -35,10 +26,18 @@
                     <td><a href="/internships/advert/{{this.id}}?type=recruiter">{{this.title}}</a></td>
                     <td>{{this.field}}</td>
                     <td>{{this.deadline_date}}</td>
+                    <td><a href="/internships/advert/{{this.id}}/edit?type=recruiter">Edit</a></td>
+                    <td>
+                        <form action="/internships/advert/delete" method="POST">
+                            <input type="hidden" name="_csrf" value="{{../csrfToken}}">
+                            <input type="hidden" name="id" value="{{this.id}}">
+
+                            <input type="submit" class="btn btn-link" value="Delete" />
+                        </form>
+                    </a>
                     </tr>
                 </tbody>
             {{/each}}
-
         {{else}}
             <h2>No adverts found.</h2>
         {{/if}}

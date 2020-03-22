@@ -1,20 +1,7 @@
 
 <section class="adverts-wrapper">
 
-    {{#if title}}
-        <h1>{{title}}</h1>
-    {{else}}
-        <h1>Student advertisments</h1>
-    {{/if}}
-
-    <form action="/search" method="GET">
-            <div class="input-group">
-                <input class="form-input" type="text" placeholder="Search..." name="q">
-                <input type="hidden" name="type" value="Student">
-
-                <button class="btn btn-primary btn-search input-group-btn">Search</button>
-            </div>
-    </form>
+    <h1>My advertisments</h1>
 
     <div class="divider"></div>
 
@@ -28,6 +15,8 @@
                 <th>Field</th>
                 <th>Start date</th>
                 <th>End date</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
             </thead>
 
@@ -38,10 +27,18 @@
                     <td>{{this.field}}</td>
                     <td>{{this.start_date}}</td>
                     <td>{{this.end_date}}</td>
+                    <td><a href="/internships/advert/{{this.id}}/edit?type=student">Edit</a></td>
+                    <td>
+                        <form action="/internships/advert/delete" method="POST">
+                            <input type="hidden" name="_csrf" value="{{../csrfToken}}">
+                            <input type="hidden" name="id" value="{{this.id}}">
+
+                            <input type="submit" class="btn btn-link" value="Delete" />
+                        </form>
+                    </a>
                     </tr>
                 </tbody>
             {{/each}}
-        
         {{else}}
             <h2>No adverts found.</h2>
         {{/if}}

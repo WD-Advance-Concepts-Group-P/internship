@@ -4,10 +4,12 @@
     <div class="auth-container column col-4 col-mx-auto">
         <h1>Login</h1>
 
-        {{#if validationErrors.length}}
-        <div class="toast toast-error">
-            {{validationErrors}}
-        </div>
+        {{#if validation.errors.length}}
+            {{#each validation.errors}}
+                <div class="toast toast-error">
+                    {{this.msg}}
+                </div>
+            {{/each}}
         {{/if}}
 
 		<div class="divider"></div>
@@ -39,12 +41,11 @@
             <div class="divider text-center" data-content="OR"></div>
 
             {{#if googleUrlStudent}}
-                <a href="{{googleUrlStudent}}" class="column col-12 btn mb-2">Google login Student</a>
+                <a href="{{googleUrlStudent}}" class="column col-12 btn mb-2">Login with Google as <span class="text-bold">Student</span></a>
             {{/if}}
             {{#if googleUrlRecruiter}}
-                <a href="{{googleUrlRecruiter}}" class="column col-12 btn mb-2">Google login Recruiter</a>
+                <a href="{{googleUrlRecruiter}}" class="column col-12 btn mb-2">Login with Google as <span class="text-bold">Recruiter</span></a>
             {{/if}}
-            <a href="/sign-up" class="btn column col-12">Create an Account</a>
             
             <div class="divider"></div>
         </form>

@@ -1,8 +1,9 @@
-<div class="column">
-      <div class="column col-11 col-sm-12">
-        {{#if message}}
-            <h3>{{message}}</h3>
-        {{/if}}
+
+<section class="columns">
+
+    <div class="auth-container column col-4 col-mx-auto">
+        <h1>Send message</h1>
+
         <form action="" method="POST">
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
             <div class="form-group">
@@ -14,4 +15,4 @@
             </div>
         </form>
     </div>
-</div>
+</section>
