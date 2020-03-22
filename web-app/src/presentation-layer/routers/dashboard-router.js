@@ -38,7 +38,7 @@ router.all('/setup', authHelper.isAuthenticated, (request, response, next) => {
     next()
 })
 
-router.get('/setup', csrfProtection, (request, response, next) => {
+router.get('/setup', authHelper.isAuthenticated, csrfProtection, (request, response, next) => {
     switch(request.session.user.user_type) {
         case USER_TYPE_STUDENT:
             response.render('profile/create-student-info.hbs', {csrfToken: request.csrfToken()})
@@ -54,7 +54,7 @@ router.get('/setup', csrfProtection, (request, response, next) => {
 /**
  * URL POST /dahsboard/edit-student
  */
-router.post('/create-student', validator('studentInformation'), csrfProtection, (request, response, next) => {
+router.post('/create-student', authHelper.isAuthenticated, validator('studentInformation'), csrfProtection, (request, response, next) => {
 
     const values = {
         firstname: request.body.firstname, 
@@ -86,7 +86,6 @@ router.post('/create-student', validator('studentInformation'), csrfProtection, 
             response.redirect('/dashboard')
         })
         .catch(error => {
-            console.log(error)
             response.render('errors/error.hbs', {validationErrors: 'Application error'})
         })
 })
@@ -94,7 +93,7 @@ router.post('/create-student', validator('studentInformation'), csrfProtection, 
 /**
  * URL POST /dashboard/edit-recruiter
  */     
-router.post('/create-recruiter', validator('recruiterInformation'), csrfProtection, (request, response, next) => {
+router.post('/create-recruiter', authHelper.isAuthenticated, validator('recruiterInformation'), csrfProtection, (request, response, next) => {
 
     const values = {
         firstname: request.body.firstname, 
@@ -177,11 +176,11 @@ router.route('/edit')
 
             })
             .catch(error => {
-                console.log(error)
+                response.render('errors/error.hbs', {validationErrors: 'Database error please try again later', errorCode: 500})
             })
     })
 
-    router.post('/edit-student', validator('studentInformation'), csrfProtection, (request, response, next) => {
+    router.post('/edit-student', authHelper.isAuthenticated, validator('studentInformation'), csrfProtection, (request, response, next) => {
 
         const values = {
             firstname: request.body.firstname, 
@@ -211,7 +210,6 @@ router.route('/edit')
                 response.redirect('/dashboard')
             })
             .catch(error => {
-                console.log(error)
                 response.render('errors/error.hbs', {validationErrors: 'Application error'})
             })
     })
@@ -219,7 +217,7 @@ router.route('/edit')
 /**
  * URL POST /dashboard/edit-recruiter
  */     
-router.post('/edit-recruiter', validator('recruiterInformation'), csrfProtection, (request, response, next) => {
+router.post('/edit-recruiter', authHelper.isAuthenticated, validator('recruiterInformation'), csrfProtection, (request, response, next) => {
 
     const values = {
         firstname: request.body.firstname, 

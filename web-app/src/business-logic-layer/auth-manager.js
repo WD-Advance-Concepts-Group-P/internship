@@ -13,17 +13,17 @@ function login(username, password) {
         return container.accountRepository.getByUsername(username)
             .then(account => {
                 if (account == null)
-                    return reject("No account found with that username.")
+                    return reject("Wrong username/password")
 
                 return bcrypt.compare(password, account.password)
                     .then(result => {
                         if (result)
                             return resolve(account)
                         
-                         return reject("Password did not match")
+                         return reject("Wrong username/password")
                     })
-                    .catch(error => reject(error))
-        })  
+                    .catch(error => reject('db error'))
+        })
     })
 }
 
@@ -91,7 +91,6 @@ function registerWithGoogle(account) {
             .then(retrievedAccount => resolve(retrievedAccount))
             .catch(error => {
                 if (error.type == 'unique violation') {
-                    console.log("Hello")
                     container.accountRepository.getByEmail(account.email)
                         .then(retrievedAccount => { return resolve(retrievedAccount) })
                         .catch(error => { return reject(error) })

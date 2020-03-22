@@ -13,6 +13,18 @@ router.get('/', (request, response) => {
     response.render('home.hbs', { active: { home: true} })
 })
 
+router.get('/about', (request, response) => {
+    const model = {}
+    model.active = { about: true }
+    response.render('about.hbs', model)
+})
+
+router.get('/contact', (request, response) => {
+    const model = {} 
+    model.active = { contact: true }
+    response.render('contact.hbs', model)
+})
+
 /**
  * URL /search
  */
@@ -33,7 +45,6 @@ router.get('/search', (request, response) => {
                 posts: posts,
                 search: request.query.q
             }
-            console.log(posts)
             switch(request.query.type) {
                 case 'Student':
                     response.render("internship/student-adverts.hbs", model)

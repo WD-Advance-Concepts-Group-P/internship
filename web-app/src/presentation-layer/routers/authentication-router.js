@@ -55,7 +55,22 @@ router.route('/login')
                 else
                     response.redirect('/dashboard/setup')
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                if (error.includes('db error')) {
+                    response.render('errors/error.hbs', {validationErrors: 'Database error please try again later', errorCode: 500})
+                } else {
+                    const urlStudent = authenticationManager.generateGoogleLogin(1)
+                    const urlRecruiter = authenticationManager.generateGoogleLogin(2)
+                    const model = {
+                        validationDBerror: error,
+                        username,
+                        googleUrlStudent: urlStudent, 
+                        googleUrlRecruiter: urlRecruiter,
+                        csrfToken: request.csrfToken(),
+                    }
+                    response.render('auth/login.hbs', model)
+                }
+            })
 })
 
 /**
@@ -90,7 +105,24 @@ router.route('/register')
 
         authenticationManager.register(username, email, password, accountType)
             .then(response.redirect('/login'))
-            .catch(error => { console.log(error) })  
+            .catch(error => { 
+                if (error.includes('db error')) {
+                    response.render('errors/error.hbs', {validationErrors: 'Database error please try again later', errorCode: 500})
+                } else {
+                    const urlStudent = authenticationManager.generateGoogleLogin(1)
+                    const urlRecruiter = authenticationManager.generateGoogleLogin(2)
+                    const model = {
+                        validationDBerror: errors,
+                        username,
+                        email,
+                        googleUrlStudent: urlStudent, 
+                        googleUrlRecruiter: urlRecruiter,
+                        csrfToken: request.csrfToken(),
+                    }
+        
+                    return response.render('auth/register.hbs', model)
+                }
+            })  
     })
 
 /**
@@ -146,7 +178,6 @@ router.get('/oauth2callback', (request, response, next) => {
                 response.redirect('/dashboard/setup')
         })
         .catch(error => {
-            console.log(error)
             response.render('errors/error.hbs', {validationErrors: 'Application error'})
         })
     })

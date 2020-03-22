@@ -11,6 +11,11 @@
                 </div>
             {{/each}}
         {{/if}}
+        {{#if validationDBerror.length}}
+        <div class="toast toast-error">
+            {{validationDBerror}}
+        </div>
+        {{/if}}
 
 		<div class="divider"></div>
 
