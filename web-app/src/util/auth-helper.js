@@ -22,7 +22,7 @@ exports.apiIsAuthenticated = function (request, response, next) {
         jwt.verify(token, '&/yde465hw3dk.fwjbq84fv34763t6', function(error, decoded) {
             if (error) {
                 return response.status(401).json({
-                    'error': 'your not logged in',
+                    'error': "You're not logged in",
                     'code': 'AUTH_1'
                 })
             } else {
@@ -33,7 +33,7 @@ exports.apiIsAuthenticated = function (request, response, next) {
         })
     } else {
         return response.status(401).json({
-            'error': 'your not logged in',
+            'error': "You're not logged in",
             'code': 'AUTH_1'
         })
     }

@@ -1,16 +1,24 @@
-module.exports = function(container) {
-    return {
-        createStudentInfo: function(uid, values, callback){
+let container = null
 
-            if (values.firstname === '' || values.firstname == null) {
-                callback(false, 'firstname must be supplied')
-            } else if (values.lastname === '' || values.lastname == null) {
-                callback(false, 'lastname must be supplied')
-            } else if (uid === '' || uid == null) {
-                callback(false, 'uid must be supplied')
-            } else {
-                const info = {
-                    id: uid, 
+const USER_TYPE_STUDENT = 1
+const USER_TYPE_RECRUITER = 2
+
+/**
+ * 
+ * @param {*} user 
+ * @param {*} values 
+ */
+function createUserInformation(user, values) {
+    return new Promise((resolve, reject) => {
+
+        let information = null
+
+        switch(user.user_type) {
+
+            case USER_TYPE_STUDENT:
+
+                informaton = {
+                    id: user.id, 
                     first_name: values.firstname, 
                     last_name: values.lastname, 
                     birth_date: values.birthdate ? values.birthdate : null, 
@@ -21,119 +29,85 @@ module.exports = function(container) {
                     resume_url: values.resume, 
                     profile_pic_url: values.profilepic
                 } 
-    
-                container.accountRepository.createUserInfo(1, info).then(result => {
-                    container.accountRepository.updateSeenBefore(uid).then(resultSeen => {
-                        callback(true, result.id)
-                    }).catch(error => {
-                        callback(false, 'db error')
+                
+                console.log("test här" + user.user_type)
+                container.accountRepository.createUserInfo(USER_TYPE_STUDENT, informaton)
+                    .then(result => { 
+                        return container.accountRepository.updateSeenBefore(user.id)
+                            .then(resolve(result.id))
                     })
-                }).catch(error => {
-                    callback(false, 'db error')
-                })
-            }
-        },
-        createRecruiterInfo: function(uid, values, callback){
+                    .catch(error => reject(error))
+                
+                break
 
-            if (values.firstname === '' || values.firstname == null) {
-                callback(false, 'firstname must be supplied')
-            } else if (values.lastname === '' || values.lastname == null) {
-                callback(false, 'lastname must be supplied')
-            } else if (uid === '' || uid == null) {
-                callback(false, 'uid must be supplied')
-            } else if (values.companyname === '' || values.companyname == null) {
-                callback(false, 'company name must be supplied')
-            } else {
-                const info = {
-                    id: uid, 
+            case USER_TYPE_RECRUITER:
+
+                console.log("test nu" + user.user_type)
+                informaton = {
+                    id: user.id, 
                     first_name: values.firstname, 
                     last_name: values.lastname, 
                     phone_number: values.phonenumber,
                     company_name: values.companyname,
-                    company_logo_url: values.companylogo,
-                } 
-        
-                container.accountRepository.createUserInfo(2, info).then(result => {
-                    container.accountRepository.updateSeenBefore(uid).then(resultSeen => {
-                        callback(true, result.id)
-                    }).catch(error => {
-                        callback(false, 'db error')
+                    company_logo_url: values.companylogo
+                }
+
+                container.accountRepository.createUserInfo(USER_TYPE_RECRUITER, informaton)
+                    .then(result => { 
+                        return container.accountRepository.updateSeenBefore(user.id)
+                            .then(resolve(result.id))
                     })
-                }).catch(error => {
-                    callback(false, 'db error')
-                })
-            }
-        },
-        updateInfoStudent: function(uid, first_name, last_name, birth_date, biography_text, school, program, graduation_year, resume_url, profile_pic_url, callback){
-
-            if (first_name === '') {
-                callback(false, 'firstname must be supplied')
-            } else if (last_name === '') {
-                callback(false, 'lastname must be supplied')
-            } else if (uid === '') {
-                callback(false, 'uid must be supplied')
-            } else {
-                const info = {
-                    id: uid, 
-                    first_name, 
-                    last_name, 
-                    birth_date: birth_date ? birth_date : null, 
-                    biography_text, 
-                    school, 
-                    program, 
-                    graduation_year: graduation_year ? graduation_year : null,
-                    resume_url, 
-                    profile_pic_url
-                } 
-
-                container.accountRepository.updateUserInfo(1, info).then(result => {
-                    callback(true, result.id)
-                }).catch(error => {
-                    callback(false, 'db error')
-                })
-            }
-        },
-        updateInfoRecruiter: function(uid, first_name, last_name, company_name, phone_number, company_logo_url, callback){
-
-            if (first_name === '') {
-                callback(false, 'firstname must be supplied')
-            } else if (last_name === '') {
-                callback(false, 'lastname must be supplied')
-            } else if (uid === '') {
-                callback(false, 'uid must be supplied')
-            } else if (company_name === '') {
-                callback(false, 'company name must be supplied')
-            } else {
-                const info = {
-                    id: uid, 
-                    first_name, 
-                    last_name, 
-                    phone_number,
-                    company_name,
-                    company_logo_url,
-                } 
-        
-                container.accountRepository.updateUserInfo(2, info).then(result => {
-                    callback(true, result.id)
-                }).catch(error => {
-                    callback(false, 'db error')
-                })
-            }
-        },
-        getUserInfo: function(user, callback) {
-            if (user.user_type === 1 || user.user_type === 2) {
-                container.accountRepository.getUserInfo(user.id, user.user_type).then(info => {
-                    if (info == null) {
-                        callback(false, 'No Info')
-                    } else {
-                        callback(true, info)
-                    }
-                }).catch(error => {
-                    callback(false, 'db error')
-                })
-            } else {
-                callback(false, 'You don\'t have access to this feature')
-            }
+                    .catch(error => reject(error))
+                
+                                
+                break
         }
+    })
+}
+
+/**
+ * 
+ * @param {*} user 
+ */
+function getUserInformation(user) {
+    return new Promise((resolve, reject) => {
+        container.accountRepository.getUserInfo(user.id, user.user_type)
+            .then(information => resolve(information))
+            .catch(error => reject(error))
+    })
+}
+
+/**
+ * 
+ * @param {*} user 
+ * @param {*} information 
+ */
+function updateUserInformation(user, information) {
+    return new Promise((resolve, reject) => {
+        switch(user.user_type) {
+
+            case USER_TYPE_STUDENT:
+                information.id = user.id
+
+                container.accountRepository.updateUserInfo(USER_TYPE_STUDENT, information)
+                    .then(result => { resolve(result.id) })
+                    .catch(error => reject(error))
+
+            case USER_TYPE_RECRUITER:
+                information.id = user.id
+
+                container.accountRepository.updateUserInfo(USER_TYPE_RECRUITER, information)
+                    .then(result => { resolve(result.id) })
+                    .catch(error => reject(error))
+        }
+    })
+}
+
+module.exports = function(_container) {
+    container = _container
+    return {
+        createUserInformation,
+        getUserInformation,
+        updateUserInformation
     }
 }

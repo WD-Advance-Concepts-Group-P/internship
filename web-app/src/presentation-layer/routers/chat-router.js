@@ -7,61 +7,65 @@ const authHelper = require('../../util/auth-helper')
 const container = require('../../main')
 const chatManager = container.resolve('chatManager')
 
-router.get('/chats', authHelper.isAuthenticated, function(request, response) {
+router.get('/chats', authHelper.isAuthenticated, (request, response) => {
 
-    chatManager.getAllMyChats(request.session.user.id, function(status, chatsOrError) {
-        if (status) {
-            var model = {
-                Chats: chatsOrError,
+    chatManager.getAllChatsByUser(request.session.user.id)
+        .then(chats => {
+            const model = {
+                chats: chats,
             }
+
             response.render("chat/chats.hbs", model)
-        } else {
-            response.send(chatsOrError)
-        }
-    })
+        })
+        .catch(error => {
+            console.log(error)
+        })
 })
 
 router.route('/chat/:id')
     .all(authHelper.isAuthenticated)
-    .get(csrfProtection, function(request, response, next) {
-        chatManager.getALlMessagesBychat(request.session.user.id, request.params.id, function(status, errorOrMessages) {
-            if (status) {   
-                var model = {
-                    MyMessages: errorOrMessages[1],
-                    Chats: errorOrMessages[0],
+    .get(csrfProtection, (request, response, next) => {
+
+        chatManager.getAllMessagesByChat(request.session.user.id, request.params.id)
+            .then(result => {
+                const model = {
+                    messages: result[0],
+                    chats: result[1],
                     csrfToken: request.csrfToken()
                 }
-        
+
                 response.render("chat/chat-messages.hbs", model)
-            } else {
-                response.render('errors/error.hbs', {validationErrors: 'Application error'})
-            }
-        })
+            })
+            .catch(error => {
+                console.log(error)
+            })
     })
-    .post(csrfProtection, function(request, response, next) {
-        chatManager.sendMessage(request.session.user.id, parseInt(request.params.id), request.body.message, function(status, errorOrId) {
-            if (status) {
-                response.redirect('/chat/'+request.params.id)
-            } else {
-                response.render('errors/error.hbs', {validationErrors: 'Application error'})
-            }
-        })
+    .post(csrfProtection, (request, response, next) => {
+
+        chatManager.sendMessage(request.session.user.id, parseInt(request.params.id), request.body.message)
+            .then(() => {
+                response.redirect('/dashboard/chat/' + request.params.id)
+            })
+            .catch(error => {
+                console.log(error)
+            })
     })
 
 
-router.route('/send/chat/:receiver_id')
+router.route('/chat/send/:receiver_id')
     .all(authHelper.isAuthenticated)
-    .get(csrfProtection, function(request, response, next) {
+    .get(csrfProtection, (request, response, next) => {
         response.render("chat/send-chat-messages.hbs", {csrfToken: request.csrfToken()})
     })
-    .post(csrfProtection, function(request, response, next) {
-        chatManager.sendMessage(request.session.user.id, request.params.receiver_id, request.body.message, function(status, errorOrId) {
-            if (status) {
-                response.redirect('/chat/'+request.params.receiver_id)
-            } else {
-                response.render('errors/error.hbs', {validationErrors: 'Application error'})
-            }
-        })
+    .post(csrfProtection, (request, response, next) => {
+
+        chatManager.sendMessage(request.session.user.id, request.params.receiver_id, request.body.message)
+            .then(() => {
+                response.redirect('/dashboard/chat/' + request.params.receiver_id)
+            })
+            .catch(error => {
+                console.log(error)
+            })
     })
 
 module.exports = router

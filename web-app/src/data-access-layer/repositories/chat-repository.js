@@ -130,7 +130,7 @@ class ChatRepository {
         //const sql = `SELECT sender_id, username FROM Chat INNER JOIN Accounts ON Chat.sender_id = Accounts.id WHERE receiver_id = ? GROUP BY username`
     }
 
-    getAllMyMessagesByChat(receiverId, senderId) {
+    getAllMessagesByChat(receiverId, senderId) {
         return new Promise((resolve, reject) => {
             Chat.findAll({ 
                 raw: true,

@@ -193,29 +193,17 @@ class AccountRepository {
      */
 	getByUsername(username) {
         return new Promise((resolve, reject) => {
-            Accounts.findOne({ raw: true, where: {username: username} }).then((info) => {
-                if (info === null) {
-                    reject('Wrong username/password')
-                } else {
-                    resolve(info)
-                }
-            }).catch((_) => {
-                reject("DB error")
-            })
+            Accounts.findOne({ raw: true, where: {username: username} })
+                .then(account => resolve(account))
+                .catch(error => reject(error))
         })
     }
     
     getByEmail(email) {
         return new Promise((resolve, reject) => {
-            Accounts.findOne({ raw: true, where: {email: email} }).then((info) => {
-                if (info === null) {
-                    reject('no account')
-                } else {
-                    resolve(info)
-                }
-            }).catch((_) => {
-                reject("DB error")
-            })
+            Accounts.findOne({ raw: true, where: {email: email} })
+                .then(account => resolve(account))
+                .catch(error => reject(error))
         })
     }
 }

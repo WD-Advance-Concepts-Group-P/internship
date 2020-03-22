@@ -1,49 +1,51 @@
 const express = require('express')
 const router = express.Router()
 
+// Awilix
 const container = require('../../main')
 const internshipManager = container.resolve('internshipManager')
 
-// Index
-router.get('/', function(request, response) {
-    response.render('home.hbs')
+
+/**
+ * URL /
+ */
+router.get('/', (request, response) => {
+    response.render('home.hbs', { active: { home: true} })
 })
 
-router.get('/search', function(request, response) {
+/**
+ * URL /search
+ */
+router.get('/search', (request, response) => {
 
-    var type = request.query.type
-    const search = request.query.q
-
-    if (type == null || type == '') {
-        type = 'recruiter'
+    if (request.query.q == null || request.query.q == "") {
+        switch(request.query.type) {
+            case 'Student':
+                return response.redirect('/internships/student-adverts')
+            case 'Recruiter':
+                return response.redirect('/internships/recruiter-adverts')
+        }        
     }
 
-    if (search == null || search == '') {
-        if (type == 'recruiter') {
-            response.redirect('/positions')
-        } else {
-            response.redirect('/student-adverts')
-        }
-    } else {
-        internshipManager.searchAdverts(type, search, function(status, advertsOrError) {
-            if (status) {
-                var model = {
-                    sendMessageHidden: true,
-                    Posts: advertsOrError,
-                    search: request.query.q
-                }
-                if (type == 'recruiter') {
-                    response.render("internship/recruiter-adverts.hbs", model)
-                } else if (type == 'student') {
-                    response.render("internship/student-adverts.hbs", model)
-                } else {
-                    response.render('errors/error.hbs', {validationErrors: 'Wrong type submitted'})
-                }
-            } else {
-                response.render('errors/error.hbs', {validationErrors: advertsOrError})
+    internshipManager.searchAdverts(request.query.type, request.query.q)
+        .then(posts => {
+            const model = {
+                posts: posts,
+                search: request.query.q
             }
+            console.log(posts)
+            switch(request.query.type) {
+                case 'Student':
+                    response.render("internship/student-adverts.hbs", model)
+                    break
+                case 'Recruiter':
+                    response.render("internship/recruiter-adverts.hbs", model)
+                    break
+            }        
         })
-    }
+        .catch(error => {
+            console.log(error)
+        })
 })
 
 module.exports = router

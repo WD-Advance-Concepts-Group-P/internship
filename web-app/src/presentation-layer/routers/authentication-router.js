@@ -1,137 +1,154 @@
 const express = require('express')
 const router = express.Router()
-const csurf = require('csurf')
 
+// CSURF Protection
+const csurf = require('csurf')
 const csrfProtection = csurf()
+
+// Awilix
+const container = require('../../main')
+const authenticationManager = container.resolve('authManager')
+
+// Express validator
+const validator = require('../../util/validation')
+const { validationResult } = require('express-validator')
+
+// Authentication Utils
 const authHelper = require('../../util/auth-helper')
 
-const container = require('../../main')
-const authManager = container.resolve('authManager')
-
+/**
+ * URL /login
+ */
 router.route('/login')
     .all(authHelper.alreadyAuthenticated)
-    .get(csrfProtection, function(request, response, next) {
-        const urlStudent = authManager.generateGoogleLogin(1)
-        const urlRecruiter = authManager.generateGoogleLogin(2)
-        response.render('auth/login.hbs', {csrfToken: request.csrfToken(), googleUrlStudent: urlStudent, googleUrlRecruiter: urlRecruiter})
+    .get(csrfProtection, (request, response, next) => {
+        const urlStudent = authenticationManager.generateGoogleLogin(1)
+        const urlRecruiter = authenticationManager.generateGoogleLogin(2)
+        response.render('auth/login.hbs', {csrfToken: request.csrfToken(), googleUrlStudent: urlStudent, googleUrlRecruiter: urlRecruiter, active: { login: true }})
     })
-    .post(csrfProtection, function(request, response, next) {
+    .post(csrfProtection, validator('login'), (request, response, next) => {
+
         const username = request.body.username
         const password = request.body.password
+        
+        const errors = validationResult(request);
 
-        authManager.login(username, password, function(status, errorOrUser) {
-            if (status) {
-                request.session.authenticated = true
-                request.session.user = errorOrUser
-
-                if (request.session.user.seen === 1) {
-                    response.redirect('/profile')
-                } else {
-                    response.redirect('/profile/setup')
-                }
-            } else {
-                if (errorOrUser.includes('db error')) {
-                    response.render('error.hbs', {validationErrors: 'Database error please try again later'})
-                } else {
-                    const model = {
-                        validationErrors: errorOrUser,
-                        username,
-                        csrfToken: request.csrfToken(),
-                    }
-                    response.render('auth/login.hbs', model)
-                }
+        if (!errors.isEmpty()) {
+            const model = {
+                validation: errors,
+                username,
+                csrfToken: request.csrfToken(),
             }
-        })
-    })
 
-router.get('/oauth2callback', function(request, response, next) {
-    authManager.getUser(request.query.code, function(user) {
-        user.userType = request.query.state
-        authManager.setupGoogleUser(user, function(error, user) {
-            if (error) {
-                response.render('errors/error.hbs', {validationErrors: 'Application error'})
-            } else {
+            model.active = { login: true }
+
+            return response.render('auth/login.hbs', model)
+        }
+
+        authenticationManager.login(username, password)
+            .then(user => {
                 request.session.authenticated = true
                 request.session.user = user
 
-                if (request.session.user.seen === 1) {
-                    response.redirect('/profile')
-                } else {
-                    response.redirect('/profile/setup')
-                }
-            }
-        })
-    })
+                if (request.session.user.seen === 1)
+                    response.redirect('/dashboard')
+                else
+                    response.redirect('/dashboard/setup')
+            })
+            .catch(error => console.log(error))
 })
 
-router.get('/signup', function(request, response) {
-    response.redirect('/sign-up')
-})
-
-router.route('/sign-up')
+/**
+ * URL /register
+ */
+router.route('/register')
     .all(authHelper.alreadyAuthenticated)
-    .get(csrfProtection, function(request, response, next) {
-        const urlStudent = authManager.generateGoogleLogin(1)
-        const urlRecruiter = authManager.generateGoogleLogin(2)
-        response.render('auth/signup.hbs', {csrfToken: request.csrfToken(), googleUrlStudent: urlStudent, googleUrlRecruiter: urlRecruiter})
+    .get(csrfProtection, (request, response, next) => {
+        const urlStudent = authenticationManager.generateGoogleLogin(1)
+        const urlRecruiter = authenticationManager.generateGoogleLogin(2)
+        response.render('auth/register.hbs', {csrfToken: request.csrfToken(), googleUrlStudent: urlStudent, googleUrlRecruiter: urlRecruiter, active: { register: true }})
     })
-    .post(csrfProtection, function(request, response, next) {
+    .post(csrfProtection, validator("register"), (request, response, next) => {
 
         const username = request.body.username
         const email = request.body.email
         const password = request.body.password
         const accountType = request.body.accountType
 
-        authManager.register(username, email, password, accountType, function(status, errorOrUser) {
-            if (status) {
-                response.redirect('/login')
-            } else {
-                if (errorOrUser.includes('db error')) {
-                    response.render('error.hbs', {validationErrors: 'Database error please try again later'})
-                } else {
-                    const model = {
-                        validationErrors: errorOrUser,
-                        username,
-                        email,
-                        csrfToken: request.csrfToken(),
-                    }
-                    response.render('auth/signup.hbs', model)
-                }
+        const errors = validationResult(request);
+
+        if (!errors.isEmpty()) {
+            const model = {
+                validation: errors,
+                username,
+                email,
+                csrfToken: request.csrfToken(),
             }
-        })
+
+            return response.render('auth/register.hbs', model)
+        }
+
+        authenticationManager.register(username, email, password, accountType)
+            .then(response.redirect('/login'))
+            .catch(error => { console.log(error) })  
     })
 
+/**
+ * URL /logout
+ */
 router.route('/logout')
     .all(authHelper.isAuthenticated)
-    .get(csrfProtection, function(request, response, next) {
+    .get(csrfProtection, (request, response, next) => {
         response.render('auth/logout.hbs', {csrfToken: request.csrfToken()})
     })
-    .post(csrfProtection, function(request, response, next) {
-        request.session.destroy(function(error) {
-            if (error) {
-                response.render('errors/error.hbs')
-            } else {
-                response.redirect('/')
-            }
+    .post(csrfProtection, (request, response, next) => {
+
+        request.session.destroy(error =>  {
+            if (error)
+                return response.render('errors/error.hbs')
+
+            response.redirect('/')
         })
     })
 
-/*
-router.route('/forgotten-password')
-    .get(function(request, response, next) {
-        response.render('auth/forgot-password.hbs')
-    })
-    .post(function(request, response, next) {
-        response.render('auth/forgot-password.hbs')
-    })
+/**
+ * URL /oauth2callback
+ */
+router.get('/oauth2callback', (request, response, next) => {
+    authenticationManager.getGoogleAccount(request.query.code)
+        .then(retrievedGoogleAccount => {
+            googleAccount = { 
+                username: retrievedGoogleAccount.username, 
+                email: retrievedGoogleAccount.email, 
+                hash: retrievedGoogleAccount.hash,
+                userType: request.query.state
+            }
 
-router.route('/reset/password/:id')
-    .get(function(request, response, next) {
-        response.send('reset password form')
+            return Promise.resolve(googleAccount)
+        })
+        .then(retrievedGoogleAccount => {
+            return authenticationManager.registerWithGoogle(retrievedGoogleAccount)
+                .then(() => { return authenticationManager.loginWithGoogle(retrievedGoogleAccount) })
+                .catch(error => {
+                    if (error.type == 'unique violation')
+                        return authenticationManager.loginWithGoogle(retrievedGoogleAccount)
+                    
+                    return Promise.reject(error)
+                })
+        })
+        .then(retrievedAccount => {
+            request.session.authenticated = true
+            request.session.user = retrievedAccount
+
+            if (request.session.user.seen === 1)
+                response.redirect('/dashboard')
+            else
+                response.redirect('/dashboard/setup')
+        })
+        .catch(error => {
+            console.log(error)
+            response.render('errors/error.hbs', {validationErrors: 'Application error'})
+        })
     })
-    .post(function(request, response, next) {
-        response.send('reset password form')
-    })
-*/
 
 module.exports = router

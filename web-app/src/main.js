@@ -12,13 +12,14 @@ const RecruiterAdvertRepositorySequelize = require('./data-access-layer/reposito
 const StudentAdvertRepositorySequelize = require('./data-access-layer/repositories/student-advert-repository')
 const ChatRepositorySequelize = require('./data-access-layer/repositories/chat-repository')
 
+const container = awilix.createContainer()
+
 //managers
 const authManager = require('./business-logic-layer/auth-manager')
 const internshipManager = require('./business-logic-layer/internship-manager')
 const chatManager = require('./business-logic-layer/chat-manager')
 const profileManager = require('./business-logic-layer/profile-manager')
 
-const container = awilix.createContainer()
 
 /*
 //MySql
