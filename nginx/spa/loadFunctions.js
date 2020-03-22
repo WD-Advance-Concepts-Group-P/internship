@@ -398,7 +398,6 @@ export function loadCreateAdvert() {
                     <div class="form-group">
                         <label class="form-label" for="option">Field</label>
                         <select class="form-select" id="option" name="field">
-                            <option>Choose an option</option>
                             <option>Tech</option>
                             <option>All</option>
                         </select>
@@ -440,7 +439,6 @@ export function loadCreateAdvert() {
                     <div class="form-group">
                         <label class="form-label" for="option">Field</label>
                         <select class="form-select" id="option" name="field">
-                            <option>Choose an option</option>
                             <option>Tech</option>
                             <option>All</option>
                         </select>
@@ -538,7 +536,6 @@ export function loadUpdateAdvert() {
                                         <div class="form-group">
                                             <label class="form-label" for="option">Field</label>
                                             <select class="form-select" id="option" name="field" value="`+ data.advert.field +`">
-                                                <option>Choose an option</option>
                                                 <option>Tech</option>
                                                 <option>Other</option>
                                             </select>
@@ -578,7 +575,6 @@ export function loadUpdateAdvert() {
                                         <div class="form-group">
                                             <label class="form-label" for="option">Field</label>
                                             <select class="form-select" id="option" name="field" value="`+ data.advert.field +`">
-                                                <option>Choose an option</option>
                                                 <option>Tech</option>
                                                 <option>Other</option>
                                             </select>

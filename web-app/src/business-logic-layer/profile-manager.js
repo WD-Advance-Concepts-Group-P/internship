@@ -30,7 +30,6 @@ function createUserInformation(user, values) {
                     profile_pic_url: values.profilepic
                 } 
                 
-                console.log("test här" + user.user_type)
                 container.accountRepository.createUserInfo(USER_TYPE_STUDENT, informaton)
                     .then(result => { 
                         return container.accountRepository.updateSeenBefore(user.id)
@@ -42,7 +41,6 @@ function createUserInformation(user, values) {
 
             case USER_TYPE_RECRUITER:
 
-                console.log("test nu" + user.user_type)
                 informaton = {
                     id: user.id, 
                     first_name: values.firstname, 

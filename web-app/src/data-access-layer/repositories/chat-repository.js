@@ -121,7 +121,6 @@ class ChatRepository {
             ).then(chats => {
                 resolve(chats)
             }).catch(error => {
-                console.log(error)
                 reject(error)
             })
         })

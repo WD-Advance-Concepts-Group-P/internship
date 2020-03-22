@@ -55,7 +55,7 @@ router.get('/search', (request, response) => {
             }        
         })
         .catch(error => {
-            console.log(error)
+            response.render('errors/error.hbs', {validationErrors: 'Application error'})
         })
 })
 

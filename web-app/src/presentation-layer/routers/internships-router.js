@@ -54,8 +54,6 @@ router.post('/create-student-advert', authHelper.isAuthenticated, validator('stu
 
     if (!errors.isEmpty()) {
 
-        console.log(errors)
-
         const model = {
             validation: errors,
             username,
@@ -115,7 +113,6 @@ router.get('/student-adverts', function(request, response) {
 
     internshipManager.getAllAdverts(USER_TYPE_STUDENT)
         .then(adverts => {
-            console.log(adverts)
             const model = {
                 adverts: adverts
             }
@@ -138,8 +135,6 @@ router.get('/recruiter-adverts', function(request, response) {
             }
 
             model.active =  { recruiterAdvert: true }
-
-            console.log(model)
 
             response.render("internship/recruiter-adverts.hbs", model)
         })
@@ -279,8 +274,6 @@ router.post('/edit-student-advert', authHelper.isAuthenticated, validator('stude
 
     if (!errors.isEmpty()) {
 
-        console.log(errors)
-
         const model = {
             validation: errors,
             username,
@@ -379,27 +372,6 @@ router.get('/creator/:id', function(request, response) {
         .catch(error => {
             response.render('errors/error.hbs', {validationErrors: 'Database error please try again later', errorCode: 500})
         })
-/*
-    profileManager.getUserInfo(user, function(status, infoOrError) {
-        if (status) {
-            if (user_type == 1) {
-                const model = {
-                    student: true,
-                    info: infoOrError 
-                }
-                response.render('profile/creator.hbs', model)
-            } else if (user_type == 2) {
-                const model = {
-                    student: false,
-                    info: infoOrError 
-                }
-                console.log(infoOrError)
-                response.render('profile/creator.hbs', model)
-            }
-        } else {
-            response.render('errors/error.hbs', {validationErrors: 'No user info'})
-        }
-    })*/
 })
 
 module.exports = router

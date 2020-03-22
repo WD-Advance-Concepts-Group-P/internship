@@ -1,25 +1,6 @@
 const RecruiterAdvert = require('../models/RecruiterAdverts')
 
 class RecruiterAdvertRepository {
-    createTable() {
-        const sql = `CREATE TABLE StudentAdverts (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            title TEXT NOT NULL,
-            body TEXT NOT NULL,
-            field VARCHAR(120) NOT NULL,
-            address INT NOT NULL,
-            website TEXT NOT NULL,
-            contact VARCHAR(120) NOT NULL,
-            positions INT NOT NULL,
-            deadline_date DATE NOT NULL,
-            posted_by INT NOT NULL,
-            created_at DATE NOT NULL,
-            updated_at DATE,
-            FOREIGN KEY (address) REFERENCES Addresses(id))
-            FOREIGN KEY (posted_by) REFERENCES Accounts(id))`
-        
-        return this.dbh.run(sql)
-    }
     
     /**
      * Create a new RecruiterAdvert in the repository
@@ -156,15 +137,6 @@ class RecruiterAdvertRepository {
         })
     }
 
-    /**
-     * Count all of the RecruiterAdverts in the repository
-     * @returns {Promise} Promise that represent the 'results'
-     */
-    count() {
-        const sql = 'SELECT COUNT(*) FROM RecruiterAdverts'
-
-        return this.dbh.all(sql)
-    }
 }
 
 module.exports = RecruiterAdvertRepository

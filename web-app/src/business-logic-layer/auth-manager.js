@@ -54,7 +54,6 @@ function register(username, email, password, accountType) {
 
                 const account = { username, hash, email, userType}
 
-                console.log(account)
                 return container.accountRepository.create(account)
                     .then(result => {
                         resolve(result.id)
@@ -121,8 +120,6 @@ function getGoogleAccount(authCode) {
                     version: 'v1',
                     auth: client
                 })
-
-                console.log(client.credentials)
 
                 return plus.people.get({
                     resourceName: 'people/me',

@@ -59,13 +59,11 @@ router.route('/users/info')
         
             profileManager.createUserInformation(user, values)
                 .then(() => {
-                    console.log('then nu')
                     response.status(201).json({
                         'message': 'created',
                     })
                 })
                 .catch(error => {
-                    console.log('error nu')
                     if (error.includes('db error')) {
                         response.status(500).json({
                             'error': 'true',

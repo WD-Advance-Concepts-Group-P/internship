@@ -134,7 +134,6 @@ const RegisterComponent = {
                     <div class="form-group">
                         <label class="form-label" for="option">Account Type</label>
                         <select class="form-select" id="optionInput" name="accountType">
-                            <option>Choose an option</option>
                             <option>Student</option>
                             <option>Recruiter</option>
                         </select>
@@ -1499,7 +1498,6 @@ function loadCreateAdvert() {
                     <div class="form-group">
                         <label class="form-label" for="option">Field</label>
                         <select class="form-select" id="option" name="field">
-                            <option>Choose an option</option>
                             <option>Tech</option>
                             <option>All</option>
                         </select>
@@ -1541,7 +1539,6 @@ function loadCreateAdvert() {
                     <div class="form-group">
                         <label class="form-label" for="option">Field</label>
                         <select class="form-select" id="option" name="field">
-                            <option>Choose an option</option>
                             <option>Tech</option>
                             <option>All</option>
                         </select>
@@ -1639,7 +1636,6 @@ function loadUpdateAdvert() {
                                         <div class="form-group">
                                             <label class="form-label" for="option">Field</label>
                                             <select class="form-select" id="option" name="field" value="`+ data.advert.field +`">
-                                                <option>Choose an option</option>
                                                 <option>Tech</option>
                                                 <option>Other</option>
                                             </select>
@@ -1679,7 +1675,6 @@ function loadUpdateAdvert() {
                                         <div class="form-group">
                                             <label class="form-label" for="option">Field</label>
                                             <select class="form-select" id="option" name="field" value="`+ data.advert.field +`">
-                                                <option>Choose an option</option>
                                                 <option>Tech</option>
                                                 <option>Other</option>
                                             </select>

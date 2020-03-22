@@ -153,7 +153,6 @@ function deleteAdvert(id, user) {
             case USER_TYPE_STUDENT:
                 container.studentAdvertRepository.getById(id)
                     .then(advert => {
-                        console.log(advert)
                         if (advert.posted_by === user.id)
                             return container.studentAdvertRepository.delete(id)
                     })

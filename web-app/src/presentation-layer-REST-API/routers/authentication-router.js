@@ -18,8 +18,6 @@ router.route('/token')
 
         if (grantType == "password") {
 
-            console.log('test')
-
             const username = request.body.username
             const password = request.body.password
             

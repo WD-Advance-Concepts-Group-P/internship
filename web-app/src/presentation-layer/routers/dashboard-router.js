@@ -81,7 +81,6 @@ router.post('/create-student', authHelper.isAuthenticated, validator('studentInf
 
     profileManager.createUserInformation(request.session.user, values)
         .then(() => {
-            console.log("Nu du student")
             request.session.user.seen = 1
             response.redirect('/dashboard')
         })

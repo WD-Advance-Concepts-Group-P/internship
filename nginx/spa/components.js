@@ -93,7 +93,6 @@ export const RegisterComponent = {
                     <div class="form-group">
                         <label class="form-label" for="option">Account Type</label>
                         <select class="form-select" id="optionInput" name="accountType">
-                            <option>Choose an option</option>
                             <option>Student</option>
                             <option>Recruiter</option>
                         </select>

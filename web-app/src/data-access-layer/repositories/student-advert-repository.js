@@ -2,22 +2,6 @@ const StudentAdverts = require('../models/StudentAdverts')
 
 class StudentAdvertRepository {
     
-    createTable() {
-        const sql = `CREATE TABLE StudentAdverts (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            title TEXT NOT NULL,
-            body TEXT NOT NULL,
-            field VARCHAR(120) NOT NULL,
-            contact VARCHAR(120) NOT NULL,
-            start_date DATE NOT NULL,
-            end_date DATE NOT NULL,
-            posted_by INT NOT NULL,
-            created_at DATE NOT NULL,
-            updated_at DATE,
-            FOREIGN KEY (posted_by) REFERENCES Accounts(id))`
-        
-        return this.dbh.run(sql)
-    }
     /**
      * Create a new StudentAdvert in the repository
      * @param {Object} advert The 'advert' object
@@ -140,16 +124,6 @@ class StudentAdvertRepository {
                 reject(error)
             })
         })
-    }
-
-    /**
-     * Count all of the StudentAdverts in the repository
-     * @returns {Promise} Promise that represent the 'results'
-     */
-    count() {
-        const sql = 'SELECT COUNT(*) FROM StudentAdverts'
-
-        return this.dbh.all(sql)
     }
 }
 

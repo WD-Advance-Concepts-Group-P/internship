@@ -61,7 +61,6 @@ router.route('/adverts')
 
                         internshipManager.getAllAdvertsByUser(user)
                             .then(adverts => {
-                                console.log(adverts)
                                 response.json({
                                     'error': 'false',
                                     'advert': adverts
