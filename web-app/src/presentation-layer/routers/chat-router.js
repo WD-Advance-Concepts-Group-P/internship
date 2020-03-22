@@ -18,7 +18,7 @@ router.get('/chats', authHelper.isAuthenticated, (request, response) => {
             response.render("chat/chats.hbs", model)
         })
         .catch(error => {
-            console.log(error)
+            response.render('errors/error.hbs', {validationErrors: 'Database error please try again later', errorCode: 500})
         })
 })
 
@@ -37,7 +37,7 @@ router.route('/chat/:id')
                 response.render("chat/chat-messages.hbs", model)
             })
             .catch(error => {
-                console.log(error)
+                response.render('errors/error.hbs', {validationErrors: 'Database error please try again later', errorCode: 500})
             })
     })
     .post(csrfProtection, (request, response, next) => {
@@ -47,7 +47,7 @@ router.route('/chat/:id')
                 response.redirect('/dashboard/chat/' + request.params.id)
             })
             .catch(error => {
-                console.log(error)
+                response.render('errors/error.hbs', {validationErrors: 'Database error please try again later', errorCode: 500})
             })
     })
 
@@ -64,7 +64,7 @@ router.route('/chat/send/:receiver_id')
                 response.redirect('/dashboard/chat/' + request.params.receiver_id)
             })
             .catch(error => {
-                console.log(error)
+                response.render('errors/error.hbs', {validationErrors: 'Database error please try again later', errorCode: 500})
             })
     })
 

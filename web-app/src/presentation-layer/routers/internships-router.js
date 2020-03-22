@@ -39,7 +39,7 @@ router.route('/create-advert')
 /**
  * URL POST /internships/create-student-advert
  */
-router.post('/create-student-advert', validator('studentAdvert'), csrfProtection, (request, response, next) => {
+router.post('/create-student-advert', authHelper.isAuthenticated, validator('studentAdvert'), csrfProtection, (request, response, next) => {
 
     const values = {
         title: request.body.title, 
@@ -69,7 +69,7 @@ router.post('/create-student-advert', validator('studentAdvert'), csrfProtection
     internshipManager.createAdvert(values, request.session.user)
         .then(() => response.redirect('/internships/adverts') )
         .catch(error => {
-            return response.render('errors/error.hbs')
+            return response.render('errors/error.hbs', {validationErrors: 'Database error please try again later', errorCode: 500})
         })
 })
 
@@ -77,7 +77,7 @@ router.post('/create-student-advert', validator('studentAdvert'), csrfProtection
  * POST
  * URL /internship/create-recruiter-advert
  */
-router.post('/create-recruiter-advert', validator('recruiterAdvert'), csrfProtection, (request, response, next) => {
+router.post('/create-recruiter-advert', authHelper.isAuthenticated, validator('recruiterAdvert'), csrfProtection, (request, response, next) => {
 
     const values = {
         title: request.body.title, 
@@ -106,7 +106,7 @@ router.post('/create-recruiter-advert', validator('recruiterAdvert'), csrfProtec
     internshipManager.createAdvert(values, request.session.user)
         .then(() => response.redirect('/internships/adverts') )
         .catch(error => {
-            return response.render('errors/error.hbs')
+            return response.render('errors/error.hbs', {validationErrors: 'Database error please try again later', errorCode: 500})
         })
 })
 
@@ -193,7 +193,7 @@ router.route('/advert/:id')
                 }
             })
             .catch(error => {
-                console.log(error)
+                response.render('errors/error.hbs', {validationErrors: 'Database error please try again later', errorCode: 500})
             })
     })
 
@@ -206,7 +206,7 @@ router.route('/advert/delete')
                 response.redirect('/internships/adverts')
             })
             .catch(error => {
-                console.log(error)
+                response.render('errors/error.hbs', {validationErrors: 'Database error please try again later', errorCode: 500})
             })
     })
 
@@ -254,7 +254,7 @@ router.route('/advert/:id/edit')
 
                         break
                     default:
-                        // error
+                        response.render('errors/error.hbs', {validationErrors: 'Database error please try again later', errorCode: 500})
                 }
             })
     })
@@ -264,7 +264,7 @@ router.route('/advert/:id/edit')
 /**
  * URL POST /internships/create-student-advert
  */
-router.post('/edit-student-advert', validator('studentAdvert'), csrfProtection, (request, response, next) => {
+router.post('/edit-student-advert', authHelper.isAuthenticated, validator('studentAdvert'), csrfProtection, (request, response, next) => {
 
     const values = {
         title: request.body.title, 
@@ -294,7 +294,7 @@ router.post('/edit-student-advert', validator('studentAdvert'), csrfProtection, 
     internshipManager.updateAdvert(request.session.user, values, request.body.id)
         .then(() => response.redirect('/internships/adverts') )
         .catch(error => {
-            return response.render('errors/error.hbs')
+            return response.render('errors/error.hbs', {validationErrors: 'Database error please try again later', errorCode: 500})
         })
 })
 
@@ -303,7 +303,7 @@ router.post('/edit-student-advert', validator('studentAdvert'), csrfProtection, 
  * POST
  * URL /internship/edit-recruiter-advert
  */
-router.post('/edit-recruiter-advert', validator('recruiterAdvert'), csrfProtection, (request, response, next) => {
+router.post('/edit-recruiter-advert', authHelper.isAuthenticated, validator('recruiterAdvert'), csrfProtection, (request, response, next) => {
 
     const values = {
         title: request.body.title, 
@@ -332,7 +332,7 @@ router.post('/edit-recruiter-advert', validator('recruiterAdvert'), csrfProtecti
     internshipManager.updateAdvert(request.session.user, values, request.body.id)
         .then(() => response.redirect('/internships/adverts') )
         .catch(error => {
-            return response.render('errors/error.hbs')
+            return response.render('errors/error.hbs', {validationErrors: 'Database error please try again later', errorCode: 500})
         })
 })
 
@@ -362,7 +362,22 @@ router.get('/creator/:id', function(request, response) {
 
     profileManager.getUserInformation(user)
         .then(information => {
-
+            if (user_type == 1) {
+                const model = {
+                    student: true,
+                    info: information 
+                }
+                response.render('profile/creator.hbs', model)
+            } else if (user_type == 2) {
+                const model = {
+                    student: false,
+                    info: information 
+                }
+                response.render('profile/creator.hbs', model)
+            }
+        })
+        .catch(error => {
+            response.render('errors/error.hbs', {validationErrors: 'Database error please try again later', errorCode: 500})
         })
 /*
     profileManager.getUserInfo(user, function(status, infoOrError) {

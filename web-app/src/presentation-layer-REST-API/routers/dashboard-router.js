@@ -14,31 +14,32 @@ router.route('/users/info')
             id: response.locals.uid,
             user_type: response.locals.userType
         }
-        profileManager.getUserInfo(user, function(status, errorOrInfo) {
-            if (status) {
-                response.json({
-                    'error': 'false',
-                    'info': errorOrInfo
+
+        profileManager.getUserInformation(user)
+        .then(information => {
+            response.json({
+                'error': 'false',
+                'info': information
+            })
+        })
+        .catch((error) => {
+            if (error.includes('db error')) {
+                response.status(500).json({
+                    'error': 'true',
+                    'message': error,
                 })
             } else {
-                if (errorOrInfo.includes('db error')) {
-                    response.status(500).json({
-                        'error': 'true',
-                        'message': errorOrInfo,
-                        'code': 'APP_2'
-                    })
-                } else {
-                    response.status(400).json({
-                        'error': 'true',
-                        'message': errorOrInfo,
-                        'code': 'APP_2'
-                    })
-                }
-            }
+                response.status(400).json({
+                    'error': 'true',
+                    'message': error,
+                })
+            } 
         })
+
     })
     .post(function(request, response, next) {
         if (response.locals.userType === 1) {
+
             const values = {
                 firstname: request.body.firstname, 
                 lastname: request.body.lastname, 
@@ -51,28 +52,33 @@ router.route('/users/info')
                 profilepic: (request.body.profilepic ? request.body.profilepic : null)
             }
 
-            profileManager.createStudentInfo(response.locals.uid, values, function(status, error) {
-                if (status) {
-                    response.json({
-                        'error': 'false',
+            const user = {
+                id: response.locals.uid,
+                user_type: response.locals.userType
+            }
+        
+            profileManager.createUserInformation(user, values)
+                .then(() => {
+                    console.log('then nu')
+                    response.status(201).json({
                         'message': 'created',
                     })
-                } else {
+                })
+                .catch(error => {
+                    console.log('error nu')
                     if (error.includes('db error')) {
                         response.status(500).json({
                             'error': 'true',
-                            'message': error,
-                            'code': 'APP_2'
+                            'message': error
                         })
                     } else {
                         response.status(400).json({
                             'error': 'true',
-                            'message': error,
-                            'code': 'APP_2'
+                            'message': error
                         })
                     }
-                }
-            })
+                })
+
         } else if (response.locals.userType === 2) {
 
             const values = {
@@ -83,28 +89,30 @@ router.route('/users/info')
                 companylogo: (request.body.companylogo ? request.body.companylogo : null),
             }
 
-            profileManager.createRecruiterInfo(response.locals.uid, values, function(status, error) {
-                if (status) {
-                    response.json({
-                        'error': 'false',
+            const user = {
+                id: response.locals.uid,
+                user_type: response.locals.userType
+            }
+
+            profileManager.createUserInformation(user, values)
+                .then(() => {
+                    response.status(201).json({
                         'message': 'created',
                     })
-                } else {
+                })
+                .catch(error => {
                     if (error.includes('db error')) {
                         response.status(500).json({
                             'error': 'true',
-                            'message': error,
-                            'code': 'APP_2'
+                            'message': error
                         })
                     } else {
                         response.status(400).json({
                             'error': 'true',
-                            'message': error,
-                            'code': 'APP_2'
+                            'message': error
                         })
                     }
-                }
-            })
+                })
         } else {
             response.status(400).json({
                 'error': 'true',
